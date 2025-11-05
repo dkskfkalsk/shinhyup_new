@@ -1,0 +1,193 @@
+@charset "utf-8";
+/* CSS Document */
+/* 메인 */
+#main {
+    transition: all 0.5s ease-in-out;
+    background-image:  url("../images/main_bg_w.png"), url("../images/main_bg.png") ;
+    background-position: center bottom, center center;
+    background-size: contain, cover;
+    background-repeat: no-repeat, no-repeat;    
+	display: flex;
+    flex-direction: column;
+	position: relative;
+}
+
+    /* 헤더 - 로고 */
+    #main .top_logo_pack {
+        align-items: center;
+        margin-top: 2rem;
+    }
+
+        #main .top_logo_pack .logo {
+            display: inline;
+            transition: all 0.3s ease-in-out;
+        }
+
+            #main .top_logo_pack .logo img {
+                width: inherit;
+                height: inherit;
+            }
+
+        /* 헤더 - 콜버튼 */
+        #main .top_logo_pack .top_call {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            border-radius: calc(var(--br_r) * 1);
+            background-image: linear-gradient(130deg, #295cb3 -15%, #002970 115%);
+            padding: 1.4rem 1rem;
+            transition: all var(--q_trans); /*큐빅*/
+        }
+
+            #main .top_logo_pack .top_call img {
+                max-width: 32px;
+                aspect-ratio: 1/1;
+            }
+
+    #main .top_call:hover {
+        background-image: linear-gradient(130deg, #295cb3 0%, #002970 150%);
+    }
+
+    #main .main_cont {
+        padding: calc(var(--sec_pd) / 1.75) 0 var(--sec_pd) 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+ #main .main_cont .sect_tit{
+		z-index: 1;}
+
+        /*카드배경색 f7faff*/
+        #main .main_cont .sect_tit .dot{
+            position: relative;
+        }
+#main .main_cont .sect_tit .dot:before{
+	position: absolute;
+	height: auto;
+	content: "·";
+	top:-60%;
+	left: 50%;
+	transform: translateX(-50%) /*translateY(-60%)*/;
+	color: var(--point);
+	
+}
+
+.main_cards_wrapper {
+    flex-wrap: nowrap;
+}
+
+.main_card {
+    padding: 70px 2rem;
+    width: 100%;
+    max-width: 410px;
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--br_l);
+    background-image: linear-gradient(to bottom, var(--light_point), var(--white) );
+    box-shadow: 0px 25px 25px 3px rgba(0,0,0,0.075)
+}
+
+#main .main_cont .sect_tit {
+	position: relative;
+}
+
+.main_pig{
+	width: 353px;
+	position: relative;
+	margin: 2rem auto 0;
+	display: block;
+	transition: all 0.35s ease-in-out;
+}
+.gradient_border {
+    width: 100%;
+    height: 100%;
+    padding: 1.7rem 2.2rem;
+    border: 2px solid transparent;
+    background-image: linear-gradient(#fff,#fff),linear-gradient(to bottom right,#bc5df3,#564be4,#332182);
+    background-origin: border-box;
+    background-clip: padding-box,border-box;
+}
+
+/* ==================== 모바일 레이아웃 ==================== */
+@media ( max-width:1280px ) {
+	#main{
+		in-height: unset!important;
+	}
+		#main .top_logo_pack .logo {
+            display: inline;
+            transition: all 0.3s ease-in-out;
+        }
+
+            #main .top_logo_pack .logo img {
+                width: 180px!important;
+
+            }    
+	  /* 헤더 - 콜버튼 */
+        #main .top_logo_pack .top_call {
+            padding: 1rem 1rem;
+        }
+
+            #main .top_logo_pack .top_call img {
+                max-width: 15px;
+            }	
+	#main .wrap {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #main .main_cont {
+        display: flex;
+        flex-direction: column;
+		padding-top: 17rem;
+		padding-bottom: 0rem
+    }
+    #main .main_cont .sect_tit .fs_80 {
+       font-size: 3.25rem!important
+    }
+    #main .main_cont .sect_tit .fs_36 {
+       font-size: 1.72rem!important
+    }
+
+   
+.main_cards_wrapper {
+	flex-wrap: wrap;
+}
+
+.main_card {
+	padding: 40px 2rem;
+	width: 100%;
+	max-width: 410px;
+	flex: 1 1 100%;
+	}
+.main_card p.fs_24 {
+	font-size: 120%!important
+	}
+.main_card p.fs_36 {
+	font-size: 150%!important
+	}
+    .main_card img {
+        width: 80px;
+    }
+	.main_pig {
+		width: 35%;
+		margin: 1.5rem auto 0;
+		position: relative;
+		transform: none;
+	}
+}
+
+
+
+
+
+@media ( max-width:600px ) {
+}
+/***** 가로모드 *****/
+@media screen and (orientation:landscape) and ( max-width:900px ) {
+}
+/* ========================================================================== */

@@ -1,0 +1,1100 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	
+	<!-- 설정 파일 로드 (가장 먼저 로드) -->
+	<script src="js/config.js"></script>
+	
+	<!-- 메타 태그 설정 (config.js 로드 후 실행) -->
+	<script>
+		// 즉시 메타 태그 설정 (SEO를 위해 즉시 실행)
+		(function() {
+			// config.js에서 설정된 값 사용 (없으면 현재 페이지 origin 사용)
+			var siteUrl = (typeof SITE_URL !== 'undefined') ? SITE_URL : location.origin;
+			var siteUrlWithPath = siteUrl + '/';
+			var ogImageUrl = siteUrl + '/images/ogimg.png';
+			
+			// 메타 태그 동적 삽입
+			document.write('<meta name="title" content="와이에스커넥션" />');
+			document.write('<meta name="description" content="와이에스커넥션, 주택담보대출, 어디서든 빠르고 간편하게 부담없이 신용영향없는 한도조회 바로, 1:1 맞춤 실시간 상담! " />');
+			document.write('<meta name="keywords" content="와이에스커넥션" />');
+			document.write('<link rel="canonical" href="' + siteUrlWithPath + '" />');
+			document.write('<meta property="og:type" content="website">');
+			document.write('<meta property="og:url" content="' + siteUrlWithPath + '" />');
+			document.write('<meta property="og:title" content="와이에스커넥션" />');
+			document.write('<meta property="og:image" content="' + ogImageUrl + '" />');
+			document.write('<meta property="og:image:width" content="1000" />');
+			document.write('<meta property="og:image:height" content="500" />');
+			document.write('<meta property="og:description" content="어디서든 빠르고 간편하게 부담없이 신용영향없는 한도조회 바로! 와이에스커넥션 신협, 주택담보대출">');
+		})();
+	</script>
+	
+	<title>와이에스커넥션</title>
+	<link href="css/reset.css" rel="stylesheet" type="text/css" />
+	<link href="css/common.css" rel="stylesheet" type="text/css" />
+	<link href="css/quick_menu.css" rel="stylesheet" type="text/css" />
+	<link href="css/header_menu.css" rel="stylesheet" type="text/css" />
+	<link href="css/main.css" rel="stylesheet" type="text/css" />
+	<link href="css/layout.css" rel="stylesheet" type="text/css" />
+	<link href="css/page_layout.css" rel="stylesheet" type="text/css" />
+	<link href="css/form_mini.css" rel="stylesheet" type="text/css" />
+	<link href="css/form.css" rel="stylesheet" type="text/css" />
+	<link href="css/footer.css" rel="stylesheet" type="text/css" />
+	<!-- 아이콘 -->
+	<!-- FontAwesome: 로컬에서는 느릴 수 있지만 CSS이므로 실패해도 페이지는 정상 작동 -->
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css" onerror="console.warn('FontAwesome 로드 실패 (무시 가능)')">
+
+	<script src="js/jquery.js"></script>
+	<script src="js/scroll.js"></script>
+	
+	<!-- Swiper JS -->
+	<link rel="stylesheet" href="css/swiper-bundle.min.css" />
+	<script src="js/swiper-bundle.min.js"></script>
+
+	<!--파비콘-->
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="icon" href="images/favicon.ico">
+	
+	<meta name="naver-site-verification" content="cd5dc02445a3dd8852fc3b91bad8289f72e0439f" />
+
+	<!-- 로컬 개발 모드 체크: file:// 프로토콜이거나 localhost가 아닐 때만 외부 스크립트 로드 -->
+	<script>
+		// config.js에서 설정된 값 사용 (없으면 현재 페이지 hostname 사용)
+		var siteDomain = (typeof SITE_DOMAIN !== 'undefined') ? SITE_DOMAIN : 
+			(location.hostname || 'localhost');
+		
+		// 로컬 개발 환경 감지
+		var isLocalDev = (
+			location.protocol === 'file:' || 
+			location.hostname === 'localhost' || 
+			location.hostname === '127.0.0.1' ||
+			location.hostname === ''
+		);
+		
+		if (!isLocalDev) {
+			// 프로덕션 환경에서만 실행되는 스크립트들
+			
+			// NAVER 공통 SCRIPT
+			(function() {
+				var script = document.createElement('script');
+				script.type = 'text/javascript';
+				script.src = '//wcs.naver.net/wcslog.js';
+				script.onload = function() {
+					if (!window.wcs_add) window.wcs_add = {};
+					window.wcs_add["wa"] = "s_dcd4af0b310";
+					if (window.wcs) {
+						window.wcs.inflow(siteDomain);
+					}
+					if (window.wcs_do) window.wcs_do();
+				};
+				document.head.appendChild(script);
+			})();
+
+			// AceCounter Gathering Script V.9.0.2025011001
+			(function() {
+				var aceDomain = siteDomain + ',www.' + siteDomain;
+				var _AceGID = (function () { var Inf = [siteDomain, aceDomain, 'AZ2A104137', '0', 'NaPm,Ncisy', '1']; var _CI = (!window._AceGID) ? [] : window._AceGID.val; var _N = 0; if (_CI.join('.').indexOf(Inf[2]) < 0) { _CI.push(Inf); _N = _CI.length; } return { o: _N, val: _CI }; })();
+				var _AceCounter = (function () { var G = _AceGID; var _sc = document.createElement('script'); var _sm = document.getElementsByTagName('script')[0]; if (G.o != 0) { var _A = G.val[G.o - 1]; var _U = (_A[4]).replace(/\,/g, '_'); _sc.src = 'https:/' + '/cr.acecounter.com/ac.j' + 's?gc=' + _A[2] + '&py=' + _A[1] + '&up=' + _U + '&rd=' + (new Date().getTime()); _sm.parentNode.insertBefore(_sc, _sm); return _sc.src; } })();
+			})();
+
+			// Google tag (gtag.js)
+			(function() {
+				var script = document.createElement('script');
+				script.async = true;
+				script.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17596152836';
+				document.head.appendChild(script);
+				
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);} 
+				window.gtag = gtag;
+				gtag('js', new Date());
+				gtag('config', 'AW-17596152836');
+			})();
+
+			// Meta Pixel Code
+			(function() {
+				if(window.fbq)return;
+				var n=window.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+				if(!window._fbq)window._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+				var t=document.createElement('script');t.async=!0;
+				t.src='https://connect.facebook.net/en_US/fbevents.js';
+				var s=document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(t,s);
+				fbq('init', '1892350698301150');
+				fbq('track', 'PageView');
+			})();
+		} else {
+			// 로컬 개발 모드에서는 콘솔에 알림만 표시
+			console.log('[로컬 개발 모드] 외부 추적 스크립트는 로드되지 않습니다.');
+		}
+	</script>
+	<!-- End Meta Pixel Code -->
+
+	<!-- 배포/연동 설정: js/config.js 파일에서 관리됩니다 -->
+	<script>
+		// config.js에서 설정된 값들을 사용
+		// VERCEL_URL, N8N_WEBHOOK_URL, THANK_YOU_URL 등은 config.js에서 자동 설정됨
+		// 변경이 필요한 경우 js/config.js 파일을 수정하세요.
+	</script>
+</head>
+
+
+<body>
+	<nav id="quick_menu" class="">
+		<a href="tel:02-6305-7107" class="expandable ">
+			<div class="inner_ctr">
+				<i class="fad fa-phone-volume icon"></i>
+				<p>02-6305-7107</p>
+			</div>
+		</a>
+		<a href="#" class="top" title="GO TOP">↑</a>
+	</nav>
+
+	<!-- 메인 -->
+	<!-- 메인 -->
+<main id="main" class="fc_white">
+	<div class="wrap d_flex jc_sb ai_cen gap2 top_logo_pack">
+		<a href="index.html" target="_self" class="logo">
+			<img src="images/top_logo.png" class="logo_img" style="width:356px;">
+		</a>
+		<a class="bold top_call fc_white fs_36" href="tel:02-6305-7107" target="_self"><img src="images/call_icon.png" />02-6305-7107</a>
+	</div>
+	<div class="wrap main_cont">
+		<div class="sect_tit ta_cen mb10" data-animate-in="up" style="transition-delay: 50ms;">
+			<p class="medium fs_80 fc_g_3">
+				따듯한 이웃, 든든한
+				<span class="bold fc_point dot">동</span><span class="bold fc_point dot">반</span><span class="bold fc_point dot">자</span> 신협
+			</p>
+			<p class="medium fs_36 fc_g_8 mt6 mb12">
+				<span class="bold fc_point">모</span>바일로 <span class="bold fc_point">신</span>속하고 <span class="bold fc_point">간</span>편하게! 신협 주택담보대출
+			</p>
+			<img src="images/main_pig.png" class="main_pig" data-animate-in="up" style="transition-delay: 300ms;" />
+		</div>
+		<div class="d_flex jc_cen gap10 main_cards_wrapper" data-animate-in="up" style="transition-delay: 300ms;">
+			<div class="main_card ta_cen">
+				<img src="images/main_icon_01.png" />
+				<p class="medium fs_24 fc_g_3 mt15 mb2">
+					다주택자, 사업자를 위한
+				</p>
+				<p class="bold fs_36 fc_point">
+					아파트 담보대출
+				</p>
+			</div>
+			<div class="main_card ta_cen">
+				<img src="images/main_icon_02.png" />
+				<p class="medium fs_24 fc_g_8 mt15 mb2">
+					까다로운 <span class="fc_g_3">DSR 규제없이</span>
+				</p>
+				<p class="bold fs_36 fc_point">
+					전세퇴거자금
+				</p>
+			</div>
+			<div class="main_card ta_cen">
+				<img src="images/main_icon_04.png" />
+				<p class="medium fs_24 fc_g_3 mt15 mb2">
+					소상공인을 위한
+				</p>
+				<p class="bold fs_36 fc_point">
+					사업자 담보대출
+				</p>
+			</div>
+		</div>
+
+	</div>
+
+	</div>
+</main>
+<!--// 메인 -->
+
+	<!--class="bg_gray_f5" <br class="m_ver">-->
+	
+	<!-- 섹션1_상품테이블 -->
+	<section id="sect_01">
+		<div class="wrap sect_tit ta_cen mb15" data-animate-in="up" style="transition-delay: 200ms;">
+			<p class="fs_40 medium fc_g_3">
+				한 눈에 쏙!
+			</p>
+			<p class="fs_48 bold fc_g_3 mt1 mb6">
+				알기 쉬운 <span class="fc_point">주택담보대출</span>
+			</p>
+		</div>
+
+		<div class="wrap sect_01_cont">
+			<!-- 3개 카테고리 가로 길쭉한 레이아웃 -->
+			<div class="product_categories">
+				
+				<!-- 카테고리 1: 특례보금자리론 -->
+				<div class="category_item category_1" data-animate-in="up" data-animate-in-delay="200">
+					<div class="category_wrapper d_flex gap6">
+						<div class="info_table">
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대상 고객</span>
+								<span class="info_value medium fs_18 fc_g_3">민법상 성년, cb점수 271점 이상 자</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대출 지역</span>
+								<span class="info_value medium fs_18 fc_g_3">전국 지역</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대출 한도</span>
+								<span class="info_value medium fs_18 fc_g_3">최대 5억원 / LTV 70% 까지</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대출 금리</span>
+								<span class="info_value medium fs_18 fc_g_3">고정금리 4%</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">상환 방법</span>
+								<span class="info_value medium fs_18 fc_g_3">만기일시 (최단 1년 ~ 최장 50년)</span>
+							</div>
+						</div>
+						<div class="category_card bg_light_yellow">
+							<div class="category_icon">
+								<img src="images/icon_01.png" alt="특례보금자리론" />
+							</div>
+							<h3 class="category_title semibold fs_32 fc_g_3 mb4">아파트 담보대출</h3>
+							<p class="category_desc medium fs_20 fc_g_3 ta_cen">
+								금리변동 위험을 덜어주고자<br>
+								안심전환대출과 적격대출을 통합한 상품
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- 카테고리 2: 아파트 담보대출 (중간 왼쪽) -->
+				<div class="category_item category_2" data-animate-in="up" data-animate-in-delay="400">
+					<div class="category_wrapper d_flex gap6">
+						<div class="category_card bg_light_pink">
+							<div class="category_icon">
+								<img src="images/icon_02.png" alt="아파트 담보대출" />
+							</div>
+							<h3 class="category_title semibold fs_32 fc_g_3 mb4">전세퇴거자금</h3>
+							<p class="category_desc medium fs_20 fc_g_3 ta_cen">
+								담보규제로 인한<br>
+								부족한 자금까지 동시 해결
+							</p>
+						</div>
+						<div class="info_table">
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대상 고객</span>
+								<span class="info_value medium fs_18 fc_g_3">만 20세이상, 단독 및 공동소유자, 3자담보 가능(가족한정)</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대출 지역</span>
+								<span class="info_value medium fs_18 fc_g_3">전국 지역</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대출 한도</span>
+								<span class="info_value medium fs_18 fc_g_3">최대 30억원 / LTV 95% 까지</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대출 금리</span>
+								<span class="info_value medium fs_18 fc_g_3">최소 3.85%~</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">상환 방법</span>
+								<span class="info_value medium fs_18 fc_g_3">만기일시 / 원리금균등분할 (최단 1년 ~ 최장 50년)</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 카테고리 3: 빌라/주택 담보대출 (오른쪽 하단) -->
+				<div class="category_item category_3" data-animate-in="up" data-animate-in-delay="600">
+					<div class="category_wrapper d_flex gap6">
+						<div class="info_table">
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대상 고객</span>
+								<span class="info_value medium fs_18 fc_g_3">만 20세이상, 단독 및 공동소유자, 3자담보 가능(가족한정)</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대출 지역</span>
+								<span class="info_value medium fs_18 fc_g_3">전국 지역</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대출 한도</span>
+								<span class="info_value medium fs_18 fc_g_3">최대 20억원 / LTV 95% 까지</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">대출 금리</span>
+								<span class="info_value medium fs_18 fc_g_3">최소 3.85%-</span>
+							</div>
+							<div class="info_row">
+								<span class="info_label semibold fs_20 fc_navy">상환 방법</span>
+								<span class="info_value medium fs_18 fc_g_3">만기일시 / 원리금균등분할 (최단 1년 ~ 최장 50년)</span>
+							</div>
+						</div>
+						<div class="category_card bg_light_green">
+							<div class="category_icon">
+								<img src="images/icon_03.png" alt="빌라/주택 담보대출" />
+							</div>
+							<h3 class="category_title semibold fs_32 fc_g_3 mb4">사업자 담보대출</h3>
+							<p class="category_desc medium fs_20 fc_g_3 ta_cen">
+								담보규제로 인한<br>
+								부족한 자금까지 동시 해결
+							</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+
+	<!-- 섹션2 -->
+	<section id="sect_02">
+		<div class="wrap d_flex jc_cen ai_cen gap6">
+			<div class="sect_02_cont" data-animate-in="left" style="transition-delay: 100ms;">
+				<img src="images/banner_pig.png" class="banner_pig" />
+			</div>
+			<div class="sect_tit ta_cen" data-animate-in="right" style="transition-delay: 100ms;">
+				<p class="fs_48 bold fc_g_3">
+					<span class="fc_point txt_bg1">개인사업자대출</span>은<br>조건에 걸리지 않을까?
+				</p>
+				<p class="fs_32 medium fc_g_8 mt8">
+					까다로운 <span class="fc_navy">DSR DTI 규제없이</span><br><span class="fc_navy txt_bg2">LTV 80%까지</span> 자금 마련 가능
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- 섹션3_ -->
+	<section id="sect_03">
+		<div class="wrap d_flex jc_cen">
+			<div class="sect_tit ta_l" data-animate-in="up" style="transition-delay: 400ms;">
+				<p class="fs_40 medium fc_g_8">
+					이미 <span class="fc_g_3">주택담보대출</span>을 이용 중이더라도,
+				</p>
+				<p class="fs_48 bold fc_g_3 my6">
+					<span class="fc_point">추가대출,<br>대환대출</span> 가능!
+				</p>
+				<p class="fs_32 medium fc_navy">
+					#앱설치 없이 #간편대출
+				</p>
+			</div>
+			<div class="sect_03_cont">
+				<img src="images/house.png" />
+			</div>
+		</div>
+
+
+
+	</section>
+
+	<!-- 섹션4_슬라이드 -->
+	<section id="sect_04">
+		<div class="sect_tit_pack wrap d_flex jc_sb ai_cen mb20">
+			<div class="sect_tit ta_l" data-animate-in="up" style="transition-delay: 400ms;">
+				<p class="fs_48 bold fc_g_3">
+					일상에 지칠 때, <br class="m_br"><span class="fc_point">인생 한소절</span>
+				</p>
+			</div>
+			<div class="sect_04_slide_control d_flex gap6 mr5">
+				<img src="images/arrow_left.png" width="12" height="22" alt="" id="slidePrevBtn" />
+				<img src="images/arrow_right.png" width="12" height="22" alt="" id="slideNextBtn" />
+			</div>
+		</div>
+		<div class="wrap sect_04_cont">
+			<ul class="sect_04_slide" id="slideTrack">
+				<li>
+					<a href="https://www.youtube.com/watch?v=TDpRbTMx7Cg" target="_blank">
+						<div class="slide_item d_flex flex_column gap13">
+							<img src="images/thumb_01.png" />
+							<div class="slide_item_text d_flex flex_column gap3">
+								<p class="fs_24 semibold fc_g_3">
+									2025년 신협 워큐편
+								</p>
+								<p class="fs_20 medium fc_g_8">
+									2025/05/16
+								</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="https://www.youtube.com/watch?v=qC0FOvF20Dw" target="_blank">
+						<div class="slide_item d_flex flex_column gap13">
+							<img src="images/thumb_02.jpg" />
+							<div class="slide_item_text d_flex flex_column gap3">
+								<p class="fs_24 semibold fc_g_3">
+									2024년 신협 인물편 광고(엄마의 등)
+								</p>
+								<p class="fs_20 medium fc_g_8">
+									2024/08/05
+								</p>
+							</div>
+						</div>
+					</a>
+				</li>
+
+				<li>
+					<a href="https://www.youtube.com/watch?v=390THlHD-7Y" target="_blank">
+						<div class="slide_item d_flex flex_column gap13">
+							<img src="images/thumb_03.jpg" />
+							<div class="slide_item_text d_flex flex_column gap3">
+								<p class="fs_24 semibold fc_g_3">
+									2024년 신협 인물편 광고(아빠의 등)
+								</p>
+								<p class="fs_20 medium fc_g_8">
+									2024/08/05
+								</p>
+							</div>
+						</div>
+					</a>
+				</li>
+
+				<li>
+					<a href="https://www.youtube.com/watch?v=ucUmGy7345I" target="_blank">
+						<div class="slide_item d_flex flex_column gap13">
+							<img src="images/thumb_04.jpeg" />
+							<div class="slide_item_text d_flex flex_column gap3">
+								<p class="fs_24 semibold fc_g_3">
+									2023년 신협 인물편 광고(조보아_행복내비켜세요)
+								</p>
+								<p class="fs_20 medium fc_g_8">
+									2024/08/05
+								</p>
+							</div>
+						</div>
+					</a>
+				</li>
+
+				<li>
+					<a href="https://www.youtube.com/watch?v=ljufYzB6uq0" target="_blank">
+						<div class="slide_item d_flex flex_column gap13">
+							<img src="images/thumb_05.jpg" />
+							<div class="slide_item_text d_flex flex_column gap3">
+								<p class="fs_24 semibold fc_g_3">
+									2022년 신협 인물편 광고(조보아_런칭편)
+								</p>
+								<p class="fs_20 medium fc_g_8">
+									2022/07/11
+								</p>
+							</div>
+						</div>
+					</a>
+				</li>
+
+				<li>
+					<a href="https://www.youtube.com/watch?v=u2DV-ZOAfhk" target="_blank">
+						<div class="slide_item d_flex flex_column gap13">
+							<img src="images/thumb_06.png" />
+							<div class="slide_item_text d_flex flex_column gap3">
+								<p class="fs_24 semibold fc_g_3">
+									한국신협운동의 선구자를 만나다![장대익 신부]
+								</p>
+								<p class="fs_20 medium fc_g_8">
+									2021/01/05
+								</p>
+							</div>
+						</div>
+					</a>
+				</li>
+
+				<li>
+					<a href="https://www.youtube.com/watch?v=k38BWcoFLOg" target="_blank">
+						<div class="slide_item d_flex flex_column gap13">
+							<img src="images/thumb_07.png" />
+							<div class="slide_item_text d_flex flex_column gap3">
+								<p class="fs_24 semibold fc_g_3">
+									한국신협운동의 선구자를 만나다![메리 가브리엘라 수녀]
+								</p>
+								<p class="fs_20 medium fc_g_8">
+									2021/01/05
+								</p>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const track = document.getElementById("slideTrack");
+				const slideItems = track.querySelectorAll("li");
+				const btnPrev = document.getElementById("slidePrevBtn");
+				const btnNext = document.getElementById("slideNextBtn");
+
+				let currentIndex = 0;
+				let autoSlideInterval;
+				let autoSlideDelay = 4000;
+				let resumeTimeout;
+
+				const slideCount = () => (window.innerWidth <= 768 ? 1 : 3);
+
+				const scrollToIndex = (index) => {
+					const slide = slideItems[index];
+					if (slide) {
+						track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+					}
+				};
+
+				const moveToNext = () => {
+					currentIndex++;
+					if (currentIndex > slideItems.length - slideCount()) {
+						currentIndex = 0;
+					}
+					scrollToIndex(currentIndex);
+				};
+
+				const moveToPrev = () => {
+					currentIndex--;
+					if (currentIndex < 0) {
+						currentIndex = slideItems.length - slideCount();
+					}
+					scrollToIndex(currentIndex);
+				};
+
+				const startAutoSlide = () => {
+					autoSlideInterval = setInterval(() => {
+						moveToNext();
+					}, autoSlideDelay);
+				};
+
+				const stopAutoSlideTemporarily = () => {
+					clearInterval(autoSlideInterval);
+					clearTimeout(resumeTimeout);
+					resumeTimeout = setTimeout(() => {
+						startAutoSlide();
+					}, autoSlideDelay + 1000); // 5초 후 재시작
+				};
+
+				btnNext.addEventListener("click", () => {
+					moveToNext();
+					stopAutoSlideTemporarily();
+				});
+
+				btnPrev.addEventListener("click", () => {
+					moveToPrev();
+					stopAutoSlideTemporarily();
+				});
+
+				startAutoSlide();
+			});
+		</script>
+
+	</section>
+	<!-- 신청 폼 -->
+	<button id="formToggleButton" class="form_toggle_button bg_point shadow_strong br_c fc_white semibold fs_32">
+	원클릭 상담 신청
+	</button>
+
+	<section id="application_form" class="d_flex jc_sb ai_cen">
+		<div class="form_box d_flex flex_column">
+			
+			<button id="formCloseButton" class="form_close_button fs_18 fc_g_6 d_flex jc_end ai_cen">
+				<i class="far fa-times"></i>
+			</button>	
+		
+			<form name="frm" id="frm" action="" method="post">
+				<input type="hidden" name="path" value="1" />
+				
+				<!-- 폼 박스 -->
+				<div class=" d_flex flex_column gap1">	
+					<div class="d_flex gap1">
+						<!-- 이름 -->
+						<fieldset id="name_fieldset">
+							<label for="uname" class="fieldset_label">이름</label>
+							<input type="text" id="uname" name="uname" placeholder="이름"required>
+						</fieldset>
+						<!--// 이름 -->
+						
+						<!-- 희망제품리스트 -->
+						<!--<fieldset id="prod_fieldset">
+							<label for="Value11" class="fieldset_label " >상품선택</label>
+							<select name="Value11" id="Value11" placeholder="">
+								<option selected="" value="">상품선택</option>
+								<option value=""></option>
+								<option value=""></option>
+								<option value=""></option>
+								<option value=""></option>
+							</select>
+						</fieldset>-->
+						<!--// 희망제품리스트 -->									
+					</div>
+					<!-- 연락처 -->
+					<fieldset id="tel_fieldset">
+						<label for="tel" class="fieldset_label">연락처</label>
+						<input name="tel" id="tel" maxlength="13" type="tel" value="" onkeyup="formatPhoneNumber(this);" placeholder="연락처(-없이)" required />
+					</fieldset>
+					<!--// 연락처 -->
+						
+					<!-- 개인정보수집이용동의 -->
+					<div class="d_flex jc_end gap2 mt1 mb2">
+						<fieldset class="agree_set d_flex ai_cen jc_end">
+							<div class="agree_txt medium fs_16 fc_g_6">
+								<label for="agree_checkbox2">개인정보 수집/이용 동의</label>
+								<a href="javascript:layerPopup('l01');">[자세히]</a>
+							</div>
+							<label class="checkbox_ctr fs_16">
+								<input type="checkbox" name="agree_checkbox" id="agree_checkbox2" checked>
+								<span class="checkmark"></span>
+							</label>
+						</fieldset>					
+					</div>
+
+					<!--// 개인정보수집이용동의 -->
+		<button class="form_btn bg_point fc_white bold fs_25" type="button" onclick="subm(this.form);">신청하기</button>	
+				</div>
+				<!--// 폼 박스 -->
+			</form>
+			<noscript>
+				<!-- 자바스크립트 비활성화 시 폼 직통 전송용(필요 시 n8n URL로 교체) -->
+				<form action="https://your-n8n.example.com/webhook/credit-form" method="post">
+					<input type="hidden" name="path" value="1" />
+					<input type="text" name="uname" placeholder="이름" required>
+					<input type="tel" name="tel" placeholder="010-1234-5678" required>
+					<input type="checkbox" name="agree_checkbox" checked>
+					<button type="submit">신청하기</button>
+				</form>
+			</noscript>
+		</div>
+	<!--// 신청 폼 -->
+	</section>
+
+	<script>
+		function subm(ths) {
+			var frm = ths;
+		
+			if (frm.uname.value === "") {
+				alert('이름을 입력해주세요.');
+				frm.uname.focus();
+				return false;
+			}
+		
+			if (frm.tel.value === "") {
+				alert('연락처를 입력해주세요.');
+				frm.tel.focus();
+				return false;
+			}
+			
+			// 연락처 유효성 검사
+			const telRegex = /^010-\d{4}-\d{4}$/; // 정규식
+			if (!telRegex.test(frm.tel.value)) {
+				alert('연락처는 010-1234-1234 형식이어야합니다.');
+				frm.tel.focus();
+				return false;
+			}
+
+			if (!frm.agree_checkbox.checked) {
+				alert('개인정보수집·이용동의 후 접수 가능합니다.');
+				frm.agree_checkbox.focus();
+				return false;
+			}
+		
+			// n8n 웹훅으로 전송(JSON)
+			const payload = {
+				uname: frm.uname.value,
+				tel: frm.tel.value,
+				path: frm.path ? frm.path.value : "1",
+				consent: !!frm.agree_checkbox.checked,
+				userAgent: navigator.userAgent,
+				pageUrl: location.href,
+				vercelUrl: (typeof VERCEL_URL !== 'undefined') ? VERCEL_URL : ''
+			};
+
+			try {
+				fetch(N8N_WEBHOOK_URL, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(payload),
+					mode: 'cors',
+					credentials: 'omit'
+				}).then(function(res){
+					// n8n 기본 웹훅은 200/204를 반환. CORS 미설정 시에도 성공해도 콘솔 경고가 있을 수 있음
+					if (THANK_YOU_URL && typeof THANK_YOU_URL === 'string' && THANK_YOU_URL.indexOf('http') === 0) {
+						window.location.href = THANK_YOU_URL;
+					} else {
+						alert('신청이 접수되었습니다. 빠르게 연락드리겠습니다.');
+					}
+				}).catch(function(){
+					alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+				});
+			} catch(e) {
+				alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+			}
+
+			return false;
+		}
+
+		//연락처 형식에 맞게 변환
+		function formatPhoneNumber(input) {
+			// 숫자만 추출
+			let number = input.value.replace(/\D/g, '');
+
+			// 형식에 맞게 변환
+			if (number.length <= 3) {
+				input.value = number;
+			} else if (number.length <= 7) {
+				input.value = number.slice(0, 3) + '-' + number.slice(3);
+			} else {
+				input.value = number.slice(0, 3) + '-' + number.slice(3, 7) + '-' + number.slice(7, 11);
+			}
+		}
+
+		function resetLabelColors() {
+			document.querySelectorAll('.fieldset_label').forEach(label => {
+				label.style.color = '';
+			});
+		}
+		
+		function highlightLabel(input) {
+			const fieldsetLabel = input.closest('fieldset').querySelector('.fieldset_label');
+			if (fieldsetLabel) {
+				fieldsetLabel.style.color = 'blue';
+			}
+		}
+		
+		document.querySelectorAll('input, select').forEach(input => {
+			input.addEventListener('focus', () => {
+				resetLabelColors();
+				highlightLabel(input);
+			});
+		
+			if (input.type !== "radio" && input.type !== "checkbox") {
+				input.addEventListener('blur', resetLabelColors);
+			}
+		});
+		
+		document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+			input.addEventListener('change', () => {
+				resetLabelColors();
+				highlightLabel(input);
+			});
+		});
+		
+		document.addEventListener("DOMContentLoaded", () => {
+			const formToggleButton = document.getElementById("formToggleButton");
+			const applicationForm = document.getElementById("application_form");
+			const formCloseButton = document.getElementById("formCloseButton");
+			let mainformopenstate = false;
+			
+			// 폼 열고 닫기 (토글 버튼)
+			formToggleButton.addEventListener("click", () => {
+				if (mainformopenstate == false) {
+					mainformopenstate = true;
+					applicationForm.classList.add("active");
+				} else {				
+					mainformopenstate = false;
+					applicationForm.classList.remove("active");
+				}
+			});
+
+			// 닫기 버튼 클릭 시 폼 닫기
+			formCloseButton.addEventListener("click", () => {
+				applicationForm.classList.remove("active");
+			});
+		});
+	</script>
+	<!-- 푸터 -->
+	<br>
+	<br>
+	<br>
+	<footer id="footer" class="bg_darknavy fc_white ta_l">
+		<div class="wrap d_flex flex_column">
+			<!--<br class="m_ver">-->
+
+			<ul class="ul-bar fs_16 medium">
+				<li>금융상품 직접판매업자로부터 금융상품 계약 체결권을 부여받지 아니한 금융상품 판매대리/중개업자의 경우 금융상품 계약을 체결할 수 없습니다.</li>
+				<li>당사는 서울행복신협의 대출 모집을 대리하거나 중개하고 있으며, 금융상품 체결 권한은 없습니다.</li>
+				<li>당사는 시행령 제2조제3항에서 정한 금융관계법률에 따라 서울행복신협과 위탁계약을 체결하고 신협중앙회에 등록된 대출상담사입니다.</li>
+				<li>당사는 대출 모집과 관련하여 전.후 수수료를 요구하지 않으며, 정도 영업을 준수합니다.</li>
+				<li>(대출모집인 포털사이트 www.loanconsultant.or.kr에서 등록번호로 확인가능)</li>
+				<li>대출모집인 수수료율은 신협중앙회 홈페이지(www.cu.co.kr)에서 확인하실 수 있습니다.</li>
+				<li>금융소자는 대출상품 또는 대출 모집 관련 상담.민원이 있을 경우 서울행복신협(02-2294-8203) 또는 인터넷 홈페이지(www.cu.co.kr) 등을 통하여 문의할 수 있습니다.</li>
+				<li>이 광고는 금융소비자의 권익 보호 및 대출상품에 대한 이해 증진을 위하여 「금융소비자보호에 관한 법률」 및 규정에 따라 서울행복신협 내부통제기준에 따른 절차를 거쳐 대출상품의 주요 내용을 쉽게 이해할 수 있도록 구성하였습니다. </li>
+				<li>서울행복신협 광고심의필 제 2025-013(유효기간 : 2025.09.17.~2026.07.04. 까지) </li>
+			</ul>
+			<ul class="ul-bar fs_16 medium my8">
+				<li>고객의 신용도 및 담보물에 따라 금리가 차등 적용됩니다.</li>
+				<li>담보물건, 종류에 따라 대출 조건이 차등 적용되며, 담보물 및 신용도 등이 부적합할 경우 대출이 제한될 수 있습니다.</li>
+				<li>대출취급이 부적정한 경우(연체금 보유, 신용점수 낮음) 대출이 제한될 수 있습니다.</li>
+				<li>금융소비자는 금융소비자보호법 제19조 1항에 따라 해당 상품에 대하여 설명을 받을 권리가 있으며, 그 설명을 듣고 내용을 충분히 이해한 후 거래하시기 바랍니다.</li>
+				<li>계약을 체결하기 전에 금융상품설명서와 약관을 확인하시기 바랍니다.</li>
+				<li>대출금리 : 연 4.6% ~ 연 8% (등급에 따라 차등적용) 연체이율: 약정금리+3% (단, 법정 최고금리 20% 이내)</li>
+				<li>(예시)기준금리(연2.8%, 당해일자12개월평균금리, 12개월변동) + 가산금리 (1.853%~2.273%) 2025.9.1.기준)</li>
+				<li>기준금리는 서울행복신협의 자금조달에 요구되는 비용을 기준으로 산정하며 신협의 정기예탁금 1년 평균금리, 기한부예금 평균금리, 시장금리(CD금리 적용 등) 등 적용</li>
+				<li>가산금리는 업무원가, 정책마진, 기타 가감요인으로 구성됩니다.</li>
+				<li>대출중개수수료 및 취급수수료, 기타 부대비용 없음 (단, 담보대출은 채권매입비 등 일부 비용 발생할 수 있음)</li>
+				<li>대출한도 : 외부감정평가금액과 실거래가 중 작은 금액의 80% (선순위채권, 임차보증금 및 최우선 변제 소액임차보증금 차감하며, LTV 80%, DSR 40% 적용 및 DSR예외한도 적용유무 확인)</li>
+				<li>상환방법 : 만기일시상환 및 분할상환(원금균등분할,원리금균등분할,일부원금균등분할)</li>
+				<li>이자부과시기 : 매월 후취/소비자가 지정한 날 등</li>
+				<li>중도상환수수료: 0.43%~0.76%로 일할차감방식으로 적용됩니다.</li>
+				<li>연체 시 불이익 : 신용등급 하락 및 연체 이자가 발생할 수 있음.</li>
+				<li>연체 시 계약기한 만료 전 원리금 변제 의무가 발생할 수 있습니다.</li>
+				<li>(단, 대출 실행 후 3년이 경과한 이후 중도 상환하는 경우 또는 서울행복신협 내규에서 별도로 정한 경우 중도상환수수료가 면제됨)</li>
+				<li>이 사이트에서 광고되는 상품들의 상환기간은 모두 60일 이상이며, 상환기간은 최단 3년 최장 30년이고 최대 연 이자율은 20%입니다. 대출 총 비용 예시는 다음과 같습니다.</li>
+				<li>1,000,000원을 12개월동안 이자 20%(최대 연 이자율: 20%)로 대출할 시 총 상환금액 : 1,200,000원 (대출상품에 따라 달라질 수 있습니다.)</li>
+				<li>기한연장 도는 재대출시 신용상태에 현저한 개선이 있을 경우 대출금리 인하를 요구할 수 있습니다.</li>
+				<li>상환능력에 비해 대출금이 과도할 경우 개인신용평점이 하락할 수 있습니다.</li>
+				<li>개인신용평점 하락으로 금융거래 관련 불이익이 발생할 수 있습니다.</li>
+				<li>일정 기간 원금.이자 등을 연체할 경우 대출금엑에 따라 만료 기한이 도래하기 전에 모든 원리금에 대한 변제할 의무가 발생할 수 있습니다.</li>
+				<li>이자.원리금의 연체 또는 신용평점 하락과 같은 내부 신용평가 결과 등에 따라 기한 연장이 거절될 수 있습니다.</li>
+			</ul>
+					
+			<ul class="fs_16 medium">
+				<li>
+					<span class="bold mr3">대출모집법인</span><span>(주)와이에스커넥션</span> &nbsp;|&nbsp; 
+					<span class="bold mr3">대표자</span><span>신동민</span> &nbsp;|&nbsp;
+					<span class="bold mr3">사업자등록번호</span>805-87-03209 &nbsp;|&nbsp;
+					<span class="bold mr3">법인등록번호</span>110111-0921322 &nbsp;|&nbsp;
+					<span class="bold mr3">전국은행연합회 등록번호</span>20-00001551 &nbsp;|&nbsp;
+					<span class="bold mr3">주소</span>서울 성동구 마장로39길 31, 1층 102호(마장동, 행복신협빌딩)
+				</li>
+				<!-- <a class="medium fc_g_6" href="tel:02-6305-7107" target="_self"><span class="mr2">대표번호</span> 02-6305-7107</a> -->
+			</ul>
+		</div>
+	</footer>
+
+	<style>
+		/*2022.05.08.정비완료*/
+		body {overflow:visible;}
+		/* 스크롤 */
+		::-webkit-scrollbar {width: 12px!important;}
+		.lContentsWrap::-webkit-scrollbar {width: 8px; background-color: transparent}
+		::-webkit-scrollbar-thumb { background-color: rgba(38, 131, 224, 0.3)!important; border-radius: 10px; border: 4px solid transparent; background-clip: padding-box; }
+		::-webkit-scrollbar-thumb:hover{border: 0; background-color: rgba(38, 131, 224, 1)!important; }
+		::-webkit-scrollbar-track { background-color: transparent!important; margin: 30px 0 }
+
+		#layerPopupArea {display:none; position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%; z-index:200000; box-sizing: border-box;}
+			/* 블러배경 */
+			#grayBg {position:absolute; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.4); /*-webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);*/}
+
+			#layerPopupAreaContents{display:block; width:100%; max-width:1500px; height: 100%; margin: 0 auto; z-index:10; padding: 5% 0;/*패딩으로팝업높이결정*/ transition: all ease-in 300ms;}
+			/*팝업_박스그림자*/
+			#detailContents { position:relative; top:0; left:0; /*팝업넓이*/ width:90%; height:100%; min-height: 140px; margin: 0 auto; background:var(--white); box-shadow: 2px 2px 8px 1px rgba(0,0,0,.1), -2px 0 15px 1px rgba(0,0,0,.1), -2px 0 20px 1px rgba(0,0,0,.15);border-radius: var(--br_l)!important; overflow: hidden; }
+		
+				/*버튼*/
+				#layerPopupCloseBtn { position: absolute; top:1.5rem; right: 1.5rem; display:block; z-index: 666;  }
+				#layerPopupCloseBtn a { display: flex; align-items: center; height: 35px; 	}	
+				#layerPopupCloseBtn a i { color: var(--white)!important;}
+
+
+		/****************************************************************************************************************/
+		/*흰박스*/
+		.lContents { text-align: left; display:none; background:var(--white); width: 100%; height: 100%; padding: 0rem; justify-content: space-between; align-items: center;}
+
+		/* 팝업타이틀 */
+			.lContentsTitle{width:100%; display: none; right: 0; height: 45px; line-height: 45px; padding: 0 1.5rem;   background: var(--point)}
+			.lContentsWrap{width:100%; height: 100%; margin-left: 0;/* margin-top: 45px;*/ padding: 1.5rem; }
+			.lContentsTitle  > h1 {font-size: 1.3rem; color: var(--white); word-break: keep-all; }
+			/* 약관내용_스크롤링박스 */
+			.lContentsWrap { width:100%; /*padding:1.5rem 2rem 1.5rem 1.5rem; */height:100%; overflow-y: auto; font-size: 1rem;}
+
+				/* ◆대제목 (제1장,제2장,포인트색상) */
+				.lContentsWrap > h3 {font-size: 1.2rem; margin: 2.5rem 0; color: var(--point);}
+				.lContentsWrap > h3:first-child {margin-top: 0;}
+				/* p in lContentsWrap */
+				.lContentsWrap > p.p_point  {margin-bottom: 2rem; color: var(--point); font-weight: 500;}
+				.lContentsWrap > p:last-child{margin-top: 2rem;}
+
+					/* - 부제목 - (제1조,제2조...) */
+					.lContentsWrap > article > img{margin: 2rem 0 6rem;}
+					.lContentsWrap > article > h3 {margin: 1.5rem 0 0.5rem; font-size: 1rem;}
+					.lContentsWrap > article > h3:before, .lContentsWrap > article > h3:after {content: " - ";}
+					/* p in article */
+					.lContentsWrap > article > p:first-of-type{color: #4A5D83;}
+					.lContentsWrap > article > p {margin-bottom: 1.25rem; }
+
+					/*기본리스트*/
+					.lContentsWrap ul, .lContentsWrap ol {line-height: 160%; margin-left: 1rem;}
+					.lContentsWrap ol > li{list-style: decimal;}
+					.lContentsWrap ul > li {list-style: disc;}
+					.lContentsWrap > article > ul > li, .lContentsWrap > article > ol > li {font-size: 0.9rem;}
+					.lContentsWrap > article > ul > li:not(:last-child),
+					.lContentsWrap > article > ol > li:not(:last-child) { margin-bottom: 1.5rem;}
+						/*리스트2단*/
+						ul.second_list > li {list-style: circle;}
+						ul.second_list > li, ol.second_list > li{font-size: 0.85rem; }
+						ul.second_list, ol.second_list {margin-top: 0.5rem; margin-bottom: 2rem;}
+						.second_list li:not(:last-child) {margin-bottom: 0.5rem;}
+							/*리스트3단*/
+							ul.third_list > li {list-style: square;}
+							ul.third_list > li, ol.third_list > li{font-size: 0.8rem; }
+							ul.third_list, ol.third_list { margin-top: 0.3rem; margin-bottom: 0rem;}
+							.third_list li:not(:last-child) {margin-bottom: 0.5rem;}
+					/* a링크 */
+					.lContentsWrap a{ vertical-align:baseline; line-height: inherit;}
+
+				/* 테이블 스타일 */
+				table.poptbl {width: 100%; margin: 0.5rem auto; padding-bottom: 10px; word-break:keep-all; border-collapse: collapse; font-size: 0.8rem;}
+				table.poptbl > caption {text-align: left; padding-bottom: 5px; font-weight: bold; margin-top: 10px;}
+				table.poptbl th, table.poptbl td {border: 1px solid #eee; padding: 0.5rem; border-collapse: collapse; text-align: center; width: auto}
+				table.poptbl th {background: #f9f9f9; text-transform: uppercase; vertical-align: middle; }
+				/* 테이블 ul */
+				.table_list {list-style: circle; margin-left: 0.5rem;}
+				.table_list > li:not(:last-child) {margin-bottom: 0.65rem;}
+
+			
+
+		@-webkit-keyframes pop_bg {
+			0%, 100%{background-position:0% 13%}
+			50%{background-position:100% 88% }
+		}
+		@-moz-keyframes pop_bg {
+			0%, 100%{background-position:0% 13%}
+			50%{background-position:100% 88% }
+		}
+		@-o-keyframes pop_bg {
+			0%, 100%{background-position:0% 13%}
+			50%{background-position:100% 88% }
+		}
+		@keyframes pop_bg {
+			0%, 100%{background-position:0% 13%}
+			50%{background-position:100% 88% }
+		}
+
+		@media only screen and ( max-width: 1020px ){
+		   /* .lContentsTitle{width:100%; display: block; right: 0; height: 45px; line-height: 45px; padding: 0 1.5rem;  }
+			.lContentsWrap{width:100%; height: calc(100% - 45px); margin-left: 0; margin-top: 45px; padding: 1.5rem;}*/
+			.lContentsTitle  > img {display: none;}
+			#layerPopupCloseBtn a, #layerPopupCloseBtn a i{color: var(--white)!important;}
+
+		}
+
+		/*모바일세로*/
+		@media only screen and ( max-width: 767px ) and (orientation:portrait) {
+
+			#layerPopupAreaContents{padding: 5% 0;/*패딩으로팝업높이결정*/}
+			/*팝업*/
+			#detailContents { /*팝업넓이*/ width:98%; }
+		}
+		/*모바일가로*/
+		@media only screen and ( min-height: 100px ) and ( max-height: 500px ) and (orientation:landscape) {
+			#layerPopupAreaContents{padding: 2% 0;/*패딩으로팝업높이결정*/}
+			/*팝업*/
+			#detailContents { /*팝업넓이*/ width:80%; }
+		}
+
+	</style>
+
+	<div id="layerPopupArea">
+		<div id="grayBg"> </div>
+		<div id="layerPopupAreaContents">
+			<!-- detailContents -->
+			<div id="detailContents">
+
+				<!-- 01 -->
+				<!-- 개인정보수집동의 (약식) -->
+				<div class="lContents l01" >
+					<div class="lContentsTitle">
+						<h1>개인정보 수집ㆍ이용 동의</h1>
+					</div><!-- 팝업타이틀 -->
+					<div class="lContentsWrap">
+						<!-- contents -->
+						<h3>개인정보 수집ㆍ이용 동의</h3>
+						<p class="p_point">
+							(주)와이에스커넥션귀중<br>
+
+						귀사와의 금융거래와 관련하여 귀사가 본인의 개인신용정보를 수집ㆍ이용하고자 하는 경우에는 「개인정보 보호법」 제15조 및 제22조,제24조, 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」제22조, 제26조의2, 「신용정보의 이용 및 보호에 관한 법률」 제33조 및 제34조에 따라 동의를 얻어야 합니다. 이에 본인은 귀사가 아래의 내용과 같이 본인의 개인신용정보를 수집ㆍ이용하는데 동의합니다.
+						</p>
+						<article>
+							<h3>개인정보의 필수적 수집ㆍ이용에 관한 사항</h3>
+							<ul>
+								<li>가. 수집 / 이용 개인 정보 항목 : <br>- 성명, 연락처(휴대전화번호)</li>
+								<li>나. 수집 / 이용 목적 : <br>전화상담신청에 대한 회신, 대출한도조회, 한도조회 및 대출신청 절차 중단 시，전화를 통한 상담 및 안내</li>							
+								<li>다. 수집한 개인정보의 보유 및 이용기간 : <br>- 상담신청일로부터 3개월 이내</li>
+								<li>라. 개인정보의 제 3자 제공 : <br>수집된 개인정보는 법령의 근거가 있는 경우나 동의받은 경우 외에는 제 3자에게 제공하지 않습니다.
+									<ul class="second_list">
+										<li>제공받는자 : (주)와이에스커넥션</li>
+										<li>제공목적 : 상담(신청)</li>
+										<li>제공항목 : 이름, 연락처</li>
+									</ul>
+								</li>
+							</ul>
+						</article>
+						<p style="margin-top: 1rem;">
+							귀하는 동의를 거부할 권리가 있으나, 이에 대한 동의가 없을 경우 대출상담신청 등이 불가능할 수 있음을 알려 드립니다.
+						</p>
+						<!-- end contents -->
+					</div>
+				</div>
+
+
+				<!-- 02 -->
+				<!-- 상품1 -->
+				<div class="lContents l02" >
+					<div class="lContentsWrap">
+						<!-- contents -->
+						<!--<img src="images/prod_01.png" style="margin:0 0 0 auto; display: block" />-->
+						<!-- end contents -->
+					</div>
+				</div>
+
+				<!-- 03 -->
+				<!-- 상품2 -->
+				<div class="lContents l03" >
+					<div class="lContentsWrap">
+						<!-- contents -->
+						<!--<img src="images/prod_02.png" style="margin:0 0 0 auto; display: block"/>-->
+						<!-- end contents -->
+					</div>
+				</div>
+
+				<!-- 04 -->
+				<!-- 상품3 -->
+				<div class="lContents l04" >
+					<div class="lContentsWrap">
+						<!-- contents -->
+						<!--<img src="images/prod_03.png" style="margin:0 0 0 auto; display: block"/>-->
+						<!-- end contents -->
+					</div>
+				</div>
+
+
+				<!-- 05 -->
+				<!-- 주요정보 -->
+				<div class="lContents l05" >
+					<div class="lContentsWrap">
+						<!-- contents -->
+						<!--<img src="images/pop.png" style="margin:0 0 0 auto; display: block"/>-->
+						<!-- end contents -->
+					</div>
+				</div>
+
+
+				<!--닫기버튼-->
+				<div id="layerPopupCloseBtn">
+					<a href="#n"><!--<i class="fas fa-times"></i>--><img src="images/close.png" /></a>
+				</div>
+
+			</div>
+			<!-- /detailContents -->
+		</div>
+		<!-- / layerPopupAreaContents -->	
+		
+	</div>
+	<!-- /layerPopupArea -->
+
+
+	<script type="text/javascript">
+		function layerPopup(popIndex) {
+		$('#layerPopupArea').fadeIn();
+		$('.' + popIndex).fadeIn();
+
+		// 특정 팝업의 너비 및 패딩 조정
+		if (popIndex === 'l01') {
+			$('#layerPopupAreaContents').css('max-width', '850px');
+			$('.lContentsWrap').css('padding', '1.5rem 2rem 1.5rem 1.5rem');
+		} else {
+			$('#layerPopupAreaContents').css('max-width', '1020px');
+			$('.lContentsWrap').css('padding', '0');
+		}
+}
+
+$('#layerPopupCloseBtn a').click(function (e) {
+	$('.lContents').fadeOut();
+	$('#layerPopupArea').fadeOut();
+	e.preventDefault();
+});
+
+	</script>
+
+
+	</body>
+</html>
+

@@ -1,0 +1,227 @@
+@charset "utf-8";
+
+/* 페이지 비주얼 */
+#page_visual {
+	display: block;
+	padding: calc(var(--header_h) * 1.65) 0 0;
+	background-image: linear-gradient(149deg, #cbe0ff, #ccc9f5);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	transition: all 0.5s ease-in-out;
+}
+
+#page_visual.prod1 {
+	background-image: linear-gradient(149deg, #cbe0ff, #ccc9f5);
+}
+
+#page_visual.prod2 {
+	background-image: linear-gradient(149deg, #ffd2da, #cbe0ff);
+}
+
+#page_visual.prod3 {
+	background-image: linear-gradient(149deg, #e7e5fd, #ffd2da);
+}
+
+#page_visual .wrap {
+	height: 100%;
+	padding: 0 0 calc(var(--sec_pd) / 3);
+}
+
+/* 페이지 비주얼 - 타이틀 */
+#page_visual .sec_tit {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	width: 45%;
+}
+
+#page_visual .sec_tit img {
+	display: flex;
+	align-self: flex-end;
+	margin-left: auto !important;
+	margin-bottom: -1.5rem;
+}
+
+#page_visual.prod1 .sec_tit img {
+	width: 40%;
+}
+
+#page_visual.prod2 .sec_tit img {
+	width: 40%;
+}
+
+#page_visual.prod3 .sec_tit img {
+	width: 45%;
+}
+
+/* sec_info */
+#page_visual .sec_info {
+	width: 50%;
+}
+
+#page_visual .sec_info>.d_flex.flex_column {
+	width: 50%;
+}
+
+#page_visual .sec_info_card {
+	width: 100%;
+	padding: 1.6rem;
+	background-color: #ffffff80;
+	border-radius: var(--br_l);
+	line-height: 1.1;
+}
+
+/* 페이지 내용 */
+#page_content {
+	display: block;
+	padding: calc(var(--sec_pd) / 1.5) 0 calc(var(--sec_pd) * 1.25);
+	text-align: center;
+}
+
+#page_content .wrap {
+	gap: 100px
+}
+
+/*사이드네비*/
+.page_contentL {
+	width: 200px;
+}
+
+.page_contentL .SideNav {
+	overflow: hidden;
+	box-shadow: 0px 0px 8px 0px rgb(0 0 0 / 35%);
+	border-radius: var(--br_l);
+}
+
+.page_contentL .SideNav>p {
+	padding: 1.3rem 0 1rem
+}
+
+.page_contentL .SideNav ul {
+	padding: 1rem 0;
+}
+
+.page_contentL .SideNav ul li {
+	padding: 1rem 0;
+}
+
+.page_contentL .SideNav ul li a {
+	color: var(--gray_6);
+}
+
+.page_contentL .SideNav ul li a:hover {
+	color: var(--navy);
+}
+
+/*컨텐츠*/
+.page_contentR {
+	width: calc(100% - 200px);
+}
+
+/* 페이지 내용 - 타이틀 */
+#page_content .content_tit {
+	text-align: left
+}
+
+/* 페이지 내용 - 상품 정보 */
+#page_content .page_contentR .prod_info {
+	margin-top: 4rem;
+	text-align: left;
+	font-size: 1.2em;
+	line-height: 1.35;
+	width: 100%;
+	display: inline-flex;
+	flex-wrap: wrap;
+}
+
+#page_content .page_contentR .prod_info li {
+	padding: 1.25rem 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	width: 100%;
+	border-bottom: solid 1px #e7e7e7;
+}
+
+#page_content .page_contentR .prod_info li:last-child {
+	border-bottom: none;
+}
+
+#page_content .page_contentR .prod_info li .tit {
+	width: 20%;
+}
+
+#page_content .page_contentR .prod_info li .tit span {
+	padding: 0.5rem 1.25rem;
+	text-align: center;
+	background-color: var(--gray_f5);
+	border-radius: 999px;
+}
+
+#page_content .page_contentR .prod_info li .info_txt {
+	width: 80%;
+}
+
+/* ==================== 모바일 레이아웃 ==================== */
+@media (max-width:1280px) {
+
+	/* 페이지 비주얼 */
+	#page_visual {
+		padding: calc(var(--header_h) * 1.65) 1.5rem 0;
+	}
+}
+
+@media (max-width:900px) {
+	#page_visual .wrap {
+		justify-content: center;
+	}
+
+	#page_visual .sec_tit {
+		width: 90%;
+		margin-bottom: 0;
+	}
+
+	#page_visual .sec_tit img {
+		margin-left: 1rem !important;
+		margin-bottom: -7rem;
+		align-self: flex-start !important;
+	}
+
+	#page_visual .sec_info {
+		width: 90%;
+	}
+
+	#page_content .content_tit {
+		font-size: 120%;
+	}
+
+	.page_contentL {
+		display: none
+	}
+
+	.page_contentR {
+		width: 100%;
+		padding: 0 1rem
+	}
+
+	#page_content .page_contentR .prod_info {
+		margin-top: 2rem;
+	}
+
+	#page_content .page_contentR .prod_info>li {
+		flex-direction: column;
+		gap: 15px;
+		padding: 2rem 0;
+	}
+
+	#page_content .page_contentR .prod_info li .tit,
+	#page_content .page_contentR .prod_info li .info_txt {
+		width: 100%;
+		font-size: 120%;
+	}
+
+	#page_content .page_contentR .prod_info li .info_txt {
+		padding: 0 1.25rem;
+	}
+}

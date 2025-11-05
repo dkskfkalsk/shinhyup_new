@@ -1,0 +1,214 @@
+#application_form {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28rem;
+    height: auto;
+    background-color: #ffffffcc;
+    box-shadow: 0px 2px 8px 2px rgba(0,0,0,0.4);
+    transition: bottom 0.5s ease;
+    z-index: 1;
+    padding: 0.3rem 0.8rem 0.8rem !important;
+    overflow: hidden;
+    border-radius: 8px;
+	border: solid 2px var(--point);
+    /*border-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'  fill='none'%3e%3cpath stroke='url(%23a)' stroke-width='2.5' d='M8 1h84a7 7 0 0 1 7 7v84a7 7 0 0 1-7 7H8a7 7 0 0 1-7-7V8a7 7 0 0 1 7-7Z'/%3e%3cdefs%3e%3clinearGradient id='a' x1='0' y1='0' x2='100' y2='100' gradientUnits='userSpaceOnUse'%3e%3cstop stop-color='%23c2d4fd'/%3e%3cstop offset='1' stop-color='%23342286'/%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e") 8 / 8px / 1px stretch;*/ /*<source> <slice> / <width> / <outset> <repeat>*/
+}
+
+    #application_form.active {
+        bottom: 6.5rem;
+    }
+
+    #application_form.hidden {
+        bottom: -100% !important;
+    }
+
+    #application_form .wrap {
+        max-width: 28rem;
+        padding: 0 !important;
+    }
+
+.hidden {
+    display: none;
+}
+/*폼열기토글버튼*/
+.form_toggle_button {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    z-index: 2;
+    display: block;
+    width: 28rem;
+    aspect-ratio: 5.3/1;
+    transition: all var(--q_trans);
+    /*opacity: 0;*/
+}
+.form_toggle_button:hover {
+    background-color: var(--navy)!important; 
+}
+
+    .form_toggle_button.show {
+        display: block !important;
+        opacity: 1 !important;
+    }
+
+#application_form .form_close_button {
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 3px 0;
+}
+
+    #application_form .form_close_button i {
+        margin: 0;
+    }
+/* 신청 폼 - 폼 박스 */
+#application_form .form_box {
+    width: 100%;
+    position: relative;
+}
+
+#application_form [id$="fieldset"] > input, #application_form [id$="fieldset"] > select {
+    width: 100%;
+    height: 52px;
+    padding: 0 1.5rem !important;
+    font-size: 1.125rem;
+    background-color: var(--gray_f9) !important;
+    /*border:none;*/
+    border: solid 1px var(--point);
+    color: var(--gray_8) !important;
+	border-radius: var(--br_s);
+}
+
+#application_form [id$="fieldset"]:focus-within > input, #application_form [id$="fieldset"]:focus-within > select {
+    border: solid 1px var(--darknavy);
+}
+
+#application_form input::placeholder {
+    white-space: pre;
+    overflow-wrap: normal;
+    overflow-x: hidden;
+    overflow-y: visible;
+    line-height: initial;
+}
+
+#application_form [id$="fieldset"] .fieldset_label {
+    display: none !important;
+    /*라벨숨기기*/
+}
+/* 신청 폼 - 필드셋 */
+#application_form [id$="fieldset"] {
+    width: 100%;
+    max-width: auto;
+}
+/*이름 필드셋 */
+#application_form #name_fieldset {
+    max-width: 40%
+}
+/* 상품선택 필드셋 */
+#application_form #prod_fieldset {
+    max-width: 60%
+}
+/* 연락처 필드셋 */
+#application_form #tel_fieldset {
+    max-width: 100%
+}
+/* 신청 폼 - 개인정보수집이용동의 */
+#application_form .agree_set .checkbox_txt {
+    width: auto;
+}
+
+#application_form .agree_set .checkbox_ctr {
+    width: 16px !important;
+    margin-left: 0.5rem;
+    margin-top: -2px;
+}
+/*자세히*/
+#application_form .agree_set a {
+    color: inherit;
+}
+
+    #application_form .agree_set a:hover {
+        color: var(--gray_3);
+    }
+/* 신청 폼 - 신청 버튼 */
+#application_form .form_btn {
+    width: 100%;
+    height: 52px;
+    border-radius: var(--br_s);
+    transition: all var(--q_trans);
+}
+
+    #application_form .form_btn:hover {
+        background-color: var(--darknavy);
+        box-shadow: 0 0.1rem 0.25rem 0 rgba(0,0,0,0.25);
+    }
+/* ==================== 해상도 1380px 이상 ==================== */
+@media screen and (min-width:1280px) {
+}
+/* ==================== 모바일 레이아웃 ==================== */
+@media ( max-width:1280px ) {
+}
+
+@media ( max-width:900px ) {
+    /* 신청 폼 - 폼 박스 */
+    #application_form {
+        width: 85%;
+        max-width: 450px;
+        padding: 0.6rem 1.2rem 1.2rem !important;
+    }
+
+        #application_form.active {
+            bottom: 7.5rem !important;
+        }
+
+        #application_form .form_box {
+            padding-left: 0rem;
+            padding-right: 0rem;
+        }
+
+        #application_form [id$="fieldset"] > input, #application_form [id$="fieldset"] > select {
+            height: 42px;
+            border-radius: var(--br_s) !important;
+            padding: 0 2.25rem 0 1rem !important;
+        }
+
+        #application_form [id$="fieldset"] > select {
+            background-size: 10px;
+            background-position: 93% center;
+        }
+        /* 신청 폼 - 신청 버튼 */
+        #application_form .form_btn {
+            height: 42px;
+            border-radius: var(--br_s);
+        }
+
+    .form_toggle_button {
+        width: 350px;
+    }
+}
+
+@media ( max-width:600px ) {
+    #application_form {
+        width: 90%;
+    }
+
+        #application_form .form_close_button {
+            font-size: 200%;
+            margin-bottom: 0.6rem;
+        }
+
+        #application_form .agree_set label, #application_form .agree_set a {
+            font-size: 140%;
+        }
+
+    .form_toggle_button {
+        width: 300px;
+    }
+}
+/***** 가로모드 *****/
+@media screen and (orientation:landscape) and ( max-width:900px ) {
+}

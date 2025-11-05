@@ -1,0 +1,561 @@
+@charset "utf-8";
+
+/* CSS Document */
+[id^="sect_0"] {
+    /*padding: calc(var(--sec_pd) / 1.25) 0;*/
+    transition: all var(--q_trans);
+}
+
+.half {
+    width: 48% !important;
+}
+
+.sect_tit {
+    line-height: 1.125;
+}
+
+
+/*섹션1_상품설명*/
+#sect_01 {
+    padding: calc(var(--sec_pd) / 2) 0 var(--sec_pd);
+}
+
+    /* 3개 카테고리 가로 길쭉한 레이아웃 */
+    #sect_01 .sect_01_cont .product_categories {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+        /* 모든 카테고리 아이템을 가로로 길쭉하게 */
+        #sect_01 .category_item {
+            width: 100%;
+        }
+
+        /* 카테고리 래퍼 (카드 + 테이블) */
+        #sect_01 .category_wrapper {
+            align-items: stretch;
+            min-height: 320px;
+        }
+
+        /* 카테고리 카드 */
+        #sect_01 .category_card {
+            border-radius: var(--br_r);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 4px 10px 2px rgba(0,0,0,0.08);
+            align-self: stretch;
+            min-height: 320px;
+        }
+
+        /* 카드와 테이블의 너비 비율 조정 및 높이 동일하게 */
+        /* 특례보금자리론: 테이블 65%, 카드 35% */
+        #sect_01 .category_1 .info_table {
+            flex: 0 0 65%;
+            align-self: stretch;
+        }
+        #sect_01 .category_1 .category_card {
+            flex: 0 0 35%;
+            align-self: stretch;
+        }
+
+        /* 아파트 담보대출: 카드 42%, 테이블 58% */
+        #sect_01 .category_2 .category_card {
+            flex: 0 0 42%;
+            align-self: stretch;
+        }
+        #sect_01 .category_2 .info_table {
+            flex: 0 0 58%;
+            align-self: stretch;
+        }
+
+        /* 빌라/주택 담보대출: 테이블 58%, 카드 42% */
+        #sect_01 .category_3 .info_table {
+            flex: 0 0 58%;
+            align-self: stretch;
+        }
+        #sect_01 .category_3 .category_card {
+            flex: 0 0 42%;
+            align-self: stretch;
+        }
+
+            #sect_01 .category_card .category_icon {
+                margin-bottom: 1.5rem;
+            }
+
+            #sect_01 .category_card .category_icon img {
+                width: 100px;
+                height: auto;
+                aspect-ratio: 1 / 1;
+                object-fit: contain;
+            }
+
+            #sect_01 .category_card .category_title {
+                margin-bottom: 1rem;
+            }
+
+            #sect_01 .category_card .category_desc {
+                line-height: 1.6;
+            }
+
+        /* 정보 테이블 */
+        #sect_01 .info_table {
+            background-color: var(--white);
+            border-radius: var(--br_r);
+            padding: 2rem;
+            box-shadow: 0px 4px 10px 2px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+            align-self: stretch;
+            min-height: 320px;
+        }
+
+            #sect_01 .info_table .info_row {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding-bottom: 1.5rem;
+                border-bottom: 1px solid var(--gray_f0);
+            }
+
+            #sect_01 .info_table .info_row:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            #sect_01 .info_table .info_label {
+                flex: 0 0 120px;
+                min-width: 120px;
+            }
+
+            #sect_01 .info_table .info_value {
+                flex: 1;
+                line-height: 1.5;
+            }
+
+        /* 배경색 클래스 */
+        .bg_light_green {
+            background-color: #e8f5e9;
+        }
+
+        .bg_light_pink {
+            background-color: #fce4ec;
+        }
+
+        .bg_light_yellow {
+            background-color: #fffde7;
+        }
+/*섹션2*/
+#sect_02 {
+    padding: calc(var(--sec_pd) / 2) 0 0;
+    background-image: url("../images/banner_bg.png");
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+    #sect_02 .sect_02_cont {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    #sect_02 .sect_tit {
+        margin-top: calc(var(--sec_pd) / 1.5);
+    }
+
+    #sect_02 .txt_bg1, .txt_bg2 {
+        position: relative;
+        display: inline-block;
+    }
+
+        #sect_02 .txt_bg1:before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: block;
+            background-image: url('../images/banner_text_bg_01.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+            width: 120%;
+            height: 140%;
+        }
+
+    #sect_02 .txt_bg2:before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 65%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: block;
+        background-image: url('../images/banner_text_bg_02.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        pointer-events: none;
+        width: 110%;
+        height: 140%;
+    }
+
+    #sect_02 .banner_pig {
+        margin-bottom: calc(var(--sec_pd) / 3);
+        max-width: 600px;
+        width: 100%;
+    }
+
+
+/*섹션3*/
+#sect_03 {
+    padding: var(--sec_pd) 0;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    background-image: url("../images/house_bg.png");
+}
+  #sect_03 .sect_tit {
+            padding-top: var(--sec_pd) ;
+        }
+    #sect_03 .sect_03_cont {
+        width: 100%;
+        max-width: 704px;
+    }
+
+   
+/*섹션4*/
+#sect_04 {
+    padding: calc(var(--sec_pd) / 2) 0 var(--sec_pd) ;
+}
+#sect_04 .sect_04_cont{
+    position: relative;
+	overflow: hidden;
+}
+#sect_04 .sect_04_cont:after{
+    position: absolute;
+	right: 0;
+	top: 0;
+	display: block;
+	content: '';
+	width: 100px;
+	height: 100%;
+	background-image: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1) 80%);
+	z-index: 9
+}
+
+
+/* 기본 구조 */
+#slideTrack {
+    display: flex;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    gap: 60px;
+    padding: 0;
+	/*transition: transform 0.4s ease-in-out;*/
+}
+/* 슬라이드 항목 */
+#slideTrack li {
+    flex: 0 0 calc((100% - 120px) / 3); /* gap: 60px x 2 (3개 → 2개 gap) */
+    
+}
+/* 반응형: 모바일에서는 1개씩 */
+@media (max-width: 768px) {
+	/*섹션4*/
+	#sect_04 {
+		padding: calc(var(--sec_pd) / 2) 1rem var(--sec_pd) ;
+	}
+	#sect_04 .wrap{
+		padding: 0!important;
+	}
+	#slideTrack {
+    gap: 0;
+  }
+    #slideTrack li {
+        flex: 0 0 100%;
+    }
+}
+/*.slide_item{ 
+	width: 100%
+}
+.slide_item img{
+	width: 428px;
+	aspect-ratio: 16 / 9!important
+}*/
+.slide_item_text{
+	padding-left: 1.25rem;
+	border-left: 5px solid var(--point);
+}
+#slidePrevBtn, #slideNextBtn{
+	cursor:pointer;
+}
+#slidePrevBtn:hover, #slideNextBtn:hover{
+	filter: invert(49%) sepia(99%) saturate(1507%) hue-rotate(157deg) brightness(89%) contrast(101%);
+}
+
+/* ==================== 해상도 1280px 이상 ==================== */
+@media screen and (min-width: 1280px) and (max-width: 1480px) {
+
+    /*섹션1*/
+    #sect_01 {
+        padding-top: var(--sec_pd);
+    }
+
+    .sect5_slide_control {
+        max-width: 57.5%;
+    }
+}
+
+/* ==================== 모바일 레이아웃 ==================== */
+@media(max-width: 1280px) {
+    .sect_tit .fs_32 {
+        margin: 0.5rem 0 1.5rem;
+    }
+    /*섹션1*/
+    #sect_01 {
+        padding-top: var(--sec_pd);
+    }
+
+        /* 모바일: 3개 카테고리 간격 조정 */
+        #sect_01 .sect_01_cont .product_categories {
+            gap: 1.5rem;
+        }
+
+            /* 모바일: 카드와 테이블을 세로로 배치 */
+            #sect_01 .category_wrapper {
+                flex-direction: column !important;
+            }
+
+            /* 모바일: 특례보금자리론 - 카드를 먼저 표시 */
+            #sect_01 .category_1 .category_card {
+                order: 1;
+            }
+            #sect_01 .category_1 .info_table {
+                order: 2;
+            }
+
+            /* 모바일: 빌라/주택 담보대출 - 카드를 먼저 표시 */
+            #sect_01 .category_3 .category_card {
+                order: 1;
+            }
+            #sect_01 .category_3 .info_table {
+                order: 2;
+            }
+
+            /* 모바일: 카드와 테이블 비율 조정 */
+            #sect_01 .category_1 .info_table,
+            #sect_01 .category_1 .category_card,
+            #sect_01 .category_2 .category_card,
+            #sect_01 .category_2 .info_table,
+            #sect_01 .category_3 .info_table,
+            #sect_01 .category_3 .category_card {
+                flex: 1 1 auto !important;
+                align-self: stretch !important;
+            }
+
+            #sect_01 .category_wrapper {
+                min-height: auto;
+                align-items: stretch;
+            }
+
+            #sect_01 .category_card {
+                min-height: 220px;
+                padding: 2rem;
+                align-self: stretch;
+            }
+
+                #sect_01 .category_card .category_icon img {
+                    width: 80px;
+                }
+
+            #sect_01 .info_table {
+                min-height: 220px;
+                padding: 1.5rem;
+                align-self: stretch;
+            }
+
+                        /* 모바일: 정보 테이블 가로 레이아웃 유지 */
+                #sect_01 .info_table .info_row {
+                    flex-direction: row;
+                }
+
+                #sect_01 .info_table .info_label {
+                    flex: 0 0 90px;
+                    min-width: 90px;
+                    font-size: 1.125rem !important;
+                }
+
+                #sect_01 .info_table .info_value {
+                    font-size: 1rem !important;
+                }
+
+    /*섹션2*/
+    #sect_02 {
+        padding: var(--sec_pd) 0;
+        background-image: url("../images/banner_bg_m.png");
+        background-position: bottom center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+        #sect_02 > .wrap.d_flex {
+            flex-direction: column
+        }
+
+
+        #sect_02 .sect_02_cont {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        #sect_02 .sect_tit {
+            margin-top: unset;
+        }
+
+        #sect_02 .banner_pig {
+            margin-bottom: calc(var(--sec_pd) / 5);
+            max-width: 600px;
+            width: 100%;
+        }
+	
+	 #sect_03 {
+        padding: 0 1rem var(--sec_pd) ;
+       
+    }
+
+	#sect_03 .wrap{
+		flex-direction: column
+	}
+	#sect_03 .sect_tit{
+		text-align: center!important
+	}
+	
+	.sect_tit_pack{align-items: flex-end}
+	.sect_04_slide_control{gap:40px}
+    .half {
+        width: 100% !important;
+    }
+}
+
+@media(max-width: 900px) {
+    /* 섹션1: 작은 모바일 화면 */
+    #sect_01 .category_wrapper {
+        min-height: auto;
+        align-items: stretch;
+    }
+
+    #sect_01 .category_card {
+        padding: 1.5rem;
+        min-height: 200px;
+        align-self: stretch;
+    }
+
+        #sect_01 .category_card .category_icon img {
+            width: 70px;
+        }
+
+        #sect_01 .category_card .category_title {
+            font-size: 1.75rem !important;
+        }
+
+        #sect_01 .category_card .category_desc {
+            font-size: 1.125rem !important;
+        }
+
+    #sect_01 .info_table {
+        padding: 1.25rem;
+        min-height: 200px;
+        align-self: stretch;
+    }
+
+        #sect_01 .info_table .info_row {
+            gap: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        #sect_01 .info_table .info_label {
+            flex: 0 0 85px;
+            min-width: 85px;
+            font-size: 1.125rem !important;
+        }
+
+        #sect_01 .info_table .info_value {
+            font-size: 1rem !important;
+        }
+}
+
+@media(max-width: 600px) {
+    /* 섹션1: 매우 작은 모바일 화면 */
+    #sect_01 .sect_01_cont .product_categories {
+        gap: 1rem;
+    }
+
+    #sect_01 .category_wrapper {
+        min-height: auto;
+        align-items: stretch;
+    }
+
+    #sect_01 .category_card {
+        padding: 1.25rem;
+        min-height: 180px;
+        align-self: stretch;
+    }
+
+        #sect_01 .category_card .category_icon img {
+            width: 60px;
+            margin-bottom: 1rem;
+        }
+
+        #sect_01 .category_card .category_title {
+            font-size: 1.5rem !important;
+            margin-bottom: 0.75rem;
+        }
+
+        #sect_01 .category_card .category_desc {
+            font-size: 1rem !important;
+        }
+
+        #sect_01 .info_table {
+            padding: 1rem;
+            gap: 1rem;
+            min-height: 180px;
+            align-self: stretch;
+        }
+
+        #sect_01 .info_table .info_row {
+            gap: 0.75rem;
+            padding-bottom: 0.75rem;
+            flex-direction: row;
+        }
+
+        #sect_01 .info_table .info_label {
+            flex: 0 0 75px;
+            min-width: 75px;
+            font-size: 1rem !important;
+        }
+
+        #sect_01 .info_table .info_value {
+            font-size: 0.9rem !important;
+            line-height: 1.4;
+        }
+}
+
+@media screen and (max-width: 400px) and (orientation: portrait) {
+    
+}
+
+/* ========================================================================== */
+/***** 가로모드 *****/
+@media screen and (orientation: landscape) and (max-width: 900px) {
+}
