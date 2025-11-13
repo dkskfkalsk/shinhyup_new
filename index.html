@@ -144,10 +144,10 @@
 
 <body>
 	<nav id="quick_menu" class="">
-		<a href="tel:02-6305-7107" class="expandable ">
+		<a href="tel:02-6953-5720" class="expandable ">
 			<div class="inner_ctr">
 				<i class="fad fa-phone-volume icon"></i>
-				<p>02-6305-7107</p>
+				<p>02-6953-5720</p>
 			</div>
 		</a>
 		<a href="#" class="top" title="GO TOP">↑</a>
@@ -160,12 +160,12 @@
 		<a href="index.html" target="_self" class="logo">
 			<img src="images/top_logo.png" class="logo_img" style="width:356px;">
 		</a>
-		<a class="bold top_call fc_white fs_36" href="tel:02-6305-7107" target="_self"><img src="images/call_icon.png" />02-6305-7107</a>
+		<a class="bold top_call fc_white fs_36" href="tel:02-6953-5720" target="_self"><img src="images/call_icon.png" />02-6953-5720</a>
 	</div>
 	<div class="wrap main_cont">
 		<div class="sect_tit ta_cen mb10" data-animate-in="up" style="transition-delay: 50ms;">
 			<p class="medium fs_80 fc_g_3">
-				따듯한 이웃, 든든한
+				따뜻한 이웃, 든든한
 				<span class="bold fc_point dot">동</span><span class="bold fc_point dot">반</span><span class="bold fc_point dot">자</span> 신협
 			</p>
 			<p class="medium fs_36 fc_g_8 mt6 mb12">
@@ -174,7 +174,7 @@
 			<img src="images/main_pig.png" class="main_pig" data-animate-in="up" style="transition-delay: 300ms;" />
 		</div>
 		<div class="d_flex jc_cen gap10 main_cards_wrapper" data-animate-in="up" style="transition-delay: 300ms;">
-			<div class="main_card ta_cen">
+			<a href="#category_1_target" class="main_card ta_cen">
 				<img src="images/main_icon_01.png" />
 				<p class="medium fs_24 fc_g_3 mt15 mb2">
 					다주택자, 사업자를 위한
@@ -182,8 +182,8 @@
 				<p class="bold fs_36 fc_point">
 					아파트 담보대출
 				</p>
-			</div>
-			<div class="main_card ta_cen">
+			</a>
+			<a href="#category_2_target" class="main_card ta_cen">
 				<img src="images/main_icon_02.png" />
 				<p class="medium fs_24 fc_g_8 mt15 mb2">
 					까다로운 <span class="fc_g_3">DSR 규제없이</span>
@@ -191,8 +191,8 @@
 				<p class="bold fs_36 fc_point">
 					전세퇴거자금
 				</p>
-			</div>
-			<div class="main_card ta_cen">
+			</a>
+			<a href="#category_3_target" class="main_card ta_cen">
 				<img src="images/main_icon_04.png" />
 				<p class="medium fs_24 fc_g_3 mt15 mb2">
 					소상공인을 위한
@@ -200,7 +200,7 @@
 				<p class="bold fs_36 fc_point">
 					사업자 담보대출
 				</p>
-			</div>
+			</a>
 		</div>
 
 	</div>
@@ -227,7 +227,7 @@
 			<div class="product_categories">
 				
 				<!-- 카테고리 1: 특례보금자리론 -->
-				<div class="category_item category_1" data-animate-in="up" data-animate-in-delay="200">
+				<div class="category_item category_1" id="category_1_target" data-animate-in="up" data-animate-in-delay="200">
 					<div class="category_wrapper d_flex gap6">
 						<div class="info_table">
 							<div class="info_row">
@@ -265,7 +265,7 @@
 				</div>
 
 				<!-- 카테고리 2: 아파트 담보대출 (중간 왼쪽) -->
-				<div class="category_item category_2" data-animate-in="up" data-animate-in-delay="400">
+				<div class="category_item category_2" id="category_2_target" data-animate-in="up" data-animate-in-delay="400">
 					<div class="category_wrapper d_flex gap6">
 						<div class="category_card bg_light_pink">
 							<div class="category_icon">
@@ -303,7 +303,7 @@
 				</div>
 
 				<!-- 카테고리 3: 빌라/주택 담보대출 (오른쪽 하단) -->
-				<div class="category_item category_3" data-animate-in="up" data-animate-in-delay="600">
+				<div class="category_item category_3" id="category_3_target" data-animate-in="up" data-animate-in-delay="600">
 					<div class="category_wrapper d_flex gap6">
 						<div class="info_table">
 							<div class="info_row">
@@ -622,6 +622,13 @@
 						<input name="tel" id="tel" maxlength="13" type="tel" value="" onkeyup="formatPhoneNumber(this);" placeholder="연락처(-없이)" required />
 					</fieldset>
 					<!--// 연락처 -->
+					
+					<!-- 문의 내용 -->
+					<fieldset id="message_fieldset">
+						<label for="message" class="fieldset_label">문의 내용</label>
+						<textarea name="message" id="message" rows="4" placeholder="문의 내용을 입력해주세요"></textarea>
+					</fieldset>
+					<!--// 문의 내용 -->
 						
 					<!-- 개인정보수집이용동의 -->
 					<div class="d_flex jc_end gap2 mt1 mb2">
@@ -644,7 +651,7 @@
 			</form>
 			<noscript>
 				<!-- 자바스크립트 비활성화 시 폼 직통 전송용(필요 시 n8n URL로 교체) -->
-				<form action="https://your-n8n.example.com/webhook/credit-form" method="post">
+		<form action="/api/submit" method="post">
 					<input type="hidden" name="path" value="1" />
 					<input type="text" name="uname" placeholder="이름" required>
 					<input type="tel" name="tel" placeholder="010-1234-5678" required>
@@ -686,7 +693,7 @@
 				return false;
 			}
 		
-			// n8n 웹훅으로 전송(JSON)
+		// 서버리스 API로 전송(JSON)
 			const payload = {
 				uname: frm.uname.value,
 				tel: frm.tel.value,
@@ -694,24 +701,31 @@
 				consent: !!frm.agree_checkbox.checked,
 				userAgent: navigator.userAgent,
 				pageUrl: location.href,
-				vercelUrl: (typeof VERCEL_URL !== 'undefined') ? VERCEL_URL : ''
+			vercelUrl: (typeof VERCEL_URL !== 'undefined') ? VERCEL_URL : ''
 			};
 
-			try {
-				fetch(N8N_WEBHOOK_URL, {
+		const submitEndpoint = (window.SITE_CONFIG && window.SITE_CONFIG.formSubmitEndpoint)
+			|| (typeof FORM_SUBMIT_ENDPOINT !== 'undefined' ? FORM_SUBMIT_ENDPOINT : '/api/submit');
+
+		try {
+			fetch(submitEndpoint, {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(payload),
 					mode: 'cors',
 					credentials: 'omit'
-				}).then(function(res){
-					// n8n 기본 웹훅은 200/204를 반환. CORS 미설정 시에도 성공해도 콘솔 경고가 있을 수 있음
+			}).then(function(res){
+				if (!res.ok) {
+					throw new Error('Request failed');
+				}
+				// n8n 기본 웹훅은 200/204를 반환. API 경유 시에도 동일하게 처리
 					if (THANK_YOU_URL && typeof THANK_YOU_URL === 'string' && THANK_YOU_URL.indexOf('http') === 0) {
 						window.location.href = THANK_YOU_URL;
 					} else {
 						alert('신청이 접수되었습니다. 빠르게 연락드리겠습니다.');
 					}
-				}).catch(function(){
+			}).catch(function(err){
+				console.error(err);
 					alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
 				});
 			} catch(e) {
@@ -749,7 +763,7 @@
 			}
 		}
 		
-		document.querySelectorAll('input, select').forEach(input => {
+		document.querySelectorAll('input, select, textarea').forEach(input => {
 			input.addEventListener('focus', () => {
 				resetLabelColors();
 				highlightLabel(input);
@@ -839,13 +853,13 @@
 			<ul class="fs_16 medium">
 				<li>
 					<span class="bold mr3">대출모집법인</span><span>(주)와이에스커넥션</span> &nbsp;|&nbsp; 
-					<span class="bold mr3">대표자</span><span>신동민</span> &nbsp;|&nbsp;
+					<span class="bold mr3">대표자</span><span>000</span> &nbsp;|&nbsp;
 					<span class="bold mr3">사업자등록번호</span>805-87-03209 &nbsp;|&nbsp;
 					<span class="bold mr3">법인등록번호</span>110111-0921322 &nbsp;|&nbsp;
 					<span class="bold mr3">전국은행연합회 등록번호</span>20-00001551 &nbsp;|&nbsp;
-					<span class="bold mr3">주소</span>서울 성동구 마장로39길 31, 1층 102호(마장동, 행복신협빌딩)
+					<span class="bold mr3">주소</span><a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%B1%EB%8F%99%EA%B5%AC%20%EB%A7%88%EC%9E%A5%EB%A1%9C39%EA%B8%B8%2031" target="_blank" rel="noopener" class="fc_white underline">서울 성동구 마장로39길 31, 1층 102호(마장동, 행복신협빌딩)</a>
 				</li>
-				<!-- <a class="medium fc_g_6" href="tel:02-6305-7107" target="_self"><span class="mr2">대표번호</span> 02-6305-7107</a> -->
+				<!-- <a class="medium fc_g_6" href="tel:02-6953-5720" target="_self"><span class="mr2">대표번호</span> 02-6953-5720</a> -->
 			</ul>
 		</div>
 	</footer>
@@ -1070,6 +1084,25 @@
 	</div>
 	<!-- /layerPopupArea -->
 
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var scrollCards = document.querySelectorAll('.main_card[href^="#"]');
+			scrollCards.forEach(function(card) {
+				card.addEventListener('click', function(event) {
+					var targetId = this.getAttribute('href');
+					var targetElement = targetId ? document.querySelector(targetId) : null;
+					if (targetElement) {
+						event.preventDefault();
+						targetElement.scrollIntoView({
+							behavior: 'smooth',
+							block: 'center'
+						});
+					}
+				});
+			});
+		});
+	</script>
 
 	<script type="text/javascript">
 		function layerPopup(popIndex) {

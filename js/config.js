@@ -12,11 +12,11 @@
 // 예: 'shinhyupsales.duckdns.org' 또는 null로 두면 자동 감지
 const DEFAULT_DOMAIN = 'shinhyupsales.duckdns.org';
 
-// n8n 웹훅 엔드포인트 (폼 제출 시 사용)
-const N8N_WEBHOOK_URL = "https://your-n8n.example.com/webhook/credit-form";
-
 // 신청 완료 후 이동할 페이지 (null이면 alert만 표시)
 const THANK_YOU_URL = null; // 예: "/thanks.html"
+
+// 서버리스 폼 제출 엔드포인트 (Vercel API Routes)
+const FORM_SUBMIT_ENDPOINT = '/api/submit';
 
 // ========================================
 // 자동 설정 (수정 불필요)
@@ -60,7 +60,7 @@ const THANK_YOU_URL = null; // 예: "/thanks.html"
         domain: siteDomain,
         protocol: siteProtocol,
         url: siteUrl,
-        n8nWebhookUrl: N8N_WEBHOOK_URL,
+        formSubmitEndpoint: FORM_SUBMIT_ENDPOINT,
         thankYouUrl: THANK_YOU_URL,
         // Vercel URL (Vercel 배포 시 자동 감지)
         vercelUrl: (typeof window !== 'undefined' && window.location) 
@@ -72,7 +72,7 @@ const THANK_YOU_URL = null; // 예: "/thanks.html"
     window.SITE_DOMAIN = siteDomain;
     window.SITE_PROTOCOL = siteProtocol;
     window.SITE_URL = siteUrl;
-    window.N8N_WEBHOOK_URL = N8N_WEBHOOK_URL;
+    window.FORM_SUBMIT_ENDPOINT = FORM_SUBMIT_ENDPOINT;
     window.THANK_YOU_URL = THANK_YOU_URL;
     window.VERCEL_URL = window.SITE_CONFIG.vercelUrl;
 })();

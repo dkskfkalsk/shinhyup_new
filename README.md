@@ -1,4 +1,4 @@
-# 크레딧유니콘 신협 사이트
+# 신협 사이트
 
 정적 HTML 기반 랜딩 페이지
 
@@ -15,13 +15,11 @@
 
 ## ⚙️ 설정 방법
 
-### 1. n8n 웹훅 설정
+### 1. 환경 변수 설정 (필수)
 
-`js/config.js` 파일을 열어서 n8n 웹훅 URL을 설정하세요:
-
-```javascript
-const N8N_WEBHOOK_URL = "https://your-n8n-instance.com/webhook/credit-form";
-```
+- Vercel 프로젝트의 **Settings > Environment Variables**로 이동합니다.
+- `N8N_WEBHOOK_URL`, `N8N_AUTH_TOKEN` 두 값을 **Sensitive** 타입으로 등록하세요.
+- 프리뷰와 프로덕션 환경에 모두 추가하는 것을 권장합니다.
 
 ### 2. 기본 도메인 설정 (선택사항)
 
@@ -45,6 +43,8 @@ const THANK_YOU_URL = "/thanks.html"; // 또는 전체 URL
 
 ```
 ├── index.html          # 메인 페이지
+├── api/
+│   └── submit.js       # Vercel 서버리스 API (n8n 연동)
 ├── js/
 │   ├── config.js       # ⭐ 설정 파일 (여기서 변경!)
 │   ├── jquery.js
@@ -76,17 +76,24 @@ npx http-server
 
 - ✅ 로컬/프로덕션 환경 자동 감지
 - ✅ 도메인 자동 감지 (Vercel 배포 시)
-- ✅ n8n 웹훅 연동
+- ✅ 서버리스 API를 통한 n8n 웹훅 연동 (토큰 비노출)
 - ✅ 외부 추적 스크립트 (로컬에서는 로드 안 함)
 
 ## 📝 설정 변경 요약
 
 | 변경 내용 | 수정 파일 |
 |---------|---------|
-| n8n 웹훅 URL | `js/config.js` |
+| 환경 변수(N8N URL/Token) | Vercel 프로젝트 설정 |
 | 기본 도메인 | `js/config.js` |
 | 신청 완료 페이지 | `js/config.js` |
 | 사이트 내용 | `index.html` |
+
+## 🔐 보안 구성 개요
+
+- 브라우저는 웹훅 URL/토큰을 직접 알지 못합니다. `/api/submit` 서버리스 함수가 대신 전송합니다.
+- `api/submit.js`는 Vercel 환경 변수에 저장된 민감 정보를 읽고 Authorization Bearer 토큰을 헤더로 추가합니다.
+- n8n 웹훅에서 동일한 토큰을 검증하도록 설정해야 합니다.
+- Vercel Deployment Protection을 활성화하면 프리뷰 배포 접근도 제한할 수 있습니다.
 
 **중요**: HTML 파일에 도메인을 하드코딩하지 마세요! 모든 설정은 `js/config.js`에서 관리됩니다.
 
