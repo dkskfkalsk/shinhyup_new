@@ -47,6 +47,7 @@
 	<!-- FontAwesome: 로컬에서는 느릴 수 있지만 CSS이므로 실패해도 페이지는 정상 작동 -->
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css" onerror="console.warn('FontAwesome 로드 실패 (무시 가능)')">
 
+	<!-- jQuery 3.7.1 (최신 버전) -->
 	<script src="js/jquery.js"></script>
 	<script src="js/scroll.js"></script>
 	
@@ -697,6 +698,7 @@
 			const payload = {
 				uname: frm.uname.value,
 				tel: frm.tel.value,
+				message: frm.message ? frm.message.value : '',
 				path: frm.path ? frm.path.value : "1",
 				consent: !!frm.agree_checkbox.checked,
 				userAgent: navigator.userAgent,
@@ -865,7 +867,7 @@
 	</footer>
 
 	<style>
-		/*2022.05.08.정비완료*/
+		
 		body {overflow:visible;}
 		/* 스크롤 */
 		::-webkit-scrollbar {width: 12px!important;}

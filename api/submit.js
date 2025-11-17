@@ -80,6 +80,25 @@ async function readRequestBody(req) {
 }
 
 module.exports = async (req, res) => {
+    // CORS 헤더 설정
+    const origin = req.headers.origin;
+    const allowedOrigins = process.env.ALLOWED_ORIGINS 
+        ? process.env.ALLOWED_ORIGINS.split(',')
+        : ['*'];
+    
+    if (allowedOrigins.includes('*') || (origin && allowedOrigins.includes(origin))) {
+        res.setHeader('Access-Control-Allow-Origin', origin || '*');
+    }
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Max-Age', '86400');
+
+    // OPTIONS 요청 처리 (CORS preflight)
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+
     if (req.method !== 'POST') {
         res.setHeader('Allow', 'POST');
         res.status(405).json({ error: 'Method Not Allowed' });

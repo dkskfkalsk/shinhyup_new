@@ -1,0 +1,9 @@
+{
+  "name": "shinhyup",
+  "version": "1.0.0",
+  "description": "Shinhyup landing page with n8n webhook integration",
+  "engines": {
+    "node": ">=20.x"
+  }
+}
+
