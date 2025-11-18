@@ -192,6 +192,8 @@ Code (JWT 검증)
   └─ 검증 실패 → 에러 응답
   ↓
 Google Sheets (데이터 추가)
+  ↓
+Respond to Webhook (응답 반환) ⬅ 필수!
 ```
 
 **설정 방법:**
@@ -307,7 +309,7 @@ try {
    - 필요시 **IF 노드**를 추가하여 에러를 처리할 수 있습니다
 
 6. **노드 연결:**
-   - **Webhook** → **Code (JWT 검증)** → **Google Sheets**
+   - **Webhook** → **Code (JWT 검증)** → **Google Sheets** → **Respond to Webhook**
 
 **JWT 검증 실패 시 에러 응답 설정:**
 - Code 노드의 에러를 처리하려면 **Error Trigger** 노드를 추가하거나
@@ -371,7 +373,7 @@ Google Sheets (Append)
   ├─ Range: A2:F2
   └─ Values: [submittedAt, uname, tel, message, clientIp, userAgent]
   ↓
-[Optional: Webhook Response]
+Respond to Webhook (응답 반환) ⬅ 필수! (500 오류 방지)
 ```
 
 ### 1단계: Webhook 노드 설정
@@ -421,24 +423,47 @@ Webhook → Code (JWT 검증) → Google Sheets
    - **Range**: `A2:F2` (첫 행 시작 위치, Append 모드에서는 자동으로 다음 행에 추가됨)
 4. **Values** 설정:
    
-   **방법 1: 배열로 입력 (권장)**
+   **Mapping Column Mode**에 따라 설정 방법이 다릅니다:
+   
+   ---
+   
+   ### 방법 A: "Map Each Column Manually" 모드 (현재 설정)
+   
+   화면에 보이는 각 필드의 **Value 입력란**에 개별적으로 표현식을 입력합니다:
+   
+   | 필드명 | Value 입력란에 입력할 내용 |
+   |--------|---------------------------|
+   | `submittedAt` | `{{ $json.submittedAt }}` |
+   | `uname` | `{{ $json.uname }}` |
+   | `tel` | `{{ $json.tel }}` |
+   | `message` | `{{ $json.message }}` |
+   | `clientIp` | `{{ $json.clientIp }}` |
+   | `userAgent` | `{{ $json.userAgent }}` |
+   
+   **설정 순서:**
+   1. `submittedAt` 필드의 Value 입력란 클릭
+   2. `{{ $json.submittedAt }}` 입력
+   3. `uname` 필드의 Value 입력란 클릭
+   4. `{{ $json.uname }}` 입력
+   5. 나머지 필드도 동일하게 반복
+   
+   **빈 값 처리 (선택사항):**
+   - 값이 없을 때 빈 문자열로 처리하려면:
+   - `{{ $json.submittedAt || '' }}`
+   - `{{ $json.uname || '' }}`
+   - 등등...
+   
+   ---
+   
+   ### 방법 B: "Define Below" 또는 "Auto-Map Input Data" 모드
+   
+   **Values to Send** 필드에 배열 형식으로 입력:
+   
    ```javascript
    {{ [$json.submittedAt, $json.uname, $json.tel, $json.message, $json.clientIp, $json.userAgent] }}
    ```
    
-   **방법 2: 개별 필드 입력**
-   ```json
-   [
-     "{{ $json.submittedAt }}",
-     "{{ $json.uname }}",
-     "{{ $json.tel }}",
-     "{{ $json.message }}",
-     "{{ $json.clientIp }}",
-     "{{ $json.userAgent }}"
-   ]
-   ```
-   
-   **방법 3: 빈 값 처리 포함**
+   또는 빈 값 처리 포함:
    ```javascript
    {{ [
        $json.submittedAt || '',
@@ -449,13 +474,99 @@ Webhook → Code (JWT 검증) → Google Sheets
        $json.userAgent || ''
      ] }}
    ```
+   
+   ---
+   
+   **⚠️ 중요:**
+   - **데이터 순서**: 구글 시트의 열 순서와 동일하게 입력하세요
+   - **열 순서**: A열(submittedAt) → B열(uname) → C열(tel) → D열(message) → E열(clientIp) → F열(userAgent)
+   - 표현식은 `{{ }}` 형식으로 입력해야 합니다
 
-### 3단계: 노드 연결
+### 3단계: Respond to Webhook 노드 설정 (필수!)
 
-- **Webhook** → **Google Sheets** 순서로 연결
+⚠️ **중요**: Webhook 노드를 사용할 때는 반드시 "Respond to Webhook" 노드를 추가해야 합니다. 이 노드가 없으면 **500 오류**가 발생합니다.
+
+**오류 예시:**
+```
+n8n webhook error: 500 {"code":0,"message":"No Respond to Webhook node found in the workflow"}
+```
+
+**설정 방법:**
+
+1. **Respond to Webhook** 노드를 워크플로우에 추가
+   - 노드 추가 버튼 클릭 → "Respond to Webhook" 검색 → 추가
+   - Google Sheets 노드 **뒤에** 배치
+
+2. **노드 연결:**
+   - Google Sheets 노드의 출력을 "Respond to Webhook" 노드의 입력에 연결
+
+3. **Respond to Webhook 노드 설정:**
+   - **Respond With**: `JSON`
+   - **Response Code**: `200` (성공 시)
+   - **Response Body**: 
+     
+     ⚠️ **중요**: 
+     - n8n에서는 JSON을 직접 입력하지 않고 **표현식(expression)** 형식으로 입력해야 합니다!
+     - **반드시 한 줄로 입력**하세요! 줄바꿈이 있으면 오류가 발생합니다!
+     
+     **올바른 형식 (한 줄로 입력):**
+     ```
+     {{ { "success": true, "message": "Data saved successfully" } }}
+     ```
+     
+     또는 간단하게:
+     ```
+     {{ { "success": true } }}
+     ```
+     
+     **잘못된 형식 1 (줄바꿈 포함 - 오류 발생):**
+     ```
+     {{ { 
+       "success": true,
+       "message": "Data saved successfully"
+     } }}
+     ```
+     ❌ 줄바꿈이 있으면 "Unexpected token" 오류가 발생합니다!
+     
+     **잘못된 형식 2 (직접 JSON 입력 - 오류 발생):**
+     ```json
+     {
+       "success": true,
+       "message": "Data saved successfully"
+     }
+     ```
+     ❌ 이렇게 직접 JSON을 넣으면 "Unexpected token" 오류가 발생합니다!
+
+4. **에러 응답 설정 (선택사항):**
+   - 에러 처리 노드를 추가한 경우:
+   - **Response Code**: `400` 또는 `500`
+   - **Response Body**:
+     ```
+     {{ { "success": false, "error": $json.error } }}
+     ```
+     
+     또는 동적 메시지:
+     ```
+     {{ { "success": false, "error": "Authentication failed" } }}
+     ```
+
+**완성된 워크플로우 구조:**
+```
+Webhook (POST /form-submit)
+  ↓
+[Optional: Code 노드 - JWT 검증]
+  ↓
+Google Sheets (데이터 추가)
+  ↓
+Respond to Webhook (응답: {"success": true}) ⬅ 필수!
+```
+
+### 4단계: 노드 연결
+
+- **Webhook** → **[Code (JWT 검증)]** → **Google Sheets** → **Respond to Webhook** 순서로 연결
 - 워크플로우 **활성화** 확인
 
-### 4단계: 테스트
+### 5단계: 테스트
 
 1. 워크플로우 실행
 2. 폼 제출 테스트
@@ -682,6 +793,57 @@ php -S localhost:8000
 5. **n8n Code 노드 확인:**
    - Code 노드의 JWT 검증 코드가 올바르게 입력되었는지 확인
    - Code 노드 실행 로그에서 에러 메시지 확인
+
+### 3-2. n8n 500 오류: "No Respond to Webhook node found"
+
+**증상**: 
+```
+n8n webhook error: 500 {"code":0,"message":"No Respond to Webhook node found in the workflow"}
+```
+
+**원인**: n8n 워크플로우에 "Respond to Webhook" 노드가 없어서 발생하는 오류입니다.
+
+**해결 방법:**
+
+1. **Respond to Webhook 노드 추가:**
+   - n8n 워크플로우 편집기 열기
+   - 노드 추가 버튼 클릭 → "Respond to Webhook" 검색 → 추가
+   - Google Sheets 노드 **뒤에** 배치
+
+2. **노드 연결:**
+   - Google Sheets 노드의 출력을 "Respond to Webhook" 노드의 입력에 연결
+
+3. **Respond to Webhook 노드 설정:**
+   - **Respond With**: `JSON`
+   - **Response Code**: `200`
+   - **Response Body**: 
+     ```
+     {{ { "success": true, "message": "Data saved successfully" } }}
+     ```
+     
+     ⚠️ **주의**: 
+     - JSON을 직접 입력하지 말고 표현식 형식(`{{ }}`)으로 입력하세요!
+     - **반드시 한 줄로 입력**하세요! 줄바꿈이 있으면 오류가 발생합니다!
+
+4. **워크플로우 저장 및 활성화:**
+   - 워크플로우 저장
+   - 워크플로우 활성화 (상단 토글 ON)
+
+**완성된 워크플로우 구조:**
+```
+Webhook (POST /form-submit)
+  ↓
+[Optional: Code 노드 - JWT 검증]
+  ↓
+Google Sheets (데이터 추가)
+  ↓
+Respond to Webhook (응답: {"success": true}) ⬅ 필수!
+```
+
+**참고**: 
+- Webhook 노드를 사용할 때는 반드시 "Respond to Webhook" 노드가 필요합니다
+- 이 노드가 없으면 n8n이 응답을 반환할 수 없어 500 오류가 발생합니다
+- 자세한 설정 방법은 위의 "3단계: Respond to Webhook 노드 설정" 섹션을 참고하세요
 
 ### 4. 구글 시트에 데이터가 추가되지 않는 경우
 
