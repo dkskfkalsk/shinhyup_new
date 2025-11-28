@@ -165,12 +165,48 @@ function doPost(e) {
       }
     }
     
-    const sheet = spreadsheet.getActiveSheet();
-    Logger.log('활성 시트 이름: ' + sheet.getName());
+    // 시트 가져오기 (명시적으로 "sheet1" 탭 사용)
+    let sheet;
+    const targetSheetName = 'sheet1'; // 저장할 시트 이름
+    
+    try {
+      // "sheet1"이라는 이름의 시트 찾기
+      sheet = spreadsheet.getSheetByName(targetSheetName);
+      
+      if (!sheet) {
+        // "sheet1"이 없으면 첫 번째 시트 사용
+        Logger.log('⚠️ "sheet1" 시트를 찾을 수 없습니다. 첫 번째 시트를 사용합니다.');
+        sheet = spreadsheet.getSheets()[0];
+      } else {
+        Logger.log('✅ "sheet1" 시트를 찾았습니다.');
+      }
+    } catch (error) {
+      // 오류 발생 시 첫 번째 시트 사용
+      Logger.log('⚠️ 시트 찾기 오류: ' + error.toString() + ', 첫 번째 시트를 사용합니다.');
+      sheet = spreadsheet.getSheets()[0];
+    }
+    
+    Logger.log('사용할 시트 이름: ' + sheet.getName());
+    Logger.log('시트 URL: ' + spreadsheet.getUrl() + '#gid=' + sheet.getSheetId());
+    
+    // 시트 이름 확인 (예상과 다르면 경고)
+    if (sheet.getName().toLowerCase() !== targetSheetName.toLowerCase()) {
+      Logger.log('⚠️ 경고: 예상한 시트 이름("' + targetSheetName + '")과 다릅니다. 실제 시트: "' + sheet.getName() + '"');
+    }
     
     // 현재 시트의 마지막 행 확인 (디버깅용)
     const lastRow = sheet.getLastRow();
     Logger.log('현재 시트의 마지막 행: ' + lastRow);
+    
+    // 시트의 모든 데이터 확인 (디버깅용 - 최근 5행만)
+    if (lastRow > 0) {
+      const lastDataRange = sheet.getRange(Math.max(1, lastRow - 4), 1, Math.min(5, lastRow), 6);
+      const lastData = lastDataRange.getValues();
+      Logger.log('최근 데이터 (최근 5행):');
+      for (let i = 0; i < lastData.length; i++) {
+        Logger.log('행 ' + (lastRow - 4 + i) + ': ' + JSON.stringify(lastData[i]));
+      }
+    }
     
     // 현재 시간 (대한민국 시간 기준, KST UTC+9)
     // Apps Script는 기본적으로 스크립트 소유자의 시간대를 사용
@@ -203,12 +239,39 @@ function doPost(e) {
     
     // 시트에 데이터 추가 (appendRow는 자동으로 마지막 비어있는 행에 추가)
     // 헤더가 1행에 있으면 2행부터, 데이터가 있으면 그 다음 행에 자동 추가됨
+    const beforeRow = sheet.getLastRow();
+    Logger.log('저장 전 마지막 행: ' + beforeRow);
+    
     sheet.appendRow(row);
     
-    // 저장 후 마지막 행 확인
-    const newLastRow = sheet.getLastRow();
-    Logger.log('데이터 추가 성공! 저장된 행: ' + newLastRow + '행');
-    Logger.log('저장된 위치: B' + newLastRow + ' ~ F' + newLastRow);
+    // 저장 후 마지막 행 확인 및 검증
+    const afterRow = sheet.getLastRow();
+    Logger.log('저장 후 마지막 행: ' + afterRow);
+    
+    if (afterRow <= beforeRow) {
+      Logger.log('⚠️ 경고: 행이 증가하지 않았습니다! appendRow가 제대로 실행되지 않았을 수 있습니다.');
+    } else {
+      Logger.log('✅ 행이 증가했습니다: ' + beforeRow + ' → ' + afterRow);
+    }
+    
+    // 저장된 데이터 확인 (실제로 저장되었는지 검증)
+    const savedRow = afterRow;
+    const savedData = sheet.getRange(savedRow, 1, 1, 6).getValues()[0];
+    Logger.log('저장된 위치: B' + savedRow + ' ~ F' + savedRow);
+    Logger.log('저장된 데이터 확인:');
+    Logger.log('  A열: ' + savedData[0]);
+    Logger.log('  B열: ' + savedData[1]);
+    Logger.log('  C열: ' + savedData[2]);
+    Logger.log('  D열: ' + savedData[3]);
+    Logger.log('  E열: ' + savedData[4]);
+    Logger.log('  F열: ' + savedData[5]);
+    
+    // 데이터 일치 여부 확인
+    if (savedData[1] && savedData[2] === (data.uname || '')) {
+      Logger.log('✅ 데이터 저장 확인됨!');
+    } else {
+      Logger.log('⚠️ 경고: 저장된 데이터가 예상과 다릅니다.');
+    }
     
     // 성공 응답 반환
     return ContentService
