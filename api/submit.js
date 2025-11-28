@@ -30,11 +30,12 @@ async function readRequestBody(req) {
     return { rawBody: raw };
 }
 
-// 텔레그램 메시지 전송 함수
+    // 텔레그램 메시지 전송 함수
 async function sendTelegramMessage(botToken, chatId, message) {
     const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
     
     try {
+        console.log(`Sending Telegram message to chat ID: ${chatId}`);
         const response = await fetch(telegramUrl, {
             method: 'POST',
             headers: {
@@ -47,15 +48,37 @@ async function sendTelegramMessage(botToken, chatId, message) {
             })
         });
 
+        const responseText = await response.text();
+        
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Telegram API error:', response.status, errorText);
-            throw new Error(`Telegram API error: ${response.status}`);
+            console.error('Telegram API error:', {
+                status: response.status,
+                statusText: response.statusText,
+                response: responseText
+            });
+            
+            let errorMessage = `Telegram API error: ${response.status}`;
+            try {
+                const errorJson = JSON.parse(responseText);
+                if (errorJson.description) {
+                    errorMessage += ` - ${errorJson.description}`;
+                }
+            } catch (e) {
+                errorMessage += ` - ${responseText.substring(0, 100)}`;
+            }
+            
+            throw new Error(errorMessage);
         }
 
-        return await response.json();
+        const result = JSON.parse(responseText);
+        console.log('Telegram message sent successfully:', result.ok);
+        return result;
     } catch (error) {
-        console.error('Failed to send Telegram message:', error);
+        console.error('Failed to send Telegram message:', {
+            chatId,
+            error: error.message,
+            stack: error.stack
+        });
         throw error;
     }
 }
@@ -76,23 +99,57 @@ async function saveToGoogleSheets(scriptUrl, scriptToken, data) {
             payload.token = scriptToken;
         }
 
+        console.log('Sending data to Google Sheets:', {
+            url: scriptUrl.substring(0, 50) + '...',
+            hasToken: !!scriptToken,
+            dataKeys: Object.keys(payload)
+        });
+
+        // Apps Script는 redirect를 따라가야 하므로 redirect: 'follow' 추가
         const response = await fetch(scriptUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            redirect: 'follow' // 리다이렉트 자동 따라가기
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Google Apps Script error:', response.status, errorText);
-            throw new Error(`Google Sheets API error: ${response.status}`);
+        const responseText = await response.text();
+
+        // 401 오류는 보통 URL이 잘못되었거나 권한 문제
+        if (response.status === 401) {
+            console.error('Google Apps Script 401 error - Check URL and permissions:', {
+                status: response.status,
+                url: scriptUrl.substring(0, 80) + '...',
+                responsePreview: responseText.substring(0, 200)
+            });
+            throw new Error(`Google Sheets API error: 401 - URL이 잘못되었거나 권한이 없습니다. Apps Script URL과 권한 설정을 확인하세요.`);
         }
 
-        return await response.json();
+        if (!response.ok) {
+            console.error('Google Apps Script error:', {
+                status: response.status,
+                statusText: response.statusText,
+                response: responseText.substring(0, 500)
+            });
+            throw new Error(`Google Sheets API error: ${response.status} - ${responseText.substring(0, 100)}`);
+        }
+
+        let result;
+        try {
+            result = JSON.parse(responseText);
+        } catch (e) {
+            result = { success: true, raw: responseText };
+        }
+
+        console.log('Google Sheets saved successfully');
+        return result;
     } catch (error) {
-        console.error('Failed to save to Google Sheets:', error);
+        console.error('Failed to save to Google Sheets:', {
+            error: error.message,
+            stack: error.stack
+        });
         throw error;
     }
 }
@@ -108,7 +165,8 @@ function formatTelegramMessage(data) {
         second: '2-digit'
     });
 
-    return `<신협접수>
+    // HTML 형식으로 포맷팅 (Telegram HTML parse_mode 사용)
+    return `<b>신협접수</b>
 
 1. 접수시간: ${timestamp}
 
@@ -145,11 +203,18 @@ module.exports = async (req, res) => {
         return;
     }
 
-    // 환경 변수 확인
+    // 환경 변수 확인 및 디버깅 로그
     const googleScriptUrl = process.env.GOOGLE_APPS_SCRIPT_URL;
     const googleScriptToken = process.env.GOOGLE_APPS_SCRIPT_TOKEN;
     const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
     const telegramChatIds = process.env.TELEGRAM_CHAT_ID;
+
+    // 디버깅: 환경 변수 확인 (민감한 정보는 마스킹)
+    console.log('=== Environment Variables Check ===');
+    console.log('GOOGLE_APPS_SCRIPT_URL:', googleScriptUrl ? `${googleScriptUrl.substring(0, 30)}...` : 'MISSING');
+    console.log('GOOGLE_APPS_SCRIPT_TOKEN:', googleScriptToken ? 'SET' : 'NOT SET');
+    console.log('TELEGRAM_BOT_TOKEN:', telegramBotToken ? `${telegramBotToken.substring(0, 10)}...` : 'MISSING');
+    console.log('TELEGRAM_CHAT_ID:', telegramChatIds ? `${telegramChatIds.substring(0, 20)}...` : 'MISSING');
 
     // 필수 환경 변수 확인
     if (!googleScriptUrl) {
@@ -160,6 +225,8 @@ module.exports = async (req, res) => {
 
     if (!telegramBotToken || !telegramChatIds) {
         console.error('Missing Telegram configuration');
+        console.error('TELEGRAM_BOT_TOKEN:', telegramBotToken ? 'SET' : 'MISSING');
+        console.error('TELEGRAM_CHAT_ID:', telegramChatIds ? 'SET' : 'MISSING');
         res.status(500).json({ error: 'Missing Telegram configuration' });
         return;
     }
@@ -169,6 +236,8 @@ module.exports = async (req, res) => {
         .split(',')
         .map(id => id.trim())
         .filter(id => id.length > 0);
+
+    console.log('Parsed Chat IDs:', chatIdArray.length, 'chats');
 
     let incomingPayload;
 
@@ -195,6 +264,15 @@ module.exports = async (req, res) => {
         userAgent: req.headers['user-agent'] || null,
         submittedAt: new Date().toISOString()
     };
+
+    console.log('=== Form Submission Received ===');
+    console.log('Payload:', {
+        uname: payload.uname,
+        tel: payload.tel ? `${payload.tel.substring(0, 3)}***` : 'empty',
+        message: payload.message ? `${payload.message.substring(0, 20)}...` : 'empty',
+        clientIp: payload.clientIp,
+        submittedAt: payload.submittedAt
+    });
 
     const results = {
         googleSheets: null,
@@ -228,8 +306,14 @@ module.exports = async (req, res) => {
     }
 
     // 결과 반환
+    console.log('=== Final Results ===');
+    console.log('Google Sheets:', results.googleSheets ? 'SUCCESS' : 'FAILED');
+    console.log('Telegram:', results.telegram ? `${results.telegram.filter(t => t.success).length}/${results.telegram.length} sent` : 'FAILED');
+    console.log('Errors:', results.errors.length);
+
     if (results.errors.length > 0) {
         // 일부 실패한 경우에도 200 반환 (부분 성공)
+        console.warn('Partial success - some services failed');
         res.status(200).json({ 
             success: true, 
             partial: true,
@@ -237,6 +321,7 @@ module.exports = async (req, res) => {
         });
     } else {
         // 모두 성공
+        console.log('All services succeeded');
         res.status(200).json({ 
             success: true,
             results: results 
