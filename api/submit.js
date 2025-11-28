@@ -95,6 +95,16 @@ async function sendTelegramMessage(botToken, chatId, message) {
 // 구글 시트에 데이터 저장 함수
 async function saveToGoogleSheets(scriptUrl, scriptToken, data) {
     try {
+        // URL 유효성 검사
+        if (!scriptUrl || typeof scriptUrl !== 'string' || scriptUrl.trim().length === 0) {
+            throw new Error('Google Apps Script URL이 설정되지 않았습니다.');
+        }
+
+        // URL이 올바른 형식인지 확인
+        if (!scriptUrl.startsWith('https://script.google.com/')) {
+            console.warn('Google Apps Script URL 형식이 예상과 다릅니다:', scriptUrl.substring(0, 50));
+        }
+
         const payload = {
             uname: data.uname || '',
             tel: data.tel || '',
@@ -111,29 +121,76 @@ async function saveToGoogleSheets(scriptUrl, scriptToken, data) {
         console.log('Sending data to Google Sheets:', {
             url: scriptUrl.substring(0, 50) + '...',
             hasToken: !!scriptToken,
-            dataKeys: Object.keys(payload)
+            dataKeys: Object.keys(payload),
+            payloadPreview: {
+                uname: payload.uname,
+                tel: payload.tel ? `${payload.tel.substring(0, 3)}***` : 'empty',
+                message: payload.message ? `${payload.message.substring(0, 20)}...` : 'empty'
+            }
         });
 
         // Apps Script는 redirect를 따라가야 하므로 redirect: 'follow' 추가
+        // Google Apps Script는 POST 요청 후 리다이렉트를 반환할 수 있음
         const response = await fetch(scriptUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'User-Agent': 'Vercel-Serverless-Function'
             },
             body: JSON.stringify(payload),
             redirect: 'follow' // 리다이렉트 자동 따라가기
         });
 
         const responseText = await response.text();
+        const responseUrl = response.url || scriptUrl;
+
+        console.log('Google Apps Script response:', {
+            status: response.status,
+            statusText: response.statusText,
+            finalUrl: responseUrl.substring(0, 80) + '...',
+            responseLength: responseText.length,
+            responsePreview: responseText.substring(0, 300)
+        });
 
         // 401 오류는 보통 URL이 잘못되었거나 권한 문제
         if (response.status === 401) {
             console.error('Google Apps Script 401 error - Check URL and permissions:', {
                 status: response.status,
-                url: scriptUrl.substring(0, 80) + '...',
-                responsePreview: responseText.substring(0, 200)
+                originalUrl: scriptUrl.substring(0, 80) + '...',
+                finalUrl: responseUrl.substring(0, 80) + '...',
+                responsePreview: responseText.substring(0, 500)
             });
-            throw new Error(`Google Sheets API error: 401 - URL이 잘못되었거나 권한이 없습니다. Apps Script URL과 권한 설정을 확인하세요.`);
+            throw new Error(`Google Sheets API error: 401 - URL이 잘못되었거나 권한이 없습니다. Apps Script 배포 설정에서 "다음 사용자 인증 정보로 실행: 나" 및 "엑세스 권한이 있는 사용자: 모든 사용자"로 설정했는지 확인하세요.`);
+        }
+
+        // 403 오류는 권한 문제
+        if (response.status === 403) {
+            console.error('Google Apps Script 403 error - Permission denied:', {
+                status: response.status,
+                url: scriptUrl.substring(0, 80) + '...',
+                responsePreview: responseText.substring(0, 500)
+            });
+            throw new Error(`Google Sheets API error: 403 - 권한이 거부되었습니다. Apps Script 배포 설정에서 "엑세스 권한이 있는 사용자: 모든 사용자"로 설정했는지 확인하세요.`);
+        }
+
+        // 404 오류는 URL이 잘못됨
+        if (response.status === 404) {
+            console.error('Google Apps Script 404 error - URL not found:', {
+                status: response.status,
+                url: scriptUrl.substring(0, 80) + '...',
+                responsePreview: responseText.substring(0, 500)
+            });
+            throw new Error(`Google Sheets API error: 404 - Apps Script URL을 찾을 수 없습니다. URL이 올바른지 확인하고, Apps Script가 배포되어 있는지 확인하세요.`);
+        }
+
+        // HTML 응답이 오는 경우 (로그인 페이지 등)
+        if (responseText.trim().startsWith('<!DOCTYPE') || responseText.trim().startsWith('<html')) {
+            console.error('Google Apps Script returned HTML (likely login page):', {
+                status: response.status,
+                url: scriptUrl.substring(0, 80) + '...',
+                responsePreview: responseText.substring(0, 500)
+            });
+            throw new Error(`Google Sheets API error: HTML 응답을 받았습니다. Apps Script 배포 설정이 잘못되었을 수 있습니다. "다음 사용자 인증 정보로 실행: 나" 및 "엑세스 권한이 있는 사용자: 모든 사용자"로 설정했는지 확인하세요.`);
         }
 
         if (!response.ok) {
@@ -142,22 +199,41 @@ async function saveToGoogleSheets(scriptUrl, scriptToken, data) {
                 statusText: response.statusText,
                 response: responseText.substring(0, 500)
             });
-            throw new Error(`Google Sheets API error: ${response.status} - ${responseText.substring(0, 100)}`);
+            throw new Error(`Google Sheets API error: ${response.status} - ${responseText.substring(0, 200)}`);
         }
 
         let result;
         try {
             result = JSON.parse(responseText);
-        } catch (e) {
-            result = { success: true, raw: responseText };
+            
+            // JSON 응답이 성공인지 확인
+            if (result.success === false) {
+                console.error('Google Apps Script returned error:', result);
+                throw new Error(result.error || 'Google Sheets 저장 실패');
+            }
+        } catch (parseError) {
+            // JSON 파싱 실패 시에도 응답이 성공 상태 코드면 성공으로 간주
+            if (response.ok && response.status >= 200 && response.status < 300) {
+                console.warn('Google Apps Script returned non-JSON response, but status is OK:', {
+                    status: response.status,
+                    responsePreview: responseText.substring(0, 200)
+                });
+                result = { success: true, raw: responseText };
+            } else {
+                throw new Error(`Google Sheets 응답 파싱 실패: ${parseError.message}`);
+            }
         }
 
-        console.log('Google Sheets saved successfully');
+        console.log('Google Sheets saved successfully:', {
+            success: result.success,
+            message: result.message || 'Data saved'
+        });
         return result;
     } catch (error) {
         console.error('Failed to save to Google Sheets:', {
             error: error.message,
-            stack: error.stack
+            stack: error.stack,
+            scriptUrl: scriptUrl ? scriptUrl.substring(0, 50) + '...' : 'MISSING'
         });
         throw error;
     }
