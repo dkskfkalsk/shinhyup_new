@@ -32,10 +32,19 @@ async function readRequestBody(req) {
 
     // 텔레그램 메시지 전송 함수
 async function sendTelegramMessage(botToken, chatId, message) {
-    const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    // 토큰 유효성 검사
+    if (!botToken || botToken.trim().length === 0) {
+        throw new Error('Telegram bot token is empty');
+    }
+    
+    // 토큰에서 "bot" 접두사 제거 (있는 경우)
+    const cleanToken = botToken.startsWith('bot') ? botToken.substring(3) : botToken;
+    
+    const telegramUrl = `https://api.telegram.org/bot${cleanToken}/sendMessage`;
     
     try {
         console.log(`Sending Telegram message to chat ID: ${chatId}`);
+        console.log(`Telegram URL: https://api.telegram.org/bot${cleanToken.substring(0, 10)}.../sendMessage`);
         const response = await fetch(telegramUrl, {
             method: 'POST',
             headers: {

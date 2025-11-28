@@ -741,20 +741,39 @@
 					mode: 'cors',
 					credentials: 'omit'
 			}).then(function(res){
-				if (!res.ok) {
-					throw new Error('Request failed');
-				}
-				// n8n 기본 웹훅은 200/204를 반환. API 경유 시에도 동일하게 처리
-					if (THANK_YOU_URL && typeof THANK_YOU_URL === 'string' && THANK_YOU_URL.indexOf('http') === 0) {
-						window.location.href = THANK_YOU_URL;
+				// 응답 본문을 먼저 읽기
+				return res.json().then(function(data) {
+					// 200 응답이지만 부분 실패인 경우도 성공으로 처리
+					if (res.ok || (res.status === 200 && data.success)) {
+						// n8n 기본 웹훅은 200/204를 반환. API 경유 시에도 동일하게 처리
+						if (THANK_YOU_URL && typeof THANK_YOU_URL === 'string' && THANK_YOU_URL.indexOf('http') === 0) {
+							window.location.href = THANK_YOU_URL;
+						} else {
+							// 부분 성공인 경우에도 사용자에게는 성공 메시지 표시
+							if (data.partial) {
+								console.warn('일부 서비스 전송 실패:', data.results?.errors);
+							}
+							alert('신청이 접수되었습니다. 빠르게 연락드리겠습니다.');
+						}
 					} else {
-						alert('신청이 접수되었습니다. 빠르게 연락드리겠습니다.');
+						// 서버 오류
+						console.error('Server error:', res.status, data);
+						throw new Error('Request failed: ' + (data.error || res.statusText));
 					}
-			}).catch(function(err){
-				console.error(err);
-					alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+				}).catch(function(parseError) {
+					// JSON 파싱 오류 또는 네트워크 오류
+					if (!res.ok) {
+						console.error('Request failed:', res.status, res.statusText);
+						throw new Error('Request failed: ' + res.status);
+					}
+					throw parseError;
 				});
+			}).catch(function(err){
+				console.error('Form submission error:', err);
+				alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+			});
 			} catch(e) {
+				console.error('Form submission exception:', e);
 				alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
 			}
 
