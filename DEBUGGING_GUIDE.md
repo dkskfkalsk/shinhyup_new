@@ -74,7 +74,8 @@ TELEGRAM_CHAT_ID: 123456789,987654321
 
 #### 시트 ID 확인
 - Apps Script 코드의 `SPREADSHEET_ID`가 올바른지 확인
-- 현재 설정: `17fKb6pNg1rHrLm-Jd4QxKiDsnQUPwI40dy9UBcegOf4`
+- 시트 ID는 구글 시트 URL에서 확인: `https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit`
+- 예: `const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE';`
 
 #### 보안 토큰 확인 (선택사항)
 - `GOOGLE_APPS_SCRIPT_TOKEN`이 설정되어 있다면

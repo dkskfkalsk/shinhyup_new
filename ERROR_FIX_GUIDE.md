@@ -124,9 +124,9 @@ https://api.telegram.org/bot<YOUR_BOT_TOKEN>/sendMessage?chat_id=<YOUR_CHAT_ID>&
    - "허용" 클릭
 
 6. **Web App URL 테스트**
-   - 브라우저에서 직접 접속:
+   - 브라우저에서 직접 접속 (YOUR_SCRIPT_ID를 실제 스크립트 ID로 교체):
      ```
-     https://script.google.com/macros/s/AKfycbw9vFEXhk0A4yUI-0WaM2Gl9BNFJwm9f87Z3XczWw9LuLdzW7JGedkpUzQoIyGGlq2-7A/exec
+     https://script.google.com/macros/s/<YOUR_SCRIPT_ID>/exec
      ```
    - **정상**: `{"message":"Google Apps Script Web App is running","method":"GET"}` JSON 응답
    - **오류**: 로그인 페이지가 나오면 설정이 잘못된 것
@@ -159,8 +159,8 @@ https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getMe
 
 ### Google Sheets URL 테스트
 ```bash
-# 브라우저에서 접속
-https://script.google.com/macros/s/AKfycbw9vFEXhk0A4yUI-0WaM2Gl9BNFJwm9f87Z3XczWw9LuLdzW7JGedkpUzQoIyGGlq2-7A/exec
+# 브라우저에서 접속 (YOUR_SCRIPT_ID를 실제 스크립트 ID로 교체)
+https://script.google.com/macros/s/<YOUR_SCRIPT_ID>/exec
 ```
 
 ### Chat ID 확인

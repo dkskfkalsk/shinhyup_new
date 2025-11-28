@@ -21,8 +21,9 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
     
-    // 스프레드시트 ID (환경 변수에서 가져오거나 하드코딩)
-    const SPREADSHEET_ID = '17fKb6pNg1rHrLm-Jd4QxKiDsnQUPwI40dy9UBcegOf4';
+    // 스프레드시트 ID (실제 시트의 ID로 변경하세요)
+    // 시트 ID는 구글 시트 URL에서 확인: https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit
+    const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE';
     const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getActiveSheet();
     
     // 현재 시간 (대한민국 시간 기준, KST UTC+9)

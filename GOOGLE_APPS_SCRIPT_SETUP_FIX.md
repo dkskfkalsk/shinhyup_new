@@ -32,7 +32,7 @@
 
 6. **Web App URL 복사**
    - 배포 완료 후 표시되는 URL 복사
-   - 예: `https://script.google.com/macros/s/AKfycbw9vFEXhk0A4yUI-0WaM2Gl9BNFJwm9f87Z3XczWw9LuLdzW7JGedkpUzQoIyGGlq2-7A/exec`
+   - 예: `https://script.google.com/macros/s/<YOUR_SCRIPT_ID>/exec`
 
 7. **Vercel 환경 변수 업데이트**
    - Vercel 대시보드 → Settings → Environment Variables
@@ -59,11 +59,11 @@ curl "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
 - **"모든 사용자"** = 인증 없이 누구나 접근 가능
 - 이 두 설정의 조합이 외부 API 호출에 필요합니다
 
-## 📝 현재 URL 확인
+## 📝 URL 테스트 방법
 
-현재 URL: `https://script.google.com/macros/s/AKfycbw9vFEXhk0A4yUI-0WaM2Gl9BNFJwm9f87Z3XczWw9LuLdzW7JGedkpUzQoIyGGlq2-7A/exec`
-
-이 URL에 접속했을 때:
+실제 배포된 Web App URL에 접속했을 때:
 - ✅ JSON 응답이 나오면 → 설정 완료
 - ❌ 로그인 페이지가 나오면 → 설정 수정 필요
+
+**주의**: 실제 배포된 URL은 `<YOUR_SCRIPT_ID>` 부분을 실제 스크립트 ID로 교체해야 합니다.
 
