@@ -1,53 +1,4 @@
 const { URLSearchParams } = require('url');
-const crypto = require('crypto');
-
-const DEFAULT_JWT_TTL_SECONDS = 300;
-
-function base64UrlEncode(input) {
-    const value = (typeof input === 'string') ? input : JSON.stringify(input);
-    return Buffer.from(value)
-        .toString('base64')
-        .replace(/=/g, '')
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_');
-}
-
-function createJwtToken({ secret, issuer, audience, ttlSeconds = DEFAULT_JWT_TTL_SECONDS }) {
-    if (!secret) {
-        throw new Error('JWT_SECRET_MISSING');
-    }
-
-    const now = Math.floor(Date.now() / 1000);
-    const payload = {
-        iat: now,
-        exp: now + ttlSeconds
-    };
-
-    if (issuer) {
-        payload.iss = issuer;
-    }
-
-    if (audience) {
-        payload.aud = audience;
-    }
-
-    const header = {
-        alg: 'HS256',
-        typ: 'JWT'
-    };
-
-    const encodedHeader = base64UrlEncode(header);
-    const encodedPayload = base64UrlEncode(payload);
-    const signature = crypto
-        .createHmac('sha256', secret)
-        .update(`${encodedHeader}.${encodedPayload}`)
-        .digest('base64')
-        .replace(/=/g, '')
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_');
-
-    return `${encodedHeader}.${encodedPayload}.${signature}`;
-}
 
 async function readRequestBody(req) {
     const chunks = [];
@@ -79,6 +30,95 @@ async function readRequestBody(req) {
     return { rawBody: raw };
 }
 
+// 텔레그램 메시지 전송 함수
+async function sendTelegramMessage(botToken, chatId, message) {
+    const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    
+    try {
+        const response = await fetch(telegramUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message,
+                parse_mode: 'HTML'
+            })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Telegram API error:', response.status, errorText);
+            throw new Error(`Telegram API error: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Failed to send Telegram message:', error);
+        throw error;
+    }
+}
+
+// 구글 시트에 데이터 저장 함수
+async function saveToGoogleSheets(scriptUrl, scriptToken, data) {
+    try {
+        const payload = {
+            uname: data.uname || '',
+            tel: data.tel || '',
+            message: data.message || '',
+            clientIp: data.clientIp || '',
+            submittedAt: data.submittedAt || new Date().toISOString()
+        };
+
+        // 보안 토큰이 설정되어 있으면 추가
+        if (scriptToken) {
+            payload.token = scriptToken;
+        }
+
+        const response = await fetch(scriptUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Google Apps Script error:', response.status, errorText);
+            throw new Error(`Google Sheets API error: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Failed to save to Google Sheets:', error);
+        throw error;
+    }
+}
+
+// 텔레그램 메시지 포맷팅 함수
+function formatTelegramMessage(data) {
+    const timestamp = new Date(data.submittedAt || Date.now()).toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+
+    return `<신협접수>
+
+1. 접수시간: ${timestamp}
+
+2. 고객명: ${data.uname || '미입력'}
+
+3. 연락처: ${data.tel || '미입력'}
+
+4. 접수내용: ${data.message || '없음'}`;
+}
+
 module.exports = async (req, res) => {
     // CORS 헤더 설정
     const origin = req.headers.origin;
@@ -105,17 +145,30 @@ module.exports = async (req, res) => {
         return;
     }
 
-    const webhookUrl = process.env.N8N_WEBHOOK_URL;
-    const authToken = process.env.N8N_AUTH_TOKEN;
-    const jwtSecret = process.env.JWT_SECRET;
-    const jwtIssuer = process.env.JWT_ISSUER;
-    const jwtAudience = process.env.JWT_AUDIENCE;
-    const jwtTtlSeconds = parseInt(process.env.JWT_TTL_SECONDS || DEFAULT_JWT_TTL_SECONDS, 10);
+    // 환경 변수 확인
+    const googleScriptUrl = process.env.GOOGLE_APPS_SCRIPT_URL;
+    const googleScriptToken = process.env.GOOGLE_APPS_SCRIPT_TOKEN;
+    const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
+    const telegramChatIds = process.env.TELEGRAM_CHAT_ID;
 
-    if (!webhookUrl) {
-        res.status(500).json({ error: 'Missing webhook configuration' });
+    // 필수 환경 변수 확인
+    if (!googleScriptUrl) {
+        console.error('Missing GOOGLE_APPS_SCRIPT_URL');
+        res.status(500).json({ error: 'Missing Google Sheets configuration' });
         return;
     }
+
+    if (!telegramBotToken || !telegramChatIds) {
+        console.error('Missing Telegram configuration');
+        res.status(500).json({ error: 'Missing Telegram configuration' });
+        return;
+    }
+
+    // 여러 채팅 ID를 쉼표로 구분하여 배열로 변환
+    const chatIdArray = telegramChatIds
+        .split(',')
+        .map(id => id.trim())
+        .filter(id => id.length > 0);
 
     let incomingPayload;
 
@@ -131,54 +184,63 @@ module.exports = async (req, res) => {
         return;
     }
 
+    // 데이터 준비
+    const clientIp = req.headers['x-forwarded-for'] 
+        ? req.headers['x-forwarded-for'].split(',')[0].trim()
+        : req.socket.remoteAddress || 'Unknown';
+
     const payload = {
         ...incomingPayload,
-        clientIp: req.headers['x-forwarded-for'] || req.socket.remoteAddress || null,
+        clientIp: clientIp,
         userAgent: req.headers['user-agent'] || null,
         submittedAt: new Date().toISOString()
     };
 
-    const headers = {
-        'Content-Type': 'application/json'
+    const results = {
+        googleSheets: null,
+        telegram: null,
+        errors: []
     };
 
-    if (jwtSecret) {
-        try {
-            const token = createJwtToken({
-                secret: jwtSecret,
-                issuer: jwtIssuer,
-                audience: jwtAudience,
-                ttlSeconds: Number.isFinite(jwtTtlSeconds) ? jwtTtlSeconds : DEFAULT_JWT_TTL_SECONDS
-            });
-
-            headers['Authorization'] = `Bearer ${token}`;
-        } catch (error) {
-            console.error('Failed to generate JWT token', error);
-            res.status(500).json({ error: 'Failed to generate authorization token' });
-            return;
-        }
-    } else if (authToken) {
-        headers['Authorization'] = `Bearer ${authToken}`;
+    // 1. 구글 시트에 저장
+    try {
+        results.googleSheets = await saveToGoogleSheets(googleScriptUrl, googleScriptToken, payload);
+        console.log('Google Sheets saved successfully');
+    } catch (error) {
+        console.error('Google Sheets save failed:', error);
+        results.errors.push({ service: 'Google Sheets', error: error.message });
     }
 
-    try {
-        const response = await fetch(webhookUrl, {
-            method: 'POST',
-            headers,
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-            const text = await response.text();
-            console.error('n8n webhook error:', response.status, text);
-            res.status(response.status).json({ error: 'Webhook request failed' });
-            return;
+    // 2. 텔레그램 메시지 전송 (여러 채팅방에 전송)
+    const telegramMessage = formatTelegramMessage(payload);
+    results.telegram = [];
+    
+    for (const chatId of chatIdArray) {
+        try {
+            const result = await sendTelegramMessage(telegramBotToken, chatId, telegramMessage);
+            results.telegram.push({ chatId, success: true, result });
+            console.log(`Telegram message sent successfully to ${chatId}`);
+        } catch (error) {
+            console.error(`Telegram send failed to ${chatId}:`, error);
+            results.telegram.push({ chatId, success: false, error: error.message });
+            results.errors.push({ service: 'Telegram', chatId, error: error.message });
         }
+    }
 
-        res.status(200).json({ success: true });
-    } catch (error) {
-        console.error('Failed to call n8n webhook', error);
-        res.status(502).json({ error: 'Failed to call webhook' });
+    // 결과 반환
+    if (results.errors.length > 0) {
+        // 일부 실패한 경우에도 200 반환 (부분 성공)
+        res.status(200).json({ 
+            success: true, 
+            partial: true,
+            results: results 
+        });
+    } else {
+        // 모두 성공
+        res.status(200).json({ 
+            success: true,
+            results: results 
+        });
     }
 };
 

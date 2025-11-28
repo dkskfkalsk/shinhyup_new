@@ -15,35 +15,44 @@
 			// config.js에서 설정된 값 사용 (없으면 현재 페이지 origin 사용)
 			var siteUrl = (typeof SITE_URL !== 'undefined') ? SITE_URL : location.origin;
 			var siteUrlWithPath = siteUrl + '/';
-			// OG 이미지 경로 (ogimg.png가 없으면 기존 이미지 사용)
-			var ogImageUrl = siteUrl + '/images/main_bg.png'; // 또는 '/images/top_logo.png'
-			var siteTitle = '와이에스커넥션';
-			var siteDescription = '와이에스커넥션, 주택담보대출, 신용영향 없이 빠르고 간편한 한도조회, 1:1 맞춤 실시간 상담가능!!';
+			// OG 이미지 경로 (절대 URL 필수 - 카카오톡 미리보기용)
+			// domain.jpg 이미지 사용 (1200x630 권장 크기)
+			var ogImageUrl = siteUrl + '/images/domain.jpg';
+			// 미리보기 제목
+			var siteTitle = '와이에스커넥션 - 신협 주택담보대출';
+			// 미리보기 설명 (카카오톡에서 표시될 내용)
+			var siteDescription = '신용영향 없이 빠르고 간편한 한도조회! 1:1 맞춤 실시간 상담 가능. 아파트 담보대출, 전세퇴거자금, 사업자 담보대출 전문';
+			var ogDescription = '신용영향 없이 빠르고 간편한 한도조회! 와이에스커넥션 신협, 주택담보대출 전문 상담. DSR 규제 없이 LTV 80%까지 자금 마련 가능';
 			
 			// 기본 메타 태그
 			document.write('<meta name="title" content="' + siteTitle + '" />');
 			document.write('<meta name="description" content="' + siteDescription + '" />');
-			document.write('<meta name="keywords" content="와이에스커넥션, 주택담보대출, 한도조회, 신협, 대출상담" />');
+			document.write('<meta name="keywords" content="와이에스커넥션, 주택담보대출, 한도조회, 신협, 대출상담, 아파트담보대출, 전세퇴거자금" />');
 			document.write('<link rel="canonical" href="' + siteUrlWithPath + '" />');
 			
 			// Open Graph 태그 (Facebook, KakaoTalk, 네이버 등)
 			document.write('<meta property="og:type" content="website" />');
 			document.write('<meta property="og:url" content="' + siteUrlWithPath + '" />');
 			document.write('<meta property="og:title" content="' + siteTitle + '" />');
-			document.write('<meta property="og:description" content="신용영향 없이 빠르고 간편한 한도조회! 와이에스커넥션 신협, 주택담보대출" />');
+			document.write('<meta property="og:description" content="' + ogDescription + '" />');
+			// 카카오톡 미리보기 이미지 (절대 URL 필수)
 			document.write('<meta property="og:image" content="' + ogImageUrl + '" />');
+			document.write('<meta property="og:image:secure_url" content="' + ogImageUrl + '" />');
 			document.write('<meta property="og:image:width" content="1200" />');
 			document.write('<meta property="og:image:height" content="630" />');
-			document.write('<meta property="og:image:alt" content="와이에스커넥션 주택담보대출" />');
+			document.write('<meta property="og:image:alt" content="와이에스커넥션 신협 주택담보대출" />');
 			document.write('<meta property="og:site_name" content="와이에스커넥션" />');
 			document.write('<meta property="og:locale" content="ko_KR" />');
+			
+			// 카카오톡 전용 메타 태그
+			document.write('<meta property="og:image:type" content="image/jpeg" />');
 			
 			// Twitter Card 태그 (트위터, X 공유 시)
 			document.write('<meta name="twitter:card" content="summary_large_image" />');
 			document.write('<meta name="twitter:title" content="' + siteTitle + '" />');
-			document.write('<meta name="twitter:description" content="신용영향 없이 빠르고 간편한 한도조회! 와이에스커넥션 신협, 주택담보대출" />');
+			document.write('<meta name="twitter:description" content="' + ogDescription + '" />');
 			document.write('<meta name="twitter:image" content="' + ogImageUrl + '" />');
-			document.write('<meta name="twitter:image:alt" content="와이에스커넥션 주택담보대출" />');
+			document.write('<meta name="twitter:image:alt" content="와이에스커넥션 신협 주택담보대출" />');
 		})();
 	</script>
 	

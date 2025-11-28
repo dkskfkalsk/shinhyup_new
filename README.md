@@ -429,6 +429,8 @@ Webhook → Code (JWT 검증) → Google Sheets
    
    ### 방법 A: "Map Each Column Manually" 모드 (현재 설정)
    
+   ⚠️ **중요**: 각 필드의 Value 입력란에 표현식을 입력할 때, **"fx" 버튼을 클릭**하여 표현식 모드로 전환해야 합니다!
+   
    화면에 보이는 각 필드의 **Value 입력란**에 개별적으로 표현식을 입력합니다:
    
    | 필드명 | Value 입력란에 입력할 내용 |
@@ -440,12 +442,18 @@ Webhook → Code (JWT 검증) → Google Sheets
    | `clientIp` | `{{ $json.clientIp }}` |
    | `userAgent` | `{{ $json.userAgent }}` |
    
-   **설정 순서:**
+   **설정 순서 (매우 중요!):**
    1. `submittedAt` 필드의 Value 입력란 클릭
-   2. `{{ $json.submittedAt }}` 입력
-   3. `uname` 필드의 Value 입력란 클릭
-   4. `{{ $json.uname }}` 입력
-   5. 나머지 필드도 동일하게 반복
+   2. **입력란 왼쪽의 "fx" 버튼 클릭** (표현식 모드로 전환)
+   3. `{{ $json.submittedAt }}` 입력
+   4. `uname` 필드의 Value 입력란 클릭
+   5. **"fx" 버튼 클릭** (표현식 모드로 전환)
+   6. `{{ $json.uname }}` 입력
+   7. 나머지 필드도 동일하게 반복 (각 필드마다 "fx" 버튼 클릭!)
+   
+   **⚠️ "fx" 버튼을 클릭하지 않으면:**
+   - 표현식이 문자열로 인식되어 `{{ $json.submittedAt }}` 그대로 구글 시트에 입력됩니다!
+   - 반드시 각 필드마다 "fx" 버튼을 클릭하여 표현식 모드로 전환해야 합니다!
    
    **빈 값 처리 (선택사항):**
    - 값이 없을 때 빈 문자열로 처리하려면:
@@ -768,31 +776,119 @@ php -S localhost:8000
    - Webhook 노드가 올바르게 설정되어 있는지 확인
    - JWT 사용 시: Code 노드에서 JWT 검증이 성공하는지 확인
 
-### 3-1. JWT 인증 실패 오류
+### 3-0. n8n 404 오류: "This webhook is not registered for POST requests"
 
-**증상**: n8n에서 "JWT verification failed" 또는 "Authentication failed" 에러
+**증상**: 
+```
+n8n webhook error: 404 {"code":404,"message":"This webhook is not registered for POST requests. Did you mean to make a GET request?"}
+```
+
+**원인**: n8n 웹훅이 POST 요청을 받을 수 있도록 등록되지 않았습니다. 주로 다음과 같은 원인입니다:
+1. 워크플로우가 활성화되지 않음
+2. Webhook 노드의 HTTP Method가 POST로 설정되지 않음
+3. Production URL이 아닌 Test URL을 사용함
 
 **해결 방법:**
-1. **JWT_SECRET 확인:**
-   - Vercel의 `JWT_SECRET`과 n8n의 `JWT_SECRET`이 **반드시 동일**한지 확인
+
+1. **워크플로우 활성화 확인 (가장 중요!):**
+   - n8n 워크플로우 편집기에서 상단 토글 확인
+   - **워크플로우가 활성화(ON)되어 있어야 합니다!**
+   - 활성화되지 않았다면 토글을 ON으로 변경
+   - 워크플로우 저장
+
+2. **Webhook 노드 HTTP Method 확인:**
+   - Webhook 노드 클릭
+   - **HTTP Method** 필드 확인
+   - 반드시 `POST`로 설정되어 있어야 합니다
+   - `GET`으로 설정되어 있다면 `POST`로 변경
+
+3. **Production URL 사용 확인:**
+   - Webhook 노드에서 **Production URL** 사용
+   - Test URL이 아닌 **Production URL**을 Vercel에 설정
+   - Webhook 노드 → "Production URL" 버튼 클릭 → URL 복사
+   - Vercel의 `N8N_WEBHOOK_URL` 환경 변수에 Production URL 설정
+
+4. **Webhook 노드 Path 확인:**
+   - Webhook 노드의 **Path** 필드 확인
+   - 예: `/form-submit`
+   - Vercel의 `N8N_WEBHOOK_URL`에 이 경로가 포함되어 있는지 확인
+   - 예: `https://dkskfkalsk.app.n8n.cloud/webhook/form-submit`
+
+5. **워크플로우 재저장 및 재활성화:**
+   - Webhook 노드 설정 변경 후 워크플로우 저장
+   - 워크플로우 재활성화 (토글 OFF → ON)
+
+**404 "not registered for POST requests" 오류 특별 체크리스트:**
+- [ ] 워크플로우가 활성화(ON)되어 있는가?
+- [ ] Webhook 노드의 HTTP Method가 `POST`로 설정되어 있는가?
+- [ ] Webhook 노드의 "Respond"가 **"Using 'Respond to Webhook' Node"**로 설정되어 있는가?
+- [ ] Vercel에서 Production URL을 사용하고 있는가? (Test URL 아님)
+- [ ] Webhook 노드의 Path가 Vercel URL에 포함되어 있는가?
+- [ ] 설정 변경 후 워크플로우를 저장 및 재활성화했는가?
+
+### 3-1. JWT 인증 실패 오류
+
+**증상**: 
+- n8n에서 "JWT verification failed" 또는 "Authentication failed" 에러
+- n8n webhook error: 403 "invalid signature"
+
+**원인**: JWT 토큰의 서명(signature) 검증이 실패했습니다. 주로 JWT_SECRET 불일치나 검증 코드 문제입니다.
+
+**해결 방법:**
+
+1. **JWT_SECRET 확인 (가장 중요!):**
+   - ⚠️ Vercel의 `JWT_SECRET`과 n8n의 `JWT_SECRET`이 **반드시 동일**해야 합니다!
    - n8n → Settings → Variables에서 `JWT_SECRET` 확인
    - Vercel → Settings → Environment Variables에서 `JWT_SECRET` 확인
+   - **대소문자, 공백, 특수문자까지 정확히 일치**해야 합니다
+   - 값 복사 시 앞뒤 공백이 없는지 확인
 
-2. **JWT 토큰 형식 확인:**
+2. **JWT_SECRET 재설정 (권장):**
+   - Vercel과 n8n 모두에서 기존 `JWT_SECRET` 삭제
+   - 새로운 강력한 시크릿 키 생성 (최소 32자 이상)
+   - Vercel에 새 `JWT_SECRET` 설정
+   - n8n에 **동일한 값**으로 새 `JWT_SECRET` 설정
+   - 워크플로우 저장 및 재활성화
+
+3. **JWT 검증 코드 확인:**
+   - n8n Code 노드의 JWT 검증 코드가 올바르게 입력되었는지 확인
+   - 특히 서명 검증 부분이 정확한지 확인:
+     ```javascript
+     const signature = crypto
+       .createHmac('sha256', secret)
+       .update(`${parts[0]}.${parts[1]}`)
+       .digest('base64')
+       .replace(/=/g, '')
+       .replace(/\+/g, '-')
+       .replace(/\//g, '_');
+     ```
+   - Code 노드 실행 로그에서 에러 메시지 확인
+
+4. **JWT 토큰 형식 확인:**
    - Vercel Functions 로그에서 전송되는 Authorization 헤더 확인
    - 형식: `Authorization: Bearer <jwt-token>`
+   - JWT 토큰이 3부분(header.payload.signature)으로 구성되어 있는지 확인
 
-3. **JWT 만료 시간 확인:**
+5. **JWT 만료 시간 확인:**
    - `JWT_TTL_SECONDS` 환경 변수 확인 (기본값: 300초)
    - 토큰이 만료되기 전에 n8n이 처리하는지 확인
+   - 만료된 토큰은 서명 검증 전에 실패합니다
 
-4. **Issuer/Audience 확인:**
+6. **Issuer/Audience 확인:**
    - `JWT_ISSUER`와 `JWT_AUDIENCE`를 설정한 경우, Vercel과 n8n 모두 동일하게 설정되어 있는지 확인
    - 설정하지 않은 경우, Code 노드의 검증 코드에서 해당 부분이 무시되는지 확인
 
-5. **n8n Code 노드 확인:**
-   - Code 노드의 JWT 검증 코드가 올바르게 입력되었는지 확인
-   - Code 노드 실행 로그에서 에러 메시지 확인
+7. **환경 변수 적용 확인:**
+   - n8n 환경 변수 변경 후 워크플로우 재저장 및 재활성화
+   - Vercel 환경 변수 변경 후 재배포
+
+**403 "invalid signature" 오류 특별 체크리스트:**
+- [ ] Vercel `JWT_SECRET`과 n8n `JWT_SECRET`이 정확히 동일한가?
+- [ ] JWT_SECRET에 앞뒤 공백이 없는가?
+- [ ] JWT_SECRET이 최소 32자 이상인가?
+- [ ] n8n Code 노드의 JWT 검증 코드가 올바른가?
+- [ ] 환경 변수 변경 후 워크플로우를 재저장/재활성화했는가?
+- [ ] Vercel 환경 변수 변경 후 재배포했는가?
 
 ### 3-2. n8n 500 오류: "No Respond to Webhook node found"
 
@@ -801,33 +897,103 @@ php -S localhost:8000
 n8n webhook error: 500 {"code":0,"message":"No Respond to Webhook node found in the workflow"}
 ```
 
-**원인**: n8n 워크플로우에 "Respond to Webhook" 노드가 없어서 발생하는 오류입니다.
+**원인**: n8n 워크플로우에 "Respond to Webhook" 노드가 없거나, Webhook 노드의 "Respond" 설정이 잘못되어 발생하는 오류입니다.
 
-**해결 방법:**
+**⚠️ 중요**: 워크플로우 구조가 올바르게 설정되어 있어도, 다음 사항들이 확인되지 않으면 오류가 계속 발생할 수 있습니다!
 
-1. **Respond to Webhook 노드 추가:**
-   - n8n 워크플로우 편집기 열기
-   - 노드 추가 버튼 클릭 → "Respond to Webhook" 검색 → 추가
+**단계별 해결 방법 (순서대로 진행):**
+
+#### 1단계: Webhook 노드의 "Respond" 설정 확인 (필수!)
+
+1. **Webhook 노드 클릭**
+2. **Parameters 탭 확인**
+3. **"Respond" 필드 확인:**
+   - ✅ 올바른 설정: **"Using 'Respond to Webhook' Node"** 선택
+   - ❌ 잘못된 설정: "Last Node", "Immediately" 등
+4. **잘못 설정되어 있다면:**
+   - "Respond" 드롭다운 클릭
+   - **"Using 'Respond to Webhook' Node"** 선택
+5. **워크플로우 저장** (저장 버튼 클릭)
+
+#### 2단계: "Respond to Webhook" 노드 확인
+
+1. **워크플로우 화면에서 확인:**
+   - Webhook 노드
+   - Google Sheets 노드
+   - **"Respond to Webhook" 노드** ← 이 노드가 있는지 확인!
+
+2. **없다면 추가:**
+   - 노드 추가 버튼 클릭
+   - "Respond to Webhook" 검색 → 추가
    - Google Sheets 노드 **뒤에** 배치
 
-2. **노드 연결:**
-   - Google Sheets 노드의 출력을 "Respond to Webhook" 노드의 입력에 연결
+#### 3단계: 노드 연결 확인
 
-3. **Respond to Webhook 노드 설정:**
-   - **Respond With**: `JSON`
-   - **Response Code**: `200`
-   - **Response Body**: 
+1. **워크플로우 구조 확인:**
+   ```
+   Webhook → Google Sheets → Respond to Webhook
+   ```
+
+2. **연결 확인:**
+   - Google Sheets 노드의 출력 포트
+   - → "Respond to Webhook" 노드의 입력 포트
+   - 연결선이 있는지 확인
+
+3. **연결되어 있지 않다면:**
+   - Google Sheets 노드의 출력 포트를
+   - "Respond to Webhook" 노드의 입력 포트로 드래그하여 연결
+
+#### 4단계: "Respond to Webhook" 노드 설정 확인
+
+1. **"Respond to Webhook" 노드 클릭**
+2. **Parameters 탭 확인:**
+   - **Respond With**: `JSON` 선택
+   - **Response Code**: `200` 입력
+   - **Response Body**: 다음을 **한 줄로** 입력:
      ```
      {{ { "success": true, "message": "Data saved successfully" } }}
      ```
-     
-     ⚠️ **주의**: 
-     - JSON을 직접 입력하지 말고 표현식 형식(`{{ }}`)으로 입력하세요!
-     - **반드시 한 줄로 입력**하세요! 줄바꿈이 있으면 오류가 발생합니다!
+   - ⚠️ **주의**: 줄바꿈 없이 한 줄로 입력해야 합니다!
 
-4. **워크플로우 저장 및 활성화:**
-   - 워크플로우 저장
-   - 워크플로우 활성화 (상단 토글 ON)
+#### 5단계: 워크플로우 저장 및 재활성화 (매우 중요!)
+
+1. **워크플로우 저장:**
+   - 저장 버튼 클릭
+   - 저장 완료 확인
+
+2. **워크플로우 재활성화:**
+   - 상단 활성화 토글 확인
+   - **토글을 OFF로 변경** (비활성화)
+   - **3-5초 대기**
+   - **토글을 ON으로 변경** (활성화)
+   - 활성화 완료 확인 (토글이 녹색으로 표시)
+
+3. **30초 대기:**
+   - n8n이 워크플로우 변경사항을 반영하는 데 시간이 필요합니다
+   - 변경 후 즉시 테스트하지 말고 30초 정도 대기하세요
+
+#### 6단계: Production URL 확인 (매우 중요!)
+
+1. **n8n Webhook 노드에서 Production URL 확인:**
+   - Webhook 노드 클릭
+   - **"Production URL"** 버튼 클릭 (Test URL 아님!)
+   - URL 복사
+   - 예: `https://dkskfkalsk.app.n8n.cloud/webhook/form-submit`
+
+2. **Vercel 환경 변수 확인:**
+   - Vercel 대시보드 → 프로젝트 → Settings → Environment Variables
+   - `N8N_WEBHOOK_URL` 확인
+   - n8n의 Production URL과 **정확히 일치**하는지 확인
+
+3. **URL이 다르다면:**
+   - Vercel의 `N8N_WEBHOOK_URL` 수정
+   - Production URL로 변경
+   - 저장 후 Vercel 재배포 (또는 자동 재배포 대기)
+
+**⚠️ 주의:**
+- Test URL (`.../webhook-test/...`)을 사용하면 안 됩니다!
+- 반드시 Production URL (`.../webhook/...`)을 사용해야 합니다!
+- Production URL은 워크플로우가 활성화되어 있어야 작동합니다!
 
 **완성된 워크플로우 구조:**
 ```
@@ -840,26 +1006,435 @@ Google Sheets (데이터 추가)
 Respond to Webhook (응답: {"success": true}) ⬅ 필수!
 ```
 
+**500 "No Respond to Webhook node found" 오류 완전 해결 체크리스트:**
+
+다음을 **순서대로** 모두 확인하세요:
+
+**Webhook 노드 설정:**
+- [ ] Webhook 노드의 "Respond"가 **"Using 'Respond to Webhook' Node"**로 설정되어 있는가? ⬅ 필수!
+- [ ] Webhook 노드의 HTTP Method가 `POST`로 설정되어 있는가?
+- [ ] Webhook 노드의 Path가 `/form-submit` (또는 설정한 경로)인가?
+
+**워크플로우 구조:**
+- [ ] "Respond to Webhook" 노드가 워크플로우에 추가되었는가?
+- [ ] "Respond to Webhook" 노드가 Google Sheets 뒤에 배치되어 있는가?
+- [ ] Webhook → Google Sheets → Respond to Webhook 순서로 연결되어 있는가?
+- [ ] 모든 노드가 연결선으로 연결되어 있는가?
+
+**"Respond to Webhook" 노드 설정:**
+- [ ] Respond With가 `JSON`으로 설정되어 있는가?
+- [ ] Response Code가 `200`으로 설정되어 있는가?
+- [ ] Response Body가 한 줄로 입력되었는가? (줄바꿈 없음)
+- [ ] Response Body가 표현식 형식(`{{ }}`)으로 입력되었는가?
+
+**워크플로우 활성화:**
+- [ ] 워크플로우가 저장되었는가? (저장 버튼 클릭 확인)
+- [ ] 워크플로우를 OFF → ON으로 재활성화했는가?
+- [ ] 재활성화 후 30초 이상 대기했는가?
+
+**URL 확인:**
+- [ ] Vercel에서 Production URL을 사용하고 있는가? (Test URL 아님)
+- [ ] Vercel의 `N8N_WEBHOOK_URL`이 n8n의 Production URL과 정확히 일치하는가?
+- [ ] URL에 `-test`가 포함되어 있지 않은가?
+
+**⚠️ 여전히 오류가 발생하는 경우 (마지막 해결 방법):**
+
+위의 모든 단계를 확인했는데도 여전히 오류가 발생한다면:
+
+#### 방법 1: 워크플로우 완전히 새로 만들기
+
+1. **현재 워크플로우 백업 (선택사항):**
+   - 워크플로우 설정 → Export 버튼으로 백업
+
+2. **새 워크플로우 생성:**
+   - n8n → Workflows → "New Workflow" 클릭
+   - 새 워크플로우 이름 입력
+
+3. **Webhook 노드 추가:**
+   - 노드 추가 → "Webhook" 검색 → 추가
+   - HTTP Method: `POST`
+   - Path: `/form-submit`
+   - Authentication: `JWT Auth`
+   - Credential for JWT Auth: `JWT Auth account` 선택
+   - **Respond: "Using 'Respond to Webhook' Node"** 선택 (매우 중요!)
+
+4. **Google Sheets 노드 추가:**
+   - 노드 추가 → "Google Sheets" 검색 → 추가
+   - Webhook 노드의 출력을 Google Sheets 노드의 입력에 연결
+   - Operation: `Append Row`
+   - Spreadsheet ID: 구글 시트 ID 입력
+   - Sheet: `시트1` (또는 시트명)
+   - Mapping Column Mode: `Map Each Column Manually`
+   - Values to Send:
+     - `submittedAt`: `{{ $json.submittedAt }}`
+     - `uname`: `{{ $json.uname }}`
+     - `tel`: `{{ $json.tel }}`
+     - `message`: `{{ $json.message }}`
+     - `clientIp`: `{{ $json.clientIp }}`
+     - `userAgent`: `{{ $json.userAgent }}`
+
+5. **Respond to Webhook 노드 추가:**
+   - 노드 추가 → "Respond to Webhook" 검색 → 추가
+   - Google Sheets 노드의 출력을 Respond to Webhook 노드의 입력에 연결
+   - Respond With: `JSON`
+   - Response Code: `200`
+   - Response Body (한 줄로 입력):
+     ```
+     {{ { "success": true, "message": "Data saved successfully" } }}
+     ```
+
+6. **워크플로우 저장 및 활성화:**
+   - 워크플로우 저장
+   - Production URL 확인 및 복사
+   - 워크플로우 활성화 (토글 ON)
+   - 30초 대기
+
+7. **Vercel 환경 변수 업데이트:**
+   - Vercel → Settings → Environment Variables
+   - `N8N_WEBHOOK_URL`에 새 Production URL 설정
+   - 저장 후 자동 재배포 대기
+
+#### 방법 2: n8n 워크플로우 재배포 확인
+
+1. **n8n 클라우드 계정 확인:**
+   - n8n 클라우드에서 워크플로우가 제대로 배포되었는지 확인
+   - 워크플로우 상태가 "Active"인지 확인
+
+2. **n8n 캐시 문제 확인:**
+   - 브라우저 새로고침 (F5)
+   - 또는 브라우저 캐시 삭제 후 재접속
+   - 다른 브라우저에서 테스트
+
+3. **n8n 로그 확인:**
+   - n8n 워크플로우 → Executions 탭에서 실행 로그 확인
+   - 오류 메시지 자세히 확인
+
+#### 방법 3: Webhook 노드 설정 재확인
+
+1. **Webhook 노드 완전히 재설정:**
+   - Webhook 노드 클릭 → Settings 탭
+   - 모든 설정 초기화 후 다시 설정:
+     - HTTP Method: `POST`
+     - Path: `/form-submit`
+     - Authentication: `JWT Auth`
+     - **Respond: "Using 'Respond to Webhook' Node"** (다시 한 번 확인!)
+
+2. **워크플로우 완전히 재저장:**
+   - 저장 버튼 클릭
+   - 워크플로우 토글 OFF → 5초 대기 → ON
+   - 30초 대기
+
 **참고**: 
 - Webhook 노드를 사용할 때는 반드시 "Respond to Webhook" 노드가 필요합니다
-- 이 노드가 없으면 n8n이 응답을 반환할 수 없어 500 오류가 발생합니다
+- **Webhook 노드의 "Respond" 설정이 "Using 'Respond to Webhook' Node"로 설정되어 있어야 합니다!**
+- 이 설정이 없으면 "Respond to Webhook" 노드가 있어도 인식되지 않아 500 오류가 발생합니다
+- 워크플로우 구조가 올바르게 보여도 오류가 발생한다면, 워크플로우를 완전히 새로 만드는 것을 권장합니다
 - 자세한 설정 방법은 위의 "3단계: Respond to Webhook 노드 설정" 섹션을 참고하세요
 
 ### 4. 구글 시트에 데이터가 추가되지 않는 경우
 
-**증상**: n8n은 작동하지만 구글 시트에 데이터 미추가
+**증상**: 
+- 사이트에서 성공 메시지 표시
+- Vercel API 호출 성공
+- n8n 워크플로우 실행됨
+- 하지만 구글 시트에 데이터가 추가되지 않음
+
+**단계별 해결 방법:**
+
+#### 1단계: n8n 워크플로우 실행 로그 확인 (가장 중요!)
+
+1. **n8n 워크플로우 → Executions 탭 확인:**
+   - 최근 실행 내역 확인
+   - 실행된 워크플로우 클릭
+
+2. **각 노드의 실행 결과 확인:**
+   - Webhook 노드: 데이터 수신 확인
+   - Google Sheets 노드: 에러 메시지 확인
+   - 에러가 있다면 정확한 에러 메시지 확인
+
+3. **Google Sheets 노드 클릭:**
+   - 노드 상세 정보 확인
+   - 에러 메시지가 있는지 확인
+   - 데이터가 전달되었는지 확인
+
+#### 2단계: Google Sheets 노드 설정 확인
+
+1. **Spreadsheet ID 확인:**
+   - Google Sheets 노드 → Parameters 탭
+   - Document: `By ID` 선택
+   - Spreadsheet ID가 올바른지 확인
+   - 구글 시트 URL에서 ID 확인:
+     ```
+     https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit
+     ```
+
+2. **Sheet 이름 확인:**
+   - Sheet: `From list` 선택
+   - Sheet 이름이 정확한지 확인
+   - 예: `시트1`, `Sheet1` 등
+   - 대소문자, 공백까지 정확히 일치해야 함
+
+3. **Operation 확인:**
+   - Operation: `Append Row` 선택되어 있는지 확인
+
+4. **Range 확인 (Append Row 모드에서는 자동 처리되지만 확인):**
+   - Range는 비워두거나 `A2:F2`로 설정
+   - Append Row 모드에서는 자동으로 다음 행에 추가됨
+
+#### 3단계: 표현식 모드 확인 (매우 중요!)
+
+**각 필드의 Value 입력란에서 "fx" 버튼을 클릭했는지 확인:**
+
+1. Google Sheets 노드 → Parameters 탭
+2. "Values to Send" 섹션 확인
+3. 각 필드의 Value 입력란 확인:
+   - 입력란 왼쪽에 "fx" 버튼이 있는지 확인
+   - "fx" 버튼이 활성화되어 있는지 확인 (클릭된 상태)
+   - 표현식이 제대로 입력되어 있는지 확인
+
+4. **"fx" 버튼을 클릭하지 않았다면:**
+   - 각 필드의 Value 입력란 클릭
+   - "fx" 버튼 클릭 (표현식 모드로 전환)
+   - 표현식 다시 입력:
+     - `submittedAt`: `{{ $json.submittedAt }}`
+     - `uname`: `{{ $json.uname }}`
+     - `tel`: `{{ $json.tel }}`
+     - `message`: `{{ $json.message }}`
+     - `clientIp`: `{{ $json.clientIp }}`
+     - `userAgent`: `{{ $json.userAgent }}`
+
+#### 4단계: Google 계정 권한 확인
+
+1. **Google Sheets 노드 → Credentials 확인:**
+   - "Credential to connect with" 필드 확인
+   - Google 계정이 연결되어 있는지 확인
+   - 연결이 안 되어 있다면 "Connect account" 클릭하여 연결
+
+2. **Google 계정 권한 확인:**
+   - Google 계정이 구글 시트에 접근 권한이 있는지 확인
+   - 구글 시트가 공유되어 있는지 확인
+   - n8n에서 사용하는 Google 계정이 구글 시트에 접근 가능한지 확인
+
+3. **구글 시트 공유 설정 확인:**
+   - 구글 시트 → 공유 버튼
+   - n8n에서 사용하는 Google 계정이 공유되어 있는지 확인
+   - 또는 구글 시트를 "링크가 있는 모든 사용자"에게 공유
+
+#### 5단계: 데이터 형식 확인
+
+1. **n8n 워크플로우 실행 로그에서 데이터 확인:**
+   - Webhook 노드의 출력 데이터 확인
+   - Google Sheets 노드의 입력 데이터 확인
+   - 데이터가 올바르게 전달되는지 확인
+
+2. **데이터 필드명 확인:**
+   - `submittedAt`, `uname`, `tel`, `message`, `clientIp`, `userAgent`가 모두 있는지 확인
+   - 필드명이 정확한지 확인 (대소문자 구분)
+
+#### 6단계: Google Sheets 노드 테스트
+
+1. **Google Sheets 노드에서 "Execute step" 버튼 클릭:**
+   - 노드 우측 상단의 빨간색 "Execute step" 버튼
+   - 테스트 실행하여 에러 확인
+
+2. **에러 메시지 확인:**
+   - 에러가 발생하면 정확한 메시지 확인
+   - 에러 메시지를 바탕으로 문제 해결
+
+**구글 시트 데이터 미추가 완전 해결 체크리스트:**
+- [ ] n8n 워크플로우 실행 로그에서 Google Sheets 노드 에러 확인
+- [ ] Spreadsheet ID가 올바른가?
+- [ ] Sheet 이름이 정확한가? (대소문자, 공백 포함)
+- [ ] 각 필드의 Value 입력란에서 "fx" 버튼을 클릭했는가?
+- [ ] 표현식이 올바르게 입력되어 있는가?
+- [ ] Google 계정이 연결되어 있는가?
+- [ ] Google 계정이 구글 시트에 접근 권한이 있는가?
+- [ ] 구글 시트가 공유되어 있는가?
+- [ ] Operation이 "Append Row"로 설정되어 있는가?
+- [ ] 워크플로우를 저장하고 재활성화했는가?
+
+#### 7단계: 단계별 완전 해결 가이드 (반드시 순서대로 확인!)
+
+**🔴 1단계: n8n 워크플로우 구조 확인 (가장 중요!)**
+
+워크플로우가 다음과 같은 구조인지 확인하세요:
+
+```
+Webhook → [Code (JWT 검증)] → Google Sheets → Respond to Webhook
+```
+
+**확인 사항:**
+1. **Webhook 노드**가 첫 번째 노드인가?
+2. **Google Sheets 노드**가 Webhook 노드 뒤에 연결되어 있는가?
+3. **Respond to Webhook 노드**가 Google Sheets 노드 뒤에 연결되어 있는가? ⚠️ **이 노드가 없으면 반드시 추가하세요!**
+4. 모든 노드가 순서대로 연결되어 있는가?
+
+**🔴 2단계: 워크플로우 활성화 확인**
+
+1. n8n 워크플로우 편집기 상단 확인
+2. **워크플로우 토글이 ON(활성화) 상태인지 확인**
+3. OFF 상태라면 ON으로 변경
+4. 워크플로우 저장 (Ctrl+S 또는 Save 버튼)
+
+**🔴 3단계: n8n 실행 로그 확인 (에러 메시지 확인)**
+
+1. n8n 워크플로우 → **Executions** 탭 클릭
+2. 최근 실행 내역에서 가장 최근 실행 클릭
+3. 각 노드 클릭하여 확인:
+   - **Webhook 노드**: 데이터가 수신되었는지 확인
+   - **Google Sheets 노드**: 
+     - ✅ 성공: 초록색 체크 표시
+     - ❌ 실패: 빨간색 X 표시 + 에러 메시지 확인
+   - **Respond to Webhook 노드**: 응답이 전송되었는지 확인
+
+**에러 메시지 예시 및 해결:**
+- `"The caller does not have permission"` → Google 계정 권한 문제
+- `"Unable to parse range"` → Sheet 이름 또는 Range 설정 문제
+- `"No Respond to Webhook node found"` → Respond to Webhook 노드 추가 필요
+- `"Spreadsheet not found"` → Spreadsheet ID 확인 필요
+
+**🔴 4단계: Google Sheets 노드 설정 재확인**
+
+1. **Operation**: `Append Row` 선택 확인
+2. **Document**: 
+   - `From list` 선택
+   - Spreadsheet ID가 올바른지 확인
+   - 구글 시트 URL에서 ID 확인: `https://docs.google.com/spreadsheets/d/[ID]/edit`
+3. **Sheet**: 
+   - `From list` 선택
+   - Sheet 이름이 정확한지 확인 (`시트1` 또는 `Sheet1`)
+   - 대소문자, 공백까지 정확히 일치해야 함
+4. **Mapping Column Mode**: `Map Each Column Manually` 선택 확인
+
+**🔴 5단계: Values to Send 필드 재확인 (매우 중요!)**
+
+각 필드의 Value가 올바른지 다시 한 번 확인하세요:
+
+| 필드명 | 올바른 표현식 | 확인 |
+|--------|-------------|------|
+| `submittedAt` | `{{ $json.submittedAt }}` | [ ] |
+| `uname` | `{{ $json.uname }}` | [ ] |
+| `tel` | `{{ $json.tel }}` | [ ] |
+| `message` | `{{ $json.message }}` | [ ] |
+| `clientIp` | `{{ $json.clientIp }}` | [ ] |
+| `userAgent` | `{{ $json.userAgent }}` | [ ] |
+
+**각 필드 확인 방법:**
+1. 필드의 Value 입력란 클릭
+2. "fx" 버튼이 파란색(활성화)인지 확인
+3. 표현식이 올바른지 확인
+4. 잘못된 표현식이 있다면 수정
+
+**🔴 6단계: Google 계정 권한 확인**
+
+1. **Google Sheets 노드 → Credentials 확인:**
+   - "Credential to connect with" 필드에 Google 계정이 연결되어 있는지 확인
+   - 연결이 안 되어 있다면 "Connect account" 클릭하여 연결
+
+2. **구글 시트 공유 설정:**
+   - 구글 시트 열기
+   - 우측 상단 "공유" 버튼 클릭
+   - n8n에서 사용하는 Google 계정 이메일 추가
+   - 또는 "링크가 있는 모든 사용자"에게 공유 설정
+
+3. **Google 계정 권한 재인증:**
+   - n8n → Settings → Credentials
+   - Google Sheets 계정 선택
+   - "Test connection" 클릭하여 연결 확인
+   - 실패 시 "Update" 클릭하여 재인증
+
+**🔴 7단계: Google Sheets 노드 테스트 실행**
+
+1. **Google Sheets 노드에서 "Execute step" 버튼 클릭:**
+   - 노드 우측 상단의 빨간색 "Execute step" 버튼
+   - 이전 노드(Webhook)의 데이터를 사용하여 테스트 실행
+
+2. **결과 확인:**
+   - 성공: 구글 시트에 데이터가 추가되었는지 확인
+   - 실패: 에러 메시지 확인하고 위 단계 반복
+
+**🔴 8단계: 워크플로우 재저장 및 재활성화**
+
+모든 설정을 변경한 후:
+1. 워크플로우 저장 (Ctrl+S)
+2. 워크플로우 토글 OFF → ON (재활성화)
+3. 실제 폼 제출 테스트
+
+**🔴 9단계: 실제 테스트 및 로그 확인**
+
+1. 사이트에서 폼 제출
+2. n8n → Executions 탭에서 최근 실행 확인
+3. 각 노드의 실행 결과 확인
+4. Google Sheets 노드에서 에러가 없다면 구글 시트 확인
+
+**여전히 작동하지 않는다면:**
+1. n8n 실행 로그의 정확한 에러 메시지를 확인하세요
+2. 에러 메시지를 복사하여 문제 해결 가이드에서 검색하세요
+3. Google Sheets 노드의 "Execute step" 결과를 확인하세요
+
+#### 10단계: Code 노드 데이터 전달 확인 (JWT 검증 사용 시)
+
+**증상**: Fixed 값으로는 구글 시트에 기록되지만, 표현식(`{{ $json.submittedAt }}` 등)이 작동하지 않음
+
+**원인**: Code 노드(JWT 검증)가 데이터를 제대로 전달하지 않거나, 데이터 구조가 변경됨
 
 **해결 방법:**
-1. n8n Google Sheets 노드 설정 확인:
-   - Spreadsheet ID가 올바른지 확인
-   - Sheet 이름이 올바른지 확인
-   - Range가 `A2:F2`로 설정되어 있는지 확인
-2. Google 계정 권한 확인:
-   - Google Sheets API 권한 확인
-   - 서비스 계정 또는 OAuth 설정 확인
-3. n8n 실행 로그 확인:
-   - Google Sheets 노드에서 에러 메시지 확인
-   - 데이터 형식이 올바른지 확인
+
+1. **Code 노드의 return 문 확인:**
+   - Code 노드 코드에서 마지막 부분 확인
+   - 반드시 다음 코드가 있어야 합니다:
+   ```javascript
+   // 검증 성공: 원본 데이터 반환
+   return $input.all().map(item => item.json);
+   ```
+   - 이 return 문이 없거나 다르면 데이터가 전달되지 않습니다!
+
+2. **Webhook 노드의 출력 데이터 확인:**
+   - n8n 실행 로그에서 Webhook 노드 클릭
+   - "Output" 탭에서 데이터 구조 확인
+   - 데이터가 `json` 객체 안에 있는지 확인
+   - 예: `{ json: { uname: "...", tel: "...", ... } }`
+
+3. **Code 노드의 출력 데이터 확인:**
+   - n8n 실행 로그에서 Code 노드 클릭
+   - "Output" 탭에서 데이터 구조 확인
+   - Webhook 노드와 동일한 구조인지 확인
+   - `$json.submittedAt` 같은 표현식이 작동하려면 데이터가 `json` 객체 안에 있어야 합니다
+
+4. **Code 노드 코드 수정 (필요한 경우):**
+   
+   만약 Code 노드가 데이터를 제대로 전달하지 않는다면, 다음과 같이 수정하세요:
+   
+   ```javascript
+   // JWT 검증 성공 후
+   try {
+     const payload = verifyJWT(token, jwtSecret);
+     
+     // ⚠️ 중요: 원본 데이터를 그대로 반환해야 합니다!
+     // Webhook 노드에서 받은 데이터를 그대로 전달
+     return $input.all().map(item => ({
+       json: item.json  // json 객체를 그대로 유지
+     }));
+   } catch (error) {
+     throw new Error(`Authentication failed: ${error.message}`);
+   }
+   ```
+
+5. **데이터 구조 확인 방법:**
+   - Google Sheets 노드에서 "Execute step" 클릭
+   - "Input" 탭에서 데이터 확인
+   - 각 필드의 표현식(`{{ $json.submittedAt }}` 등)이 올바른 값을 표시하는지 확인
+   - "Result" 섹션에서 실제 값이 보이는지 확인
+
+6. **대안: Code 노드 없이 테스트:**
+   - Code 노드를 일시적으로 제거하고 Webhook → Google Sheets 직접 연결
+   - 이렇게 해서 작동하면 Code 노드 문제임을 확인
+   - 테스트 후 Code 노드 다시 추가하고 위의 방법으로 수정
+
+**Code 노드가 없는 경우 (JWT 검증 미사용):**
+- Webhook 노드에서 직접 Google Sheets 노드로 연결
+- `{{ $json.submittedAt }}` 같은 표현식이 바로 작동해야 합니다
+- 작동하지 않으면 Webhook 노드의 출력 데이터 구조를 확인하세요
 
 ### 5. 로컬에서 느리게 로딩되는 경우
 
