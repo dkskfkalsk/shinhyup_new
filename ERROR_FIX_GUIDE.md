@@ -14,9 +14,9 @@
 
 ### 1단계: 봇 토큰 확인
 
-브라우저에서 직접 테스트:
+브라우저에서 직접 테스트 (YOUR_BOT_TOKEN을 실제 토큰으로 교체):
 ```
-https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/getMe
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getMe
 ```
 
 **정상 응답 예시:**
@@ -24,7 +24,7 @@ https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/getMe
 {
   "ok": true,
   "result": {
-    "id": 6613648395,
+    "id": 1234567890,
     "is_bot": true,
     "first_name": "봇 이름",
     "username": "봇_사용자명"
@@ -46,9 +46,9 @@ https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/getMe
 
 1. Vercel 대시보드 → Settings → Environment Variables
 2. `TELEGRAM_BOT_TOKEN` 확인
-3. 값이 정확히 다음과 같은지 확인:
+3. 값 형식이 올바른지 확인:
    ```
-   6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI
+   <BOT_ID>:<BOT_TOKEN>
    ```
    - 앞에 `bot`이 붙어있지 않은지 확인
    - 공백이 없는지 확인
@@ -63,9 +63,9 @@ https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/getMe
 
 ### 4단계: Chat ID 확인
 
-브라우저에서 접속:
+브라우저에서 접속 (YOUR_BOT_TOKEN을 실제 토큰으로 교체):
 ```
-https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/getUpdates
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
 ```
 
 응답에서 Chat ID 확인:
@@ -77,7 +77,7 @@ https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/getUp
       "update_id": 123456789,
       "message": {
         "chat": {
-          "id": -1002102828603,  // 이 값이 Chat ID
+          "id": -1001234567890,  // 이 값이 Chat ID
           "title": "그룹 이름",
           "type": "supergroup"
         }
@@ -89,9 +89,9 @@ https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/getUp
 
 ### 5단계: 메시지 직접 테스트
 
-브라우저에서 접속 (Chat ID를 실제 값으로 교체):
+브라우저에서 접속 (YOUR_BOT_TOKEN과 YOUR_CHAT_ID를 실제 값으로 교체):
 ```
-https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/sendMessage?chat_id=-1002102828603&text=테스트
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/sendMessage?chat_id=<YOUR_CHAT_ID>&text=테스트
 ```
 
 **성공**: 메시지가 Telegram에 전송됨
@@ -153,8 +153,8 @@ https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/sendM
 
 ### Telegram 토큰 테스트
 ```bash
-# 브라우저에서 접속
-https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/getMe
+# 브라우저에서 접속 (YOUR_BOT_TOKEN을 실제 토큰으로 교체)
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getMe
 ```
 
 ### Google Sheets URL 테스트
@@ -165,8 +165,8 @@ https://script.google.com/macros/s/AKfycbw9vFEXhk0A4yUI-0WaM2Gl9BNFJwm9f87Z3XczW
 
 ### Chat ID 확인
 ```bash
-# 브라우저에서 접속
-https://api.telegram.org/bot6613648395:AAGsp5d4LGp7hBd0DotXWyYMYcoKCdVFZtI/getUpdates
+# 브라우저에서 접속 (YOUR_BOT_TOKEN을 실제 토큰으로 교체)
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
 ```
 
 ---

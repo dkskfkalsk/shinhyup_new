@@ -9,6 +9,10 @@
     {
       "source": "/api/submit",
       "destination": "/api/submit.js"
+    },
+    {
+      "source": "/favicon.ico",
+      "destination": "/images/favicon.ico"
     }
   ]
 }

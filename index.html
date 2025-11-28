@@ -79,9 +79,10 @@
 	<link rel="stylesheet" href="css/swiper-bundle.min.css" />
 	<script src="js/swiper-bundle.min.js"></script>
 
-	<!--파비콘-->
+		<!--파비콘-->
 	<link rel="shortcut icon" href="images/favicon.ico">
 	<link rel="icon" href="images/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 	
 	<meta name="naver-site-verification" content="cd5dc02445a3dd8852fc3b91bad8289f72e0439f" />
 
@@ -121,8 +122,8 @@
 			// AceCounter Gathering Script V.9.0.2025011001
 			(function() {
 				var aceDomain = siteDomain + ',www.' + siteDomain;
-				var _AceGID = (function () { var Inf = [siteDomain, aceDomain, 'AZ2A104137', '0', 'NaPm,Ncisy', '1']; var _CI = (!window._AceGID) ? [] : window._AceGID.val; var _N = 0; if (_CI.join('.').indexOf(Inf[2]) < 0) { _CI.push(Inf); _N = _CI.length; } return { o: _N, val: _CI }; })();
-				var _AceCounter = (function () { var G = _AceGID; var _sc = document.createElement('script'); var _sm = document.getElementsByTagName('script')[0]; if (G.o != 0) { var _A = G.val[G.o - 1]; var _U = (_A[4]).replace(/\,/g, '_'); _sc.src = 'https:/' + '/cr.acecounter.com/ac.j' + 's?gc=' + _A[2] + '&py=' + _A[1] + '&up=' + _U + '&rd=' + (new Date().getTime()); _sm.parentNode.insertBefore(_sc, _sm); return _sc.src; } })();
+				window._AceGID = (function () { var Inf = [siteDomain, aceDomain, 'AZ2A104137', '0', 'NaPm,Ncisy', '1']; var _CI = (!window._AceGID) ? [] : window._AceGID.val; var _N = 0; if (_CI.join('.').indexOf(Inf[2]) < 0) { _CI.push(Inf); _N = _CI.length; } return { o: _N, val: _CI }; })();
+				var _AceCounter = (function () { var G = window._AceGID; var _sc = document.createElement('script'); var _sm = document.getElementsByTagName('script')[0]; if (G && G.o != 0) { var _A = G.val[G.o - 1]; var _U = (_A[4]).replace(/\,/g, '_'); _sc.src = 'https:/' + '/cr.acecounter.com/ac.j' + 's?gc=' + _A[2] + '&py=' + _A[1] + '&up=' + _U + '&rd=' + (new Date().getTime()); _sc.onerror = function() { console.warn('AceCounter 스크립트 로드 실패 (무시 가능)'); }; _sm.parentNode.insertBefore(_sc, _sm); return _sc.src; } })();
 			})();
 
 			// Google tag (gtag.js)
@@ -130,6 +131,7 @@
 				var script = document.createElement('script');
 				script.async = true;
 				script.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17596152836';
+				script.onerror = function() { console.warn('Google Tag Manager 스크립트 로드 실패 (무시 가능)'); };
 				document.head.appendChild(script);
 				
 				window.dataLayer = window.dataLayer || [];
@@ -770,7 +772,16 @@
 				});
 			}).catch(function(err){
 				console.error('Form submission error:', err);
+				// Promise rejection을 명시적으로 처리하여 "Uncaught (in promise)" 오류 방지
+				if (err instanceof Error) {
+					console.error('Error details:', err.message, err.stack);
+				} else {
+					console.error('Error object:', err);
+				}
 				alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+			}).catch(function(handlerError) {
+				// 최종 catch로 모든 오류 처리 (alert 실패 등)
+				console.error('Error handler failed:', handlerError);
 			});
 			} catch(e) {
 				console.error('Form submission exception:', e);
