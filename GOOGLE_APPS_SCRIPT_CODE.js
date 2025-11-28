@@ -25,8 +25,14 @@ function doPost(e) {
     const SPREADSHEET_ID = '17fKb6pNg1rHrLm-Jd4QxKiDsnQUPwI40dy9UBcegOf4';
     const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getActiveSheet();
     
-    // 현재 시간 (한국 시간 기준)
-    const timestamp = new Date();
+    // 현재 시간 (대한민국 시간 기준, KST UTC+9)
+    // Apps Script는 기본적으로 스크립트 소유자의 시간대를 사용
+    // 한국 시간대로 명시적으로 변환
+    const now = new Date();
+    // UTC 시간을 한국 시간(UTC+9)으로 변환
+    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+    const koreaTime = new Date(utcTime + (9 * 60 * 60 * 1000)); // UTC+9
+    const timestamp = koreaTime;
     
     // 데이터 배열 준비
     // B열: 접수시간, C열: 고객이름, D열: 연락처, E열: 접수내용, F열: 고객IP

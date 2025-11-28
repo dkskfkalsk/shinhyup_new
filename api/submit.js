@@ -165,13 +165,17 @@ async function saveToGoogleSheets(scriptUrl, scriptToken, data) {
 
 // 텔레그램 메시지 포맷팅 함수
 function formatTelegramMessage(data) {
-    const timestamp = new Date(data.submittedAt || Date.now()).toLocaleString('ko-KR', {
+    // 대한민국 시간(KST, UTC+9)으로 변환
+    const date = new Date(data.submittedAt || Date.now());
+    const timestamp = date.toLocaleString('ko-KR', {
+        timeZone: 'Asia/Seoul',
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit'
+        second: '2-digit',
+        hour12: false
     });
 
     // HTML 형식으로 포맷팅 (Telegram HTML parse_mode 사용)
