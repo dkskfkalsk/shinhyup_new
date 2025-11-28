@@ -97,7 +97,7 @@ function setupScriptProperties() {
     Logger.log('SPREADSHEET_ID를 비워두면 현재 스프레드시트를 자동으로 사용합니다.');
   }
   
-  Logger.log('\n설정 완료! 이제 doPost 함수가 정상 작동합니다.');
+  Logger.log('\n설정 완료! 이제 doPost 함수가 정상 작동 합니다.');
 }
 
 function doPost(e) {
@@ -168,6 +168,10 @@ function doPost(e) {
     const sheet = spreadsheet.getActiveSheet();
     Logger.log('활성 시트 이름: ' + sheet.getName());
     
+    // 현재 시트의 마지막 행 확인 (디버깅용)
+    const lastRow = sheet.getLastRow();
+    Logger.log('현재 시트의 마지막 행: ' + lastRow);
+    
     // 현재 시간 (대한민국 시간 기준, KST UTC+9)
     // Apps Script는 기본적으로 스크립트 소유자의 시간대를 사용
     // 한국 시간대로 명시적으로 변환
@@ -178,7 +182,7 @@ function doPost(e) {
     const timestamp = koreaTime;
     
     // 데이터 배열 준비
-    // B열: 접수시간, C열: 고객이름, D열: 연락처, E열: 접수내용, F열: 고객IP
+    // A열: 비워둠, B열: 접수시간, C열: 고객이름, D열: 연락처, E열: 접수내용, F열: 고객IP
     const row = [
       '',                                          // A열: 비워둠
       timestamp,                                   // B열: 접수시간
@@ -188,10 +192,23 @@ function doPost(e) {
       data.clientIp || ''                          // F열: 고객IP
     ];
     
-    // 시트에 데이터 추가
-    Logger.log('데이터 추가 시도: ' + JSON.stringify(row));
+    // 디버깅: 저장될 데이터 확인
+    Logger.log('=== 저장될 데이터 ===');
+    Logger.log('A열: (비워둠)');
+    Logger.log('B열 (시간): ' + timestamp);
+    Logger.log('C열 (고객명): ' + (data.uname || ''));
+    Logger.log('D열 (연락처): ' + (data.tel || ''));
+    Logger.log('E열 (문의내용): ' + (data.message || ''));
+    Logger.log('F열 (IP): ' + (data.clientIp || ''));
+    
+    // 시트에 데이터 추가 (appendRow는 자동으로 마지막 비어있는 행에 추가)
+    // 헤더가 1행에 있으면 2행부터, 데이터가 있으면 그 다음 행에 자동 추가됨
     sheet.appendRow(row);
-    Logger.log('데이터 추가 성공!');
+    
+    // 저장 후 마지막 행 확인
+    const newLastRow = sheet.getLastRow();
+    Logger.log('데이터 추가 성공! 저장된 행: ' + newLastRow + '행');
+    Logger.log('저장된 위치: B' + newLastRow + ' ~ F' + newLastRow);
     
     // 성공 응답 반환
     return ContentService
