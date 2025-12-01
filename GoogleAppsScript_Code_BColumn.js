@@ -1,5 +1,5 @@
 /**
- * 구글 시트 Apps Script 코드 (B열부터 시작, A열 보호)
+ * 구글 시트 Apps Script 코드 (B열부터 시작, A열 완전 무시)
  * 
  * 📋 사용 방법:
  * 1️⃣ 코드 전체 복붙 → Apps Script 편집기
@@ -7,9 +7,10 @@
  * 3️⃣ 웹 앱 재배포 → 새 URL을 Vercel에 설정
  * 
  * 🔑 특징:
- * - A열에 함수가 있어도 건드리지 않음
- * - B열부터 데이터 저장 (B~F열)
- * - B열 기준으로 올바른 행 찾기
+ * - A열에 뭐가 있든 상관없이 완전히 무시 (함수, 값, 아무것도 안 건드림)
+ * - B열부터만 값이 있는지 확인하여 다음 빈 행에 저장
+ * - B~F열에만 데이터 저장 (A열은 건드리지 않음)
+ * - B열 기준으로 올바른 다음 빈 행 자동 찾기
  */
 
 // 설정값 가져오기 함수
@@ -149,32 +150,35 @@ function doPost(e) {
     
     Logger.log('📄 사용 시트: ' + sheet.getName());
     
-    // 7단계: 마지막 행 찾기 (B열 기준)
-    // B열을 확인하여 빈 행 찾기 (A열은 함수가 있으므로 무시)
+    // 7단계: B열 기준으로 다음 빈 행 찾기 (A열은 완전히 무시)
+    // A열에 뭐가 있든 상관없이 B열만 확인하여 다음 빈 행에 저장
     
     // B열 전체 가져오기
-    const bColumnValues = sheet.getRange('B:B').getValues();
+    const bColumnRange = sheet.getRange('B:B');
+    const bColumnValues = bColumnRange.getValues();
     
-    // B열에서 마지막으로 데이터가 있는 행 찾기 (아래에서 위로)
+    // B열에서 아래에서 위로 스캔하여 마지막으로 값이 있는 행 찾기
     let lastRowWithData = 0;
     for (let i = bColumnValues.length - 1; i >= 0; i--) {
-      if (bColumnValues[i][0] !== null && bColumnValues[i][0] !== '') {
+      const cellValue = bColumnValues[i][0];
+      // 값이 있는지 확인 (null, 빈 문자열, 공백만 있는 경우 제외)
+      if (cellValue !== null && cellValue !== '' && String(cellValue).trim() !== '') {
         lastRowWithData = i + 1; // Apps Script 행 번호는 1부터 시작
         break;
       }
     }
     
-    // 다음 행 계산
+    // 다음 빈 행 계산 (B열에 값이 있는 마지막 행 + 1)
     let targetRow;
     if (lastRowWithData > 0) {
       targetRow = lastRowWithData + 1;
     } else {
-      // B열이 비어있으면 2번째 행부터 시작 (1번째 행은 헤더일 수 있음)
+      // B열이 완전히 비어있으면 2번째 행부터 시작 (1번째 행은 헤더일 수 있음)
       targetRow = 2;
     }
     
-    Logger.log('📏 B열 기준 마지막 데이터 행: ' + lastRowWithData);
-    Logger.log('📝 데이터를 저장할 행: ' + targetRow);
+    Logger.log('📏 A열 무시 - B열 기준 마지막 데이터 행: ' + lastRowWithData);
+    Logger.log('📝 데이터를 저장할 행: ' + targetRow + ' (B열~F열)');
     
     // 8단계: 데이터 준비 (B열부터 시작)
     const koreaTime = new Date(new Date().getTime() + (9 * 60 * 60 * 1000));
@@ -193,11 +197,11 @@ function doPost(e) {
     Logger.log('  E열 내용: ' + (data.message || '없음'));
     Logger.log('  F열 IP: ' + (data.clientIp || '없음'));
     
-    // 9단계: B열부터 데이터 저장 (A열은 건드리지 않음)
+    // 9단계: B열부터 데이터 저장 (A열은 완전히 무시, 건드리지 않음)
     // getRange(행, 열, 행 수, 열 수) 형식
-    // B열 = 열 2, C열 = 열 3, ... F열 = 열 6
-    // 5개 열에 데이터 저장 (B~F)
-    const range = sheet.getRange(targetRow, 2, 1, 5);
+    // B열 = 열 2, C열 = 열 3, D열 = 열 4, E열 = 열 5, F열 = 열 6
+    // 5개 열에 데이터 저장 (B~F열만, A열은 건드리지 않음)
+    const range = sheet.getRange(targetRow, 2, 1, 5); // 행=targetRow, 열=2(B열), 행수=1, 열수=5
     range.setValues([rowData]);
     
     Logger.log('✅ 데이터 저장 완료: 행 ' + targetRow + ', B열~F열');
