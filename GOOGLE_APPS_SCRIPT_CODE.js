@@ -51,7 +51,7 @@ function setupScriptProperties() {
   // 아래 두 줄의 'YOUR_SECRET_TOKEN_HERE'와 'YOUR_SPREADSHEET_ID_HERE'를
   // 실제 값으로 바꿔주세요!
   // ============================================
-  const SECRET_TOKEN = 'YOUR_SECRET_TOKEN_HERE'; // 👈 여기를 실제 토큰으로 변경 (예: 'my-secret-token-123')
+  const SECRET_TOKEN = '121217'; // 👈 Vercel 환경변수 GOOGLE_APPS_SCRIPT_TOKEN과 동일하게 설정
   const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE'; // 👈 여기를 실제 시트 ID로 변경 (예: '1a2b3c4d5e6f7g8h9i0j')
   // ============================================
   
