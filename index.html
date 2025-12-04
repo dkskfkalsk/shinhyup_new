@@ -187,7 +187,7 @@
 		<a href="index.html" target="_self" class="logo">
 			<img src="images/top_logo.png" class="logo_img" style="width:356px;">
 		</a>
-		<a class="bold top_call fc_white fs_36" href="tel:02-6953-5720" target="_self"><img src="images/call_icon.png" />02-6953-5720</a>
+		<a class="bold top_call fc_white fs_36" href="tel:02-6953-5720" target="_self"><i class="fad fa-phone-volume icon"></i>02-6953-5720</a>
 	</div>
 	<div class="wrap main_cont">
 		<div class="sect_tit ta_cen mb10" data-animate-in="up" style="transition-delay: 50ms;">
@@ -374,240 +374,107 @@
 
 	<!-- 섹션2 -->
 	<section id="sect_02">
-		<div class="wrap d_flex jc_cen ai_cen gap6">
-			<div class="sect_02_cont" data-animate-in="left" style="transition-delay: 100ms;">
-				<img src="images/banner_pig.png" class="banner_pig" />
-			</div>
-			<div class="sect_tit ta_cen" data-animate-in="right" style="transition-delay: 100ms;">
-				<p class="fs_48 bold fc_g_3">
-					<span class="fc_point txt_bg1">개인사업자대출</span>은<br>조건에 걸리지 않을까?
-				</p>
-				<p class="fs_32 medium fc_g_8 mt8">
-					까다로운 <span class="fc_navy">DSR DTI 규제없이</span><br><span class="fc_navy txt_bg2">LTV 80%까지</span> 자금 마련 가능
-				</p>
+		<div class="wrap sect_02_content">
+			<div class="sect_02_text ta_cen" data-animate-in="up" style="transition-delay: 100ms;">
+				<div class="partner_label">Partner</div>
+				<h2 class="sect_02_title">신뢰할 수 있는 금융 파트너</h2>
+				<p class="sect_02_desc">(주)와이에스커넥션은 신협과 위탁계약을 맺은<br>대출모집법인으로 상담과 절차를 법률에 따라 진행합니다.</p>
 			</div>
 		</div>
 	</section>
 
-	<!-- 섹션3_ -->
-	<section id="sect_03">
-		<div class="wrap d_flex jc_cen">
-			<div class="sect_tit ta_l" data-animate-in="up" style="transition-delay: 400ms;">
-				<p class="fs_40 medium fc_g_8">
-					이미 <span class="fc_g_3">주택담보대출</span>을 이용 중이더라도,
-				</p>
-				<p class="fs_48 bold fc_g_3 my6">
-					<span class="fc_point">추가대출,<br>대환대출</span> 가능!
-				</p>
-				<p class="fs_32 medium fc_navy">
-					#앱설치 없이 #간편대출
-				</p>
-			</div>
-			<div class="sect_03_cont">
-				<img src="images/house.png" />
-			</div>
-		</div>
-
-
-
-	</section>
-
-	<!-- 섹션4_슬라이드 -->
+	<!-- 섹션4_상담신청폼 -->
 	<section id="sect_04">
-		<div class="sect_tit_pack wrap d_flex jc_sb ai_cen mb20">
-			<div class="sect_tit ta_l" data-animate-in="up" style="transition-delay: 400ms;">
-				<p class="fs_48 bold fc_g_3">
-					일상에 지칠 때, <br class="m_br"><span class="fc_point">인생 한소절</span>
+		<div class="wrap">
+			<div class="sect_tit ta_cen mb8" data-animate-in="up" style="transition-delay: 100ms;">
+				<p class="fs_32 medium fc_g_3">
+					간편 정보 기입해주시면 빠른 상담 도와드리겠습니다.
 				</p>
 			</div>
-			<div class="sect_04_slide_control d_flex gap6 mr5">
-				<img src="images/arrow_left.png" width="12" height="22" alt="" id="slidePrevBtn" />
-				<img src="images/arrow_right.png" width="12" height="22" alt="" id="slideNextBtn" />
-			</div>
+			<section id="application_form_sect04" class="application_form_sect04 d_flex jc_sb ai_cen">
+				<div class="form_box_sect04 d_flex flex_column">
+					
+					<button id="formCloseButtonSect04" class="form_close_button_sect04 fs_18 fc_g_6 d_flex jc_end ai_cen">
+						&nbsp;
+					</button>	
+				
+					<form name="frmSect04" id="frmSect04" action="" method="post">
+						<input type="hidden" name="path" value="1" />
+						
+						<!-- 폼 박스 -->
+						<div class=" d_flex flex_column gap1">	
+							<div class="d_flex gap1">
+								<!-- 이름 -->
+								<fieldset id="name_fieldset_sect04">
+									<label for="unameSect04" class="fieldset_label">이름</label>
+									<input type="text" id="unameSect04" name="uname" placeholder="이름"required>
+								</fieldset>
+								<!--// 이름 -->
+								
+								<!-- 희망제품리스트 -->
+								<!--<fieldset id="prod_fieldset_sect04">
+									<label for="Value11_sect04" class="fieldset_label " >상품선택</label>
+									<select name="Value11" id="Value11_sect04" placeholder="">
+										<option selected="" value="">상품선택</option>
+										<option value=""></option>
+										<option value=""></option>
+										<option value=""></option>
+										<option value=""></option>
+									</select>
+								</fieldset>-->
+								<!--// 희망제품리스트 -->									
+							</div>
+							<!-- 연락처 -->
+							<fieldset id="tel_fieldset_sect04">
+								<label for="telSect04" class="fieldset_label">연락처</label>
+								<input name="tel" id="telSect04" maxlength="13" type="tel" value="" onkeyup="formatPhoneNumber(this);" placeholder="연락처(-없이)" required />
+							</fieldset>
+							<!--// 연락처 -->
+							
+							<!-- 문의 내용 -->
+							<fieldset id="message_fieldset_sect04">
+								<label for="messageSect04" class="fieldset_label">문의 내용</label>
+								<textarea name="message" id="messageSect04" rows="4" placeholder="문의 내용을 입력해주세요"></textarea>
+							</fieldset>
+							<!--// 문의 내용 -->
+								
+							<!-- 개인정보수집이용동의 -->
+							<div class="d_flex jc_end gap2 mt1 mb2">
+								<fieldset class="agree_set d_flex ai_cen jc_end">
+									<div class="agree_txt medium fs_16 fc_g_6">
+										<label for="agree_checkbox2_sect04">개인정보 수집/이용 동의</label>
+										<a href="javascript:layerPopup('l01');">[자세히]</a>
+									</div>
+									<label class="checkbox_ctr fs_16">
+										<input type="checkbox" name="agree_checkbox" id="agree_checkbox2_sect04" checked>
+										<span class="checkmark"></span>
+									</label>
+								</fieldset>					
+							</div>
+
+							<!--// 개인정보수집이용동의 -->
+				<button class="form_btn_sect04 bg_point fc_white bold fs_25" type="button" onclick="subm(this.form);">신청하기</button>	
+						</div>
+						<!--// 폼 박스 -->
+					</form>
+					<noscript>
+						<!-- 자바스크립트 비활성화 시 폼 직통 전송용(필요 시 n8n URL로 교체) -->
+				<form action="/api/submit" method="post">
+							<input type="hidden" name="path" value="1" />
+							<input type="text" name="uname" placeholder="이름" required>
+							<input type="tel" name="tel" placeholder="010-1234-5678" required>
+							<input type="checkbox" name="agree_checkbox" checked>
+							<button type="submit">신청하기</button>
+						</form>
+					</noscript>
+				</div>
+			<!--// 신청 폼 -->
+			</section>
 		</div>
-		<div class="wrap sect_04_cont">
-			<ul class="sect_04_slide" id="slideTrack">
-				<li>
-					<a href="https://www.youtube.com/watch?v=TDpRbTMx7Cg" target="_blank">
-						<div class="slide_item d_flex flex_column gap13">
-							<img src="images/thumb_01.png" />
-							<div class="slide_item_text d_flex flex_column gap3">
-								<p class="fs_24 semibold fc_g_3">
-									2025년 신협 워큐편
-								</p>
-								<p class="fs_20 medium fc_g_8">
-									2025/05/16
-								</p>
-							</div>
-						</div>
-					</a>
-				</li>
-				<li>
-					<a href="https://www.youtube.com/watch?v=qC0FOvF20Dw" target="_blank">
-						<div class="slide_item d_flex flex_column gap13">
-							<img src="images/thumb_02.jpg" />
-							<div class="slide_item_text d_flex flex_column gap3">
-								<p class="fs_24 semibold fc_g_3">
-									2024년 신협 인물편 광고(엄마의 등)
-								</p>
-								<p class="fs_20 medium fc_g_8">
-									2024/08/05
-								</p>
-							</div>
-						</div>
-					</a>
-				</li>
-
-				<li>
-					<a href="https://www.youtube.com/watch?v=390THlHD-7Y" target="_blank">
-						<div class="slide_item d_flex flex_column gap13">
-							<img src="images/thumb_03.jpg" />
-							<div class="slide_item_text d_flex flex_column gap3">
-								<p class="fs_24 semibold fc_g_3">
-									2024년 신협 인물편 광고(아빠의 등)
-								</p>
-								<p class="fs_20 medium fc_g_8">
-									2024/08/05
-								</p>
-							</div>
-						</div>
-					</a>
-				</li>
-
-				<li>
-					<a href="https://www.youtube.com/watch?v=ucUmGy7345I" target="_blank">
-						<div class="slide_item d_flex flex_column gap13">
-							<img src="images/thumb_04.jpeg" />
-							<div class="slide_item_text d_flex flex_column gap3">
-								<p class="fs_24 semibold fc_g_3">
-									2023년 신협 인물편 광고(조보아_행복내비켜세요)
-								</p>
-								<p class="fs_20 medium fc_g_8">
-									2024/08/05
-								</p>
-							</div>
-						</div>
-					</a>
-				</li>
-
-				<li>
-					<a href="https://www.youtube.com/watch?v=ljufYzB6uq0" target="_blank">
-						<div class="slide_item d_flex flex_column gap13">
-							<img src="images/thumb_05.jpg" />
-							<div class="slide_item_text d_flex flex_column gap3">
-								<p class="fs_24 semibold fc_g_3">
-									2022년 신협 인물편 광고(조보아_런칭편)
-								</p>
-								<p class="fs_20 medium fc_g_8">
-									2022/07/11
-								</p>
-							</div>
-						</div>
-					</a>
-				</li>
-
-				<li>
-					<a href="https://www.youtube.com/watch?v=u2DV-ZOAfhk" target="_blank">
-						<div class="slide_item d_flex flex_column gap13">
-							<img src="images/thumb_06.png" />
-							<div class="slide_item_text d_flex flex_column gap3">
-								<p class="fs_24 semibold fc_g_3">
-									한국신협운동의 선구자를 만나다![장대익 신부]
-								</p>
-								<p class="fs_20 medium fc_g_8">
-									2021/01/05
-								</p>
-							</div>
-						</div>
-					</a>
-				</li>
-
-				<li>
-					<a href="https://www.youtube.com/watch?v=k38BWcoFLOg" target="_blank">
-						<div class="slide_item d_flex flex_column gap13">
-							<img src="images/thumb_07.png" />
-							<div class="slide_item_text d_flex flex_column gap3">
-								<p class="fs_24 semibold fc_g_3">
-									한국신협운동의 선구자를 만나다![메리 가브리엘라 수녀]
-								</p>
-								<p class="fs_20 medium fc_g_8">
-									2021/01/05
-								</p>
-							</div>
-						</div>
-					</a>
-				</li>
-			</ul>
-		</div>
-		<script>
-			document.addEventListener("DOMContentLoaded", function () {
-				const track = document.getElementById("slideTrack");
-				const slideItems = track.querySelectorAll("li");
-				const btnPrev = document.getElementById("slidePrevBtn");
-				const btnNext = document.getElementById("slideNextBtn");
-
-				let currentIndex = 0;
-				let autoSlideInterval;
-				let autoSlideDelay = 4000;
-				let resumeTimeout;
-
-				const slideCount = () => (window.innerWidth <= 768 ? 1 : 3);
-
-				const scrollToIndex = (index) => {
-					const slide = slideItems[index];
-					if (slide) {
-						track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
-					}
-				};
-
-				const moveToNext = () => {
-					currentIndex++;
-					if (currentIndex > slideItems.length - slideCount()) {
-						currentIndex = 0;
-					}
-					scrollToIndex(currentIndex);
-				};
-
-				const moveToPrev = () => {
-					currentIndex--;
-					if (currentIndex < 0) {
-						currentIndex = slideItems.length - slideCount();
-					}
-					scrollToIndex(currentIndex);
-				};
-
-				const startAutoSlide = () => {
-					autoSlideInterval = setInterval(() => {
-						moveToNext();
-					}, autoSlideDelay);
-				};
-
-				const stopAutoSlideTemporarily = () => {
-					clearInterval(autoSlideInterval);
-					clearTimeout(resumeTimeout);
-					resumeTimeout = setTimeout(() => {
-						startAutoSlide();
-					}, autoSlideDelay + 1000); // 5초 후 재시작
-				};
-
-				btnNext.addEventListener("click", () => {
-					moveToNext();
-					stopAutoSlideTemporarily();
-				});
-
-				btnPrev.addEventListener("click", () => {
-					moveToPrev();
-					stopAutoSlideTemporarily();
-				});
-
-				startAutoSlide();
-			});
-		</script>
-
 	</section>
 	<!-- 신청 폼 -->
 	<button id="formToggleButton" class="form_toggle_button bg_point shadow_strong br_c fc_white semibold fs_32">
-	원클릭 상담 신청
+	빠른 상담 신청
 	</button>
 
 	<section id="application_form" class="d_flex jc_sb ai_cen">
@@ -720,6 +587,30 @@
 				return false;
 			}
 		
+			// 버튼 찾기 및 비활성화 처리
+			var submitButton = null;
+			var originalText = '';
+			var originalDisabled = false;
+			
+			// 폼 내부의 신청하기 버튼 찾기
+			var buttons = frm.querySelectorAll('button[type="button"], button[type="submit"]');
+			for (var i = 0; i < buttons.length; i++) {
+				if (buttons[i].textContent.includes('신청하기') || buttons[i].classList.contains('form_btn') || buttons[i].classList.contains('form_btn_sect04')) {
+					submitButton = buttons[i];
+					originalText = submitButton.textContent;
+					originalDisabled = submitButton.disabled;
+					break;
+				}
+			}
+			
+			// 버튼 비활성화 및 텍스트 변경
+			if (submitButton) {
+				submitButton.disabled = true;
+				submitButton.textContent = '전송 중...';
+				submitButton.style.opacity = '0.6';
+				submitButton.style.cursor = 'not-allowed';
+			}
+		
 		// 서버리스 API로 전송(JSON)
 			const payload = {
 				uname: frm.uname.value,
@@ -735,6 +626,16 @@
 		const submitEndpoint = (window.SITE_CONFIG && window.SITE_CONFIG.formSubmitEndpoint)
 			|| (typeof FORM_SUBMIT_ENDPOINT !== 'undefined' ? FORM_SUBMIT_ENDPOINT : '/api/submit');
 
+		// 버튼 복원 함수
+		function restoreButton() {
+			if (submitButton) {
+				submitButton.disabled = originalDisabled;
+				submitButton.textContent = originalText;
+				submitButton.style.opacity = '';
+				submitButton.style.cursor = '';
+			}
+		}
+
 		try {
 			fetch(submitEndpoint, {
 					method: 'POST',
@@ -749,6 +650,7 @@
 					if (res.ok || (res.status === 200 && data.success)) {
 						// n8n 기본 웹훅은 200/204를 반환. API 경유 시에도 동일하게 처리
 						if (THANK_YOU_URL && typeof THANK_YOU_URL === 'string' && THANK_YOU_URL.indexOf('http') === 0) {
+							// 페이지 이동 전에는 버튼 복원하지 않음 (페이지가 바뀌므로)
 							window.location.href = THANK_YOU_URL;
 						} else {
 							// 부분 성공인 경우에도 사용자에게는 성공 메시지 표시
@@ -756,18 +658,23 @@
 								console.warn('일부 서비스 전송 실패:', data.results?.errors);
 							}
 							alert('신청이 접수되었습니다. 빠르게 연락드리겠습니다.');
+							// 성공 후 버튼 복원 (폼을 초기화하거나 닫을 수도 있음)
+							restoreButton();
 						}
 					} else {
 						// 서버 오류
 						console.error('Server error:', res.status, data);
+						restoreButton();
 						throw new Error('Request failed: ' + (data.error || res.statusText));
 					}
 				}).catch(function(parseError) {
 					// JSON 파싱 오류 또는 네트워크 오류
 					if (!res.ok) {
 						console.error('Request failed:', res.status, res.statusText);
+						restoreButton();
 						throw new Error('Request failed: ' + res.status);
 					}
+					restoreButton();
 					throw parseError;
 				});
 			}).catch(function(err){
@@ -778,13 +685,16 @@
 				} else {
 					console.error('Error object:', err);
 				}
+				restoreButton();
 				alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
 			}).catch(function(handlerError) {
 				// 최종 catch로 모든 오류 처리 (alert 실패 등)
 				console.error('Error handler failed:', handlerError);
+				restoreButton();
 			});
 			} catch(e) {
 				console.error('Form submission exception:', e);
+				restoreButton();
 				alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
 			}
 
@@ -870,33 +780,24 @@
 
 			<ul class="ul-bar fs_16 medium">
 				<li>금융상품 직접판매업자로부터 금융상품 계약 체결권을 부여받지 아니한 금융상품 판매대리/중개업자의 경우 금융상품 계약을 체결할 수 없습니다.</li>
-				<li>당사는 서울행복신협의 대출 모집을 대리하거나 중개하고 있으며, 금융상품 체결 권한은 없습니다.</li>
-				<li>당사는 시행령 제2조제3항에서 정한 금융관계법률에 따라 서울행복신협과 위탁계약을 체결하고 신협중앙회에 등록된 대출상담사입니다.</li>
+				<li>당사는 은평신협의 대출 모집을 대리하거나 중개하고 있으며, 금융상품 체결 권한은 없습니다.</li>
+				<li>당사는 시행령 제2조제3항에서 정한 금융관계법률에 따라 은평신협과 위탁계약을 체결하고 신협중앙회에 등록된 대출상담사입니다.</li>
 				<li>당사는 대출 모집과 관련하여 전.후 수수료를 요구하지 않으며, 정도 영업을 준수합니다.</li>
 				<li>(대출모집인 포털사이트 www.loanconsultant.or.kr에서 등록번호로 확인가능)</li>
 				<li>대출모집인 수수료율은 신협중앙회 홈페이지(www.cu.co.kr)에서 확인하실 수 있습니다.</li>
-				<li>금융소자는 대출상품 또는 대출 모집 관련 상담.민원이 있을 경우 서울행복신협(02-2294-8203) 또는 인터넷 홈페이지(www.cu.co.kr) 등을 통하여 문의할 수 있습니다.</li>
-				<li>이 광고는 금융소비자의 권익 보호 및 대출상품에 대한 이해 증진을 위하여 「금융소비자보호에 관한 법률」 및 규정에 따라 서울행복신협 내부통제기준에 따른 절차를 거쳐 대출상품의 주요 내용을 쉽게 이해할 수 있도록 구성하였습니다. </li>
-				<li>서울행복신협 광고심의필 제 2025-013(유효기간 : 2025.09.17.~2026.07.04. 까지) </li>
-			</ul>
-			<ul class="ul-bar fs_16 medium my8">
+				<li></li>
 				<li>고객의 신용도 및 담보물에 따라 금리가 차등 적용됩니다.</li>
 				<li>담보물건, 종류에 따라 대출 조건이 차등 적용되며, 담보물 및 신용도 등이 부적합할 경우 대출이 제한될 수 있습니다.</li>
-				<li>대출취급이 부적정한 경우(연체금 보유, 신용점수 낮음) 대출이 제한될 수 있습니다.</li>
 				<li>금융소비자는 금융소비자보호법 제19조 1항에 따라 해당 상품에 대하여 설명을 받을 권리가 있으며, 그 설명을 듣고 내용을 충분히 이해한 후 거래하시기 바랍니다.</li>
-				<li>계약을 체결하기 전에 금융상품설명서와 약관을 확인하시기 바랍니다.</li>
+			</ul>
+			<ul class="ul-bar fs_16 medium my8">
 				<li>대출금리 : 연 4.6% ~ 연 8% (등급에 따라 차등적용) 연체이율: 약정금리+3% (단, 법정 최고금리 20% 이내)</li>
-				<li>(예시)기준금리(연2.8%, 당해일자12개월평균금리, 12개월변동) + 가산금리 (1.853%~2.273%) 2025.9.1.기준)</li>
-				<li>기준금리는 서울행복신협의 자금조달에 요구되는 비용을 기준으로 산정하며 신협의 정기예탁금 1년 평균금리, 기한부예금 평균금리, 시장금리(CD금리 적용 등) 등 적용</li>
+				<li>기준금리는 은평신협의 자금조달에 요구되는 비용을 기준으로 산정하며 신협의 정기예탁금 1년 평균금리, 기한부예금 평균금리, 시장금리(CD금리 적용 등) 등 적용</li>
 				<li>가산금리는 업무원가, 정책마진, 기타 가감요인으로 구성됩니다.</li>
 				<li>대출중개수수료 및 취급수수료, 기타 부대비용 없음 (단, 담보대출은 채권매입비 등 일부 비용 발생할 수 있음)</li>
-				<li>대출한도 : 외부감정평가금액과 실거래가 중 작은 금액의 80% (선순위채권, 임차보증금 및 최우선 변제 소액임차보증금 차감하며, LTV 80%, DSR 40% 적용 및 DSR예외한도 적용유무 확인)</li>
 				<li>상환방법 : 만기일시상환 및 분할상환(원금균등분할,원리금균등분할,일부원금균등분할)</li>
-				<li>이자부과시기 : 매월 후취/소비자가 지정한 날 등</li>
-				<li>중도상환수수료: 0.43%~0.76%로 일할차감방식으로 적용됩니다.</li>
+				<li>중도상환수수료: 상품별로 최대 연2%이내로 적용</li>
 				<li>연체 시 불이익 : 신용등급 하락 및 연체 이자가 발생할 수 있음.</li>
-				<li>연체 시 계약기한 만료 전 원리금 변제 의무가 발생할 수 있습니다.</li>
-				<li>(단, 대출 실행 후 3년이 경과한 이후 중도 상환하는 경우 또는 서울행복신협 내규에서 별도로 정한 경우 중도상환수수료가 면제됨)</li>
 				<li>이 사이트에서 광고되는 상품들의 상환기간은 모두 60일 이상이며, 상환기간은 최단 3년 최장 30년이고 최대 연 이자율은 20%입니다. 대출 총 비용 예시는 다음과 같습니다.</li>
 				<li>1,000,000원을 12개월동안 이자 20%(최대 연 이자율: 20%)로 대출할 시 총 상환금액 : 1,200,000원 (대출상품에 따라 달라질 수 있습니다.)</li>
 				<li>기한연장 도는 재대출시 신용상태에 현저한 개선이 있을 경우 대출금리 인하를 요구할 수 있습니다.</li>
@@ -909,11 +810,11 @@
 			<ul class="fs_16 medium">
 				<li>
 					<span class="bold mr3">대출모집법인</span><span>(주)와이에스커넥션</span> &nbsp;|&nbsp; 
-					<span class="bold mr3">대표자</span><span>000</span> &nbsp;|&nbsp;
-					<span class="bold mr3">사업자등록번호</span>805-87-03209 &nbsp;|&nbsp;
-					<span class="bold mr3">법인등록번호</span>110111-0921322 &nbsp;|&nbsp;
-					<span class="bold mr3">전국은행연합회 등록번호</span>20-00001551 &nbsp;|&nbsp;
-					<span class="bold mr3">주소</span><a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%B1%EB%8F%99%EA%B5%AC%20%EB%A7%88%EC%9E%A5%EB%A1%9C39%EA%B8%B8%2031" target="_blank" rel="noopener" class="fc_white underline">서울 성동구 마장로39길 31, 1층 102호(마장동, 행복신협빌딩)</a>
+					<span class="bold mr3">대표자</span><span>고영상</span> &nbsp;|&nbsp;
+					<span class="bold mr3">사업자등록번호</span>658-88-01539 &nbsp;|&nbsp;
+					<span class="bold mr3">법인등록번호</span>134211-0225949 &nbsp;|&nbsp;
+					<span class="bold mr3">전국은행연합회 등록번호</span>20-00000874 &nbsp;|&nbsp;
+					<span class="bold mr3">주소</span><a href="https://map.naver.com/p/?title=%E3%88%9C%EC%99%80%EC%9D%B4%EC%97%90%EC%8A%A4%EC%BB%A4%EB%84%A5%EC%85%98&lng=127.152187133506&lat=37.3605319272329&zoom=16&type=0" target="_blank" rel="noopener" class="fc_white underline">경기도 광주시 오포읍 신현로 48, 3층</a>
 				</li>
 				<!-- <a class="medium fc_g_6" href="tel:02-6953-5720" target="_self"><span class="mr2">대표번호</span> 02-6953-5720</a> -->
 			</ul>

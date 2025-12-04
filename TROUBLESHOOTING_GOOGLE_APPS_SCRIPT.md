@@ -22,8 +22,8 @@ Google Apps Script 코드를 실행한 후 웹사이트에서 전송 오류가 �
 다음과 같이 표시되어야 합니다:
 ```
 🔍 === 설정 및 시트 접근 테스트 ===
-SECRET_TOKEN: 121217 (또는 설정됨)
-SPREADSHEET_ID: 17fKb6pNg1rHrLm-Jd4QxKiDsnQUPwI40dy9UBcegOf4
+SECRET_TOKEN:  (또는 설정됨)
+SPREADSHEET_ID: 
 ✅ 시트 접근 가능
 ```
 

@@ -35,10 +35,13 @@
             align-items: center;
             justify-content: space-between;
             gap: 4px;
-            border-radius: calc(var(--br_r) * 1);
-            background-image: linear-gradient(130deg, #295cb3 -15%, #002970 115%);
+            border-radius: var(--br_r);
+            background-color: var(--white);
+            background-image: none;
+            border: 2px solid var(--orange);
             padding: 1.4rem 1rem;
             transition: all var(--q_trans); /*큐빅*/
+            color: var(--orange) !important;
         }
 
             #main .top_logo_pack .top_call img {
@@ -46,8 +49,14 @@
                 aspect-ratio: 1/1;
             }
 
+            #main .top_logo_pack .top_call .icon {
+                font-size: 0.8em;
+                margin-right: 4px;
+            }
+
     #main .top_call:hover {
-        background-image: linear-gradient(130deg, #295cb3 0%, #002970 150%);
+        background-color: var(--white);
+        background-image: none;
     }
 
     #main .main_cont {
@@ -134,10 +143,15 @@
 	  /* 헤더 - 콜버튼 */
         #main .top_logo_pack .top_call {
             padding: 1rem 1rem;
+            font-size: clamp(1.3125rem, 3.75vw, 3.375rem) !important;
         }
 
             #main .top_logo_pack .top_call img {
                 max-width: 15px;
+            }
+
+            #main .top_logo_pack .top_call .icon {
+                font-size: 0.7em;
             }	
 	#main .wrap {
         padding-left: 1rem;

@@ -23,9 +23,10 @@
             display: block;
             align-items: center;
             position: relative;
-            border-radius: 500rem;
+            border-radius: var(--br_r);
             overflow: hidden;
-            background-color: var(--point);
+            background-color: var(--white);
+            border: 2px solid var(--orange);
             cursor: pointer;
         }
 
@@ -33,7 +34,7 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                color: var(--white) !important;
+                color: var(--orange) !important;
             }
 
                 #quick_menu a.expandable .inner_ctr .icon {
@@ -42,7 +43,7 @@
                     justify-content: center;
                     font-size: 1.6em;
 					
-                    color: var(--white) !important;
+                    color: var(--orange) !important;
                 }
 
                 #quick_menu a.expandable .inner_ctr p {
@@ -51,13 +52,13 @@
                     text-align: left;
                     font-size: 1.05em;
                     /*line-height: 60px;padding-top: 6px;*/
-                    color: var(--white) !important;
+                    color: var(--orange) !important;
                 }
 
     #quick_menu .top {
         display: inline-flex;
         align-items: center;
-        border-radius: 500rem;
+        border-radius: var(--br_r);
         justify-content: center;
         font-size: 1.4em;
         font-weight: 400;
@@ -65,8 +66,8 @@
         /*color: rgba(0,0,0,0.5);padding-top: 6px;*/
         margin-top: 0.5rem;
         
-        color: var(--gray_6);
-        border: var(--op_black);
+        color: var(--orange);
+        border: 2px solid var(--orange);
         box-shadow: 0px 2px 12px 0px rgb(0 13 57 / 10%);
     }
 
@@ -80,7 +81,7 @@
         }
 
         #quick_menu a.expandable:hover {
-            border-bottom-right-radius: 0;
+            border-bottom-right-radius: var(--br_r);
         }
 
             #quick_menu a.expandable:hover .inner_ctr p {
@@ -88,7 +89,7 @@
             }
 
     #quick_menu .top:hover {
-        border-bottom-right-radius: 0;
+        border-bottom-right-radius: var(--br_r);
     }
 
 /* ==================== 해상도 1380px 이상 ==================== */
@@ -101,7 +102,7 @@
 @media ( max-width: 900px ) {
     /* 퀵 메뉴 */
     #quick_menu {
-        bottom: 1rem;
+        bottom: 7rem;
         right: 1rem;
         justify-content: center;
         align-items: center;
@@ -109,33 +110,55 @@
     }
 
         #quick_menu a.expandable:hover, #quick_menu a.expandable:hover .inner_ctr, #quick_menu .top:hover {
-            border-bottom-right-radius: 500rem;
+            border-bottom-right-radius: var(--br_r);
         }
 
         #quick_menu a.expandable .inner_ctr p {
             display: none !important;
         }
 
+        /* 전화 버튼과 상단 버튼 크기를 동일하게 하고 화면 크기에 따라 유동적으로 변하도록 */
         #quick_menu a.expandable .inner_ctr, #quick_menu a.expandable:hover, #quick_menu a, #quick_menu a.expandable .inner_ctr .icon {
-            width: 50px;
-            height: 50px;
+            width: clamp(44px, 12vw, 50px);
+            height: clamp(44px, 12vw, 50px);
         }
 
             #quick_menu a.expandable .inner_ctr .icon {
-                font-size: 1.4em;
+                font-size: clamp(1.2em, 3.5vw, 1.4em);
             }
 
             #quick_menu a.top {
-                width: 34px;
-                height: 34px;
+                width: clamp(44px, 12vw, 50px);
+                height: clamp(44px, 12vw, 50px);
                 margin-top: 0.3rem;
+                font-size: clamp(1.1em, 3vw, 1.3em);
             }
 
     
 }
 
 @media ( max-width: 600px ) {
-	
+    /* 퀵 메뉴 - 작은 모바일 화면 */
+    #quick_menu {
+        bottom: 6.5rem;
+        right: 0.75rem;
+        gap: 5px;
+    }
+
+        #quick_menu a.expandable .inner_ctr, #quick_menu a.expandable:hover, #quick_menu a, #quick_menu a.expandable .inner_ctr .icon {
+            width: clamp(40px, 11vw, 48px);
+            height: clamp(40px, 11vw, 48px);
+        }
+
+            #quick_menu a.expandable .inner_ctr .icon {
+                font-size: clamp(1.1em, 3.2vw, 1.3em);
+            }
+
+            #quick_menu a.top {
+                width: clamp(40px, 11vw, 48px);
+                height: clamp(40px, 11vw, 48px);
+                font-size: clamp(1em, 2.8vw, 1.2em);
+            }
 }
 /***** 가로모드 *****/
 @media screen and (orientation: landscape) and ( max-width: 900px ) {

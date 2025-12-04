@@ -12,7 +12,7 @@
     padding: 0.3rem 0.8rem 0.8rem !important;
     overflow: hidden;
     border-radius: 8px;
-	border: solid 2px var(--point);
+	border: solid 2px var(--orange);
     /*border-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'  fill='none'%3e%3cpath stroke='url(%23a)' stroke-width='2.5' d='M8 1h84a7 7 0 0 1 7 7v84a7 7 0 0 1-7 7H8a7 7 0 0 1-7-7V8a7 7 0 0 1 7-7Z'/%3e%3cdefs%3e%3clinearGradient id='a' x1='0' y1='0' x2='100' y2='100' gradientUnits='userSpaceOnUse'%3e%3cstop stop-color='%23c2d4fd'/%3e%3cstop offset='1' stop-color='%23342286'/%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e") 8 / 8px / 1px stretch;*/ /*<source> <slice> / <width> / <outset> <repeat>*/
 }
 
@@ -44,10 +44,14 @@
     width: 28rem;
     aspect-ratio: 5.3/1;
     transition: all var(--q_trans);
+    border-radius: var(--br_r);
+    background-color: var(--white);
+    border: 2px solid var(--orange);
+    color: var(--orange) !important;
     /*opacity: 0;*/
 }
 .form_toggle_button:hover {
-    background-color: var(--navy)!important; 
+    background-color: var(--white)!important; 
 }
 
     .form_toggle_button.show {
@@ -81,7 +85,7 @@
     letter-spacing: -0.05rem;
     background-color: var(--gray_f9) !important;
     /*border:none;*/
-    border: solid 1px var(--point);
+    border: solid 1px var(--orange);
     color: var(--gray_8) !important;
 	border-radius: var(--br_s);
 }
@@ -93,7 +97,7 @@
 }
 
 #application_form [id$="fieldset"]:focus-within > input, #application_form [id$="fieldset"]:focus-within > select, #application_form [id$="fieldset"]:focus-within > textarea {
-    border: solid 1px var(--darknavy);
+    border: solid 1px var(--orange);
 }
 
 #application_form input::placeholder, #application_form textarea::placeholder {
@@ -153,13 +157,23 @@
 #application_form .form_btn {
     width: 100%;
     height: 52px;
-    border-radius: var(--br_s);
+    border-radius: var(--br_r);
     transition: all var(--q_trans);
+    background-color: var(--white) !important;
+    border: 2px solid var(--orange);
+    color: var(--orange) !important;
 }
 
     #application_form .form_btn:hover {
-        background-color: var(--darknavy);
+        background-color: var(--white) !important;
+        border: 2px solid var(--orange);
         box-shadow: 0 0.1rem 0.25rem 0 rgba(0,0,0,0.25);
+    }
+
+    #application_form .form_btn:disabled {
+        opacity: 0.6 !important;
+        cursor: not-allowed !important;
+        pointer-events: none;
     }
 /* ==================== 해상도 1380px 이상 ==================== */
 @media screen and (min-width:1280px) {
@@ -177,7 +191,7 @@
     }
 
         #application_form.active {
-            bottom: 7.5rem !important;
+            bottom: 13.5rem !important;
         }
 
         #application_form .form_box {
@@ -203,7 +217,7 @@
         /* 신청 폼 - 신청 버튼 */
         #application_form .form_btn {
             height: 42px;
-            border-radius: var(--br_s);
+            border-radius: var(--br_r);
         }
 
     .form_toggle_button {
@@ -216,6 +230,10 @@
         width: 90%;
     }
 
+        #application_form.active {
+            bottom: 12.5rem !important;
+        }
+
         #application_form .form_close_button {
             font-size: 200%;
             margin-bottom: 0.6rem;
@@ -226,9 +244,260 @@
         }
 
     .form_toggle_button {
-        width: 300px;
+        width: 90%;
+        max-width: 300px;
     }
 }
 /***** 가로모드 *****/
 @media screen and (orientation:landscape) and ( max-width:900px ) {
+}
+
+/* 섹션4 상담신청폼 */
+#sect_04 {
+    padding: var(--sec_pd) 0;
+}
+
+#sect_04 .sect_tit {
+    margin-bottom: 3rem;
+}
+
+    #sect_04 .sect_tit p {
+        line-height: 1.6;
+    }
+
+.application_form_sect04 {
+    position: relative;
+    width: 28rem;
+    height: auto;
+    background-color: #ffffffcc;
+    box-shadow: 0px 2px 8px 2px rgba(0,0,0,0.4);
+    padding: 0.3rem 0.8rem 0.8rem !important;
+    overflow: hidden;
+    border-radius: 8px;
+    border: solid 2px var(--orange);
+    margin: 0 auto;
+}
+
+.form_box_sect04 {
+    width: 100%;
+    position: relative;
+}
+
+.form_close_button_sect04 {
+    border: none;
+    cursor: default;
+    line-height: 1;
+    padding: 3px 0;
+    pointer-events: none;
+}
+
+.form_close_button_sect04 i {
+    margin: 0;
+}
+
+#application_form_sect04 [id$="fieldset"] > input, 
+#application_form_sect04 [id$="fieldset"] > select, 
+#application_form_sect04 [id$="fieldset"] > textarea,
+#application_form_sect04 input[type="text"],
+#application_form_sect04 input[type="tel"],
+#application_form_sect04 textarea {
+    width: 100%;
+    height: 52px;
+    padding: 0 1.5rem !important;
+    font-size: 1.125rem;
+    font-family: 'Pretendard';
+    font-weight: 400;
+    letter-spacing: -0.05rem;
+    background-color: var(--gray_f9) !important;
+    /*border:none;*/
+    border: solid 1px var(--orange) !important;
+    border-color: var(--orange) !important;
+    border-top-color: var(--orange) !important;
+    border-right-color: var(--orange) !important;
+    border-bottom-color: var(--orange) !important;
+    border-left-color: var(--orange) !important;
+    color: var(--gray_8) !important;
+	border-radius: var(--br_s);
+    box-sizing: border-box;
+}
+
+#application_form_sect04 [id$="fieldset"] > textarea,
+#application_form_sect04 textarea {
+    height: auto;
+    padding: 1rem 1.5rem !important;
+    resize: vertical;
+    border: solid 1px var(--orange) !important;
+    border-color: var(--orange) !important;
+    border-top-color: var(--orange) !important;
+    border-right-color: var(--orange) !important;
+    border-bottom-color: var(--orange) !important;
+    border-left-color: var(--orange) !important;
+}
+
+#application_form_sect04 [id$="fieldset"]:focus-within > input, 
+#application_form_sect04 [id$="fieldset"]:focus-within > select, 
+#application_form_sect04 [id$="fieldset"]:focus-within > textarea,
+#application_form_sect04 input[type="text"]:focus,
+#application_form_sect04 input[type="tel"]:focus,
+#application_form_sect04 textarea:focus,
+#application_form_sect04 #unameSect04:focus,
+#application_form_sect04 #telSect04:focus,
+#application_form_sect04 #messageSect04:focus {
+    border: solid 1px var(--orange) !important;
+    border-color: var(--orange) !important;
+    border-top-color: var(--orange) !important;
+    border-right-color: var(--orange) !important;
+    border-bottom-color: var(--orange) !important;
+    border-left-color: var(--orange) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+#application_form_sect04 input::placeholder, #application_form_sect04 textarea::placeholder {
+    white-space: pre;
+    overflow-wrap: normal;
+    overflow-x: hidden;
+    overflow-y: visible;
+    line-height: initial;
+    color: var(--gray_8) !important;
+    font-size: 1.125rem;
+    font-family: 'Pretendard';
+    font-weight: 400;
+    letter-spacing: -0.05rem;
+    opacity: 0.6;
+}
+
+#application_form_sect04 [id$="fieldset"] .fieldset_label,
+#application_form_sect04 .fieldset_label,
+#application_form_sect04 label.fieldset_label {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    /*라벨숨기기*/
+}
+
+#application_form_sect04 [id$="fieldset"] {
+    width: 100%;
+    max-width: auto;
+}
+
+#application_form_sect04 #name_fieldset_sect04 {
+    max-width: 40%
+}
+
+#application_form_sect04 #tel_fieldset_sect04 {
+    max-width: 100%
+}
+
+#application_form_sect04 .agree_set .checkbox_txt {
+    width: auto;
+}
+
+#application_form_sect04 .agree_set .checkbox_ctr {
+    width: 16px !important;
+    margin-left: 0.5rem;
+    margin-top: -2px;
+}
+
+#application_form_sect04 .agree_set a {
+    color: inherit;
+}
+
+#application_form_sect04 .agree_set a:hover {
+    color: var(--gray_3);
+}
+
+#application_form_sect04 .form_btn_sect04 {
+    width: 100%;
+    height: 52px;
+    border-radius: var(--br_r);
+    transition: all var(--q_trans);
+    background-color: var(--white) !important;
+    border: 2px solid var(--orange);
+    color: var(--orange) !important;
+}
+
+    #application_form_sect04 .form_btn_sect04:hover {
+        background-color: var(--white) !important;
+        border: 2px solid var(--orange);
+        box-shadow: 0 0.1rem 0.25rem 0 rgba(0,0,0,0.25);
+    }
+
+    #application_form_sect04 .form_btn_sect04:disabled {
+        opacity: 0.6 !important;
+        cursor: not-allowed !important;
+        pointer-events: none;
+    }
+
+@media ( max-width:900px ) {
+    .application_form_sect04 {
+        width: 85%;
+        max-width: 450px;
+        padding: 0.6rem 1.2rem 1.2rem !important;
+    }
+
+    .form_box_sect04 {
+        padding-left: 0rem;
+        padding-right: 0rem;
+    }
+
+    #application_form_sect04 [id$="fieldset"] > input, #application_form_sect04 [id$="fieldset"] > select, #application_form_sect04 [id$="fieldset"] > textarea {
+        height: 42px !important;
+        border-radius: var(--br_s) !important;
+        padding: 0 2.25rem 0 1rem !important;
+        border: solid 1px var(--orange) !important;
+        border-color: var(--orange) !important;
+    }
+
+    #application_form_sect04 [id$="fieldset"] > textarea {
+        height: auto !important;
+        padding: 1rem 1rem !important;
+        border: solid 1px var(--orange) !important;
+        border-color: var(--orange) !important;
+    }
+
+    #application_form_sect04 [id$="fieldset"] > select {
+        background-size: 10px;
+        background-position: 93% center;
+    }
+
+    #application_form_sect04 [id$="fieldset"]:focus-within > input, #application_form_sect04 [id$="fieldset"]:focus-within > select, #application_form_sect04 [id$="fieldset"]:focus-within > textarea {
+        border: solid 1px var(--orange) !important;
+        border-color: var(--orange) !important;
+    }
+
+    /* 신청 폼 - 신청 버튼 */
+    #application_form_sect04 .form_btn_sect04 {
+        height: 42px;
+        border-radius: var(--br_r);
+    }
+}
+
+@media ( max-width:600px ) {
+    .application_form_sect04 {
+        width: 90% !important;
+    }
+
+    .form_close_button_sect04 {
+        font-size: 200%;
+        margin-bottom: 0.6rem;
+    }
+
+    #application_form_sect04 .agree_set label, #application_form_sect04 .agree_set a {
+        font-size: 140%;
+    }
+
+    #application_form_sect04 [id$="fieldset"] > input, #application_form_sect04 [id$="fieldset"] > select, #application_form_sect04 [id$="fieldset"] > textarea {
+        border: solid 1px var(--orange) !important;
+        border-color: var(--orange) !important;
+    }
+
+    #application_form_sect04 [id$="fieldset"]:focus-within > input, #application_form_sect04 [id$="fieldset"]:focus-within > select, #application_form_sect04 [id$="fieldset"]:focus-within > textarea {
+        border: solid 1px var(--orange) !important;
+        border-color: var(--orange) !important;
+    }
 }
