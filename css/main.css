@@ -95,14 +95,81 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     border-radius: var(--br_l);
-    background-image: linear-gradient(to bottom, var(--light_point), var(--white) );
     box-shadow: 0px 25px 25px 3px rgba(0,0,0,0.075);
     cursor: pointer;
     text-decoration: none;
     color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    text-align: left;
+}
+
+/* 각 카드별 배경색 */
+.main_card_01 {
+    background-color: #FFF9C4; /* 연한 노란색 */
+}
+
+.main_card_02 {
+    background-color: #FFE5E5; /* 연한 핑크 */
+}
+
+.main_card_03 {
+    background-color: #E8F5E9; /* 연한 초록 */
+}
+
+.main_card:hover {
+    background-color: var(--white);
+    border: 2px solid var(--orange);
+}
+
+.main_card:hover p {
+    color: var(--point) !important;
+}
+
+.main_card:hover p span {
+    color: var(--point) !important;
+}
+
+.main_card p {
+    text-align: left !important;
+    width: 100%;
+}
+
+/* 상단 라벨 스타일 */
+.main_card_label {
+    position: absolute;
+    top: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--white);
+    border: 1px solid #E0E0E0;
+    border-radius: 20px;
+    padding: 0.6rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.main_card:hover .main_card_label {
+    border-color: var(--orange);
+    color: var(--orange);
+}
+
+.main_card_icon {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    transition: all 0.3s ease;
 }
 
 #main .main_cont .sect_tit {
@@ -183,13 +250,22 @@
 	flex: 1 1 100%;
 	}
 .main_card p.fs_24 {
-	font-size: 120%!important
+	font-size: 180%!important
 	}
 .main_card p.fs_36 {
-	font-size: 150%!important
+	font-size: 220%!important
 	}
-    .main_card img {
-        width: 80px;
+    .main_card_icon {
+        width: 81px;
+        height: 81px;
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    .main_card_label {
+        font-size: 1rem;
+        padding: 0.5rem 1.2rem;
+        top: 1.6rem;
     }
 	.main_pig {
 		width: 60%;

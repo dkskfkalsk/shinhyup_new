@@ -201,32 +201,35 @@
 			<img src="images/main_pig.png" class="main_pig" data-animate-in="up" style="transition-delay: 300ms;" />
 		</div>
 		<div class="d_flex jc_cen gap10 main_cards_wrapper" data-animate-in="up" style="transition-delay: 300ms;">
-			<a href="#category_1_target" class="main_card ta_cen">
-				<img src="images/main_icon_01.png" />
+			<a href="#category_1_target" class="main_card main_card_01 ta_cen">
+				<div class="main_card_label">아파트 담보대출</div>
 				<p class="medium fs_24 fc_g_3 mt15 mb2">
 					다주택자, 사업자를 위한
 				</p>
 				<p class="bold fs_36 fc_point">
 					아파트 담보대출
 				</p>
+				<img src="images/notice_icon01.png" class="main_card_icon" />
 			</a>
-			<a href="#category_2_target" class="main_card ta_cen">
-				<img src="images/main_icon_02.png" />
-				<p class="medium fs_24 fc_g_8 mt15 mb2">
+			<a href="#category_2_target" class="main_card main_card_02 ta_cen">
+				<div class="main_card_label">전세퇴거자금</div>
+				<p class="medium fs_24 fc_g_3 mt15 mb2">
 					까다로운 <span class="fc_g_3">DSR 규제없이</span>
 				</p>
 				<p class="bold fs_36 fc_point">
 					전세퇴거자금
 				</p>
+				<img src="images/notice_icon02.png" class="main_card_icon" />
 			</a>
-			<a href="#category_3_target" class="main_card ta_cen">
-				<img src="images/main_icon_04.png" />
+			<a href="#category_3_target" class="main_card main_card_03 ta_cen">
+				<div class="main_card_label">사업자 담보대출</div>
 				<p class="medium fs_24 fc_g_3 mt15 mb2">
 					소상공인을 위한
 				</p>
 				<p class="bold fs_36 fc_point">
 					사업자 담보대출
 				</p>
+				<img src="images/notice_icon03.png" class="main_card_icon" />
 			</a>
 		</div>
 
@@ -774,7 +777,7 @@
 	<br>
 	<br>
 	<br>
-	<footer id="footer" class="bg_darknavy fc_white ta_l">
+	<footer id="footer" class="bg_footer fc_white ta_l">
 		<div class="wrap d_flex flex_column">
 			<!--<br class="m_ver">-->
 
@@ -833,11 +836,15 @@
 
 		#layerPopupArea {display:none; position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%; z-index:200000; box-sizing: border-box;}
 			/* 블러배경 */
-			#grayBg {position:absolute; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.4); /*-webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);*/}
+			#grayBg {position:absolute; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.4); /*-webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);*/ transition: opacity 0.3s ease; opacity: 0;}
 
-			#layerPopupAreaContents{display:block; width:100%; max-width:1500px; height: 100%; margin: 0 auto; z-index:10; padding: 5% 0;/*패딩으로팝업높이결정*/ transition: all ease-in 300ms;}
+			#layerPopupArea.active #grayBg {opacity: 1;}
+
+			#layerPopupAreaContents{display:block; width:100%; max-width:1500px; height: 100%; margin: 0 auto; z-index:10; padding: 5% 0;/*패딩으로팝업높이결정*/}
 			/*팝업_박스그림자*/
-			#detailContents { position:relative; top:0; left:0; /*팝업넓이*/ width:90%; height:100%; min-height: 140px; margin: 0 auto; background:var(--white); box-shadow: 2px 2px 8px 1px rgba(0,0,0,.1), -2px 0 15px 1px rgba(0,0,0,.1), -2px 0 20px 1px rgba(0,0,0,.15);border-radius: var(--br_l)!important; overflow: hidden; }
+			#detailContents { position:relative; top:0; left:0; /*팝업넓이*/ width:90%; height:100%; min-height: 140px; margin: 0 auto; background:var(--white); box-shadow: 0px 2px 8px 2px rgba(0,0,0,0.4); border-radius: 8px; overflow: hidden; border: solid 2px var(--orange); transform: scale(0.8); opacity: 0; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; }
+			
+			#layerPopupArea.active #detailContents {transform: scale(1); opacity: 1;}
 		
 				/*버튼*/
 				#layerPopupCloseBtn { position: absolute; top:1.5rem; right: 1.5rem; display:block; z-index: 666;  }
@@ -869,13 +876,13 @@
 					.lContentsWrap > article > h3:before, .lContentsWrap > article > h3:after {content: " - ";}
 					/* p in article */
 					.lContentsWrap > article > p:first-of-type{color: #4A5D83;}
-					.lContentsWrap > article > p {margin-bottom: 1.25rem; }
+					.lContentsWrap > article > p {margin-bottom: 1.25rem; font-size: 0.75rem; }
 
 					/*기본리스트*/
 					.lContentsWrap ul, .lContentsWrap ol {line-height: 160%; margin-left: 1rem;}
 					.lContentsWrap ol > li{list-style: decimal;}
 					.lContentsWrap ul > li {list-style: disc;}
-					.lContentsWrap > article > ul > li, .lContentsWrap > article > ol > li {font-size: 0.9rem;}
+					.lContentsWrap > article > ul > li, .lContentsWrap > article > ol > li {font-size: 0.85rem;}
 					.lContentsWrap > article > ul > li:not(:last-child),
 					.lContentsWrap > article > ol > li:not(:last-child) { margin-bottom: 1.5rem;}
 						/*리스트2단*/
@@ -959,28 +966,115 @@
 						<!-- contents -->
 						<h3>개인정보 수집ㆍ이용 동의</h3>
 						<p class="p_point">
-							(주)와이에스커넥션귀중<br>
-
-						귀사와의 금융거래와 관련하여 귀사가 본인의 개인신용정보를 수집ㆍ이용하고자 하는 경우에는 「개인정보 보호법」 제15조 및 제22조,제24조, 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」제22조, 제26조의2, 「신용정보의 이용 및 보호에 관한 법률」 제33조 및 제34조에 따라 동의를 얻어야 합니다. 이에 본인은 귀사가 아래의 내용과 같이 본인의 개인신용정보를 수집ㆍ이용하는데 동의합니다.
+							(주)와이에스커넥션 대출상담사 이진수(이하 '회사'라 한다)은 개인정보 보호법 제30조에 따라 정보 주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립, 공개합니다.
 						</p>
+						
 						<article>
-							<h3>개인정보의 필수적 수집ㆍ이용에 관한 사항</h3>
+							<h3>제1조 (개인정보의 처리목적)</h3>
+							<p>회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 개인정보보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.</p>
 							<ul>
-								<li>가. 수집 / 이용 개인 정보 항목 : <br>- 성명, 연락처(휴대전화번호)</li>
-								<li>나. 수집 / 이용 목적 : <br>전화상담신청에 대한 회신, 대출한도조회, 한도조회 및 대출신청 절차 중단 시，전화를 통한 상담 및 안내</li>							
-								<li>다. 수집한 개인정보의 보유 및 이용기간 : <br>- 상담신청일로부터 3개월 이내</li>
-								<li>라. 개인정보의 제 3자 제공 : <br>수집된 개인정보는 법령의 근거가 있는 경우나 동의받은 경우 외에는 제 3자에게 제공하지 않습니다.
-									<ul class="second_list">
-										<li>제공받는자 : (주)와이에스커넥션</li>
-										<li>제공목적 : 상담(신청)</li>
-										<li>제공항목 : 이름, 연락처</li>
-									</ul>
-								</li>
+								<li><strong>1. 홈페이지 회원 가입 및 관리</strong><br>
+								회원 가입 의사 확인, 회원제 서비스 제공에 따른 본인 식별․인증, 회원자격 유지․관리, 제한적 본인확인제 시행에 따른 본인확인, 서비스 부정 이용 방지, 만 14세 미만 아동의 개인정보처리 시 법정대리인의 동의 여부 확인, 각종 고지․통지, 고충 처리 등을 목적으로 개인정보를 처리합니다.</li>
+								<li><strong>2. 재화 또는 서비스 제공</strong><br>
+								물품 배송, 서비스 제공, 계약서 및 청구서 발송, 콘텐츠 제공, 맞춤서비스 제공, 본인인증, 연령인증, 요금 결제 및 정산, 채권추심 등을 목적으로 개인정보를 처리합니다.</li>
+								<li><strong>3. 고충 처리</strong><br>
+								민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락․통지, 처리 결과 통보 등의 목적으로 개인정보를 처리합니다.</li>
 							</ul>
 						</article>
-						<p style="margin-top: 1rem;">
-							귀하는 동의를 거부할 권리가 있으나, 이에 대한 동의가 없을 경우 대출상담신청 등이 불가능할 수 있음을 알려 드립니다.
-						</p>
+
+						<article>
+							<h3>제2조 (개인정보의 처리 및 보유기간)</h3>
+							<p>① 회사는 법령에 따른 개인정보 보유, 이용 기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유, 이용 기간 내에서 개인정보를 처리, 보유합니다.</p>
+							<p>② 각각의 개인정보 처리 및 보유 기간은 다음과 같습니다.</p>
+						</article>
+
+						<article>
+							<h3>제3조 (개인정보의 제3자 제공)</h3>
+							<p>① 회사는 정보주체의 개인정보를 제1조(개인정보의 처리목적)에서 명시한 범위 내에서만 처리하며, 정보주체의 동의, 법률의 특별한 규정 등 개인정보 보호법 제17조에 해당하는 경우에만 개인정보를 제3자에게 제공합니다.</p>
+							<p>② 회사는 다음과 같이 개인정보를 제3자에게 제공하고 있습니다.</p>
+							<ul>
+								<li>개인정보를 제공받는 자 : (주)와이에스커넥션 신협 대출모집인</li>
+								<li>제공받는 자의 개인정보 이용목적 : 대출상담 및 사전심사를 위한 목적</li>
+								<li>제공하는 개인정보 항목 : 성명, 주소, 전화번호, 생년월일, 직업, 소득사항 및 부채내역</li>
+								<li>제공받는 자의 보유, 이용기간 : 대출기표 후 거래기간동안</li>
+							</ul>
+						</article>
+
+						<article>
+							<h3>제4조(이용자 및 법정대리인의 권리와 그 행사 방법)</h3>
+							<p>① 정보주체는 회사에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.</p>
+							<ul>
+								<li>1. 개인정보 열람 요구</li>
+								<li>2. 오류 등이 있을 경우 정정 요구</li>
+								<li>3. 삭제요구</li>
+								<li>4. 처리정지 요구</li>
+							</ul>
+							<p>② 제1항에 따른 권리 행사는 회사에 대해 서면, 전화, 전자우편, 모사전송(FAX) 등을 통하여 하실 수 있으며 회사는 이에 대해 지체없이 조치하겠습니다.</p>
+							<p>③ 정보주체가 개인정보의 오류 등에 대한 정정 또는 삭제를 요구한 경우에는 회사는 정정 또는 삭제를 완료할 때까지 당해 개인정보를 이용하거나 제공하지 않습니다.</p>
+							<p>④ 제1항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우 개인정보 보호법 시행규칙 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.</p>
+							<p>⑤ 정보주체는 개인정보 보호법 등 관계 법령을 위반하여 회사가 처리하고 있는 정보주체 본인이나 타인의 개인정보 및 사생활을 침해하여서는 아니 됩니다.</p>
+						</article>
+
+						<article>
+							<h3>제5조(처리하는 개인정보 항목)</h3>
+							<p>회사는 다음의 개인정보 항목을 처리하고 있습니다.</p>
+							<ul>
+								<li><strong>1. 홈페이지 내 대출신청시 정보</strong><br>
+								필수항목 : 성명, 연락처<br>
+								선택항목 : 신청금액, 문의내용</li>
+								<li><strong>2. 인터넷 서비스 이용과정에서 아래 개인정보 항목이 자동으로 생성되어 수집될 수 있습니다.</strong><br>
+								IP주소, 서비스 이용기록, 등</li>
+							</ul>
+						</article>
+
+						<article>
+							<h3>제6조(개인정보의 파기)</h3>
+							<p><strong>1. 개인 정보의 파기 절차 및 방법</strong></p>
+							<p>회사는 「개인 정보의 수집 및 이용목적」 이 달성하면 다음과 같은 절차 및 방법에 따라 개인정보를 파기 합니다.</p>
+							<ul>
+								<li>종이에 출력된 개인 정보는 분쇄기로 분쇄하여 파기합니다.</li>
+								<li>전자적 파일 형태로 저장된 개인 정보는 재생할 수 없는 기술적 방법을 사용하여 삭제합니다.</li>
+							</ul>
+						</article>
+
+						<article>
+							<h3>제7조(개인정보 보호책임자)</h3>
+							<p>① 회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만 처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.</p>
+							<p><strong>▶ 개인정보 보호책임자</strong></p>
+							<ul>
+								<li>성명 : 이진수</li>
+								<li>직책 : (주)와이에스커넥션 대출모집인 이진수 상담사</li>
+								<li>연락처 : 010-9040-5545, apilip011@naver.com</li>
+							</ul>
+							<p>※ 개인정보 보호 담당부서로 연결됩니다.</p>
+							<p>② 정보주체께서는 회사의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만 처리, 피해구제 등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다. 회사는 정보주체의 문의에 대해 지체없이 답변 및 처리해드릴 것입니다.</p>
+						</article>
+
+						<article>
+							<h3>제8조(권익침해 구제 방법)</h3>
+							<p>정보주체는 아래의 기관에 대해 개인정보 침해에 대한 피해구제, 상담 등을 문의하실 수 있습니다.</p>
+							<p><strong>▶ 개인정보 침해신고센터 (한국인터넷진흥원 운영)</strong></p>
+							<ul>
+								<li>소관 업무 : 개인정보 침해사실 신고, 상담 신청</li>
+								<li>홈페이지 : privacy.kisa.or.kr</li>
+								<li>전화 : (국번없이) 118</li>
+								<li>주소 : (58324) 전남 나주시 진흥길 9(빛가람동 301-2) 3층 개인정보침해신고센터</li>
+							</ul>
+							<p><strong>▶ 개인정보 분쟁조정위원회</strong></p>
+							<ul>
+								<li>소관업무 : 개인정보 분쟁조정신청, 집단분쟁조정 (민사적 해결)</li>
+								<li>홈페이지 : www.kopico.go.kr</li>
+								<li>전화 : (국번없이) 1833-6972</li>
+								<li>주소 : (03171)서울특별시 종로구 세종대로 209 정부서울청사 4층</li>
+							</ul>
+							<p><strong>▶ 대검찰청 사이버범죄수사단</strong> : 02-3480-3573 (www.spo.go.kr)</p>
+							<p><strong>▶ 경찰청 사이버안전국</strong> : 182 (http://cyberbureau.police.go.kr)</p>
+						</article>
+
+						<article>
+							<h3>제9조(개인정보 처리방침 시행 및 변경)</h3>
+							<p>이 개인정보 처리방침은 2024. 8. 5부터 적용됩니다.</p>
+						</article>
 						<!-- end contents -->
 					</div>
 				</div>
@@ -1063,9 +1157,6 @@
 
 	<script type="text/javascript">
 		function layerPopup(popIndex) {
-		$('#layerPopupArea').fadeIn();
-		$('.' + popIndex).fadeIn();
-
 		// 특정 팝업의 너비 및 패딩 조정
 		if (popIndex === 'l01') {
 			$('#layerPopupAreaContents').css('max-width', '850px');
@@ -1074,11 +1165,22 @@
 			$('#layerPopupAreaContents').css('max-width', '1020px');
 			$('.lContentsWrap').css('padding', '0');
 		}
+		
+		// 팝업 표시
+		$('#layerPopupArea').show();
+		$('.' + popIndex).show();
+		// 애니메이션을 위한 active 클래스 추가 (약간의 지연을 두어 display:block 후 애니메이션 실행)
+		setTimeout(function() {
+			$('#layerPopupArea').addClass('active');
+		}, 10);
 }
 
 $('#layerPopupCloseBtn a').click(function (e) {
-	$('.lContents').fadeOut();
-	$('#layerPopupArea').fadeOut();
+	$('#layerPopupArea').removeClass('active');
+	setTimeout(function() {
+		$('.lContents').hide();
+		$('#layerPopupArea').hide();
+	}, 300); // 애니메이션 시간과 동일하게 설정
 	e.preventDefault();
 });
 

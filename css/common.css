@@ -95,6 +95,7 @@
 .bg_light_point { background-color: var(--light_point); }
 .bg_navy { background-color: var(--navy); }
 .bg_darknavy { background-color: var(--darknavy); }
+.bg_footer { background-color: #4a5568; }
 
 
 /*라운드*/
