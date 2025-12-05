@@ -39,9 +39,10 @@
             background-color: var(--white);
             background-image: none;
             border: 2px solid var(--orange);
-            padding: 1.4rem 1rem;
+            padding: 0.98rem 0.7rem;
             transition: all var(--q_trans); /*큐빅*/
             color: var(--orange) !important;
+            font-size: 1.575rem !important;
         }
 
             #main .top_logo_pack .top_call img {
@@ -209,8 +210,8 @@
             }    
 	  /* 헤더 - 콜버튼 */
         #main .top_logo_pack .top_call {
-            padding: 1rem 1rem;
-            font-size: clamp(1.3125rem, 3.75vw, 3.375rem) !important;
+            padding: 0.7rem 0.7rem;
+            font-size: clamp(0.9rem, 2.5vw, 2.2rem) !important;
         }
 
             #main .top_logo_pack .top_call img {
